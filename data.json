@@ -2,147 +2,532 @@
   "lessons": [
     {
       "id": 1,
-      "title_en": "Introduction to Loops",
-      "title_bn": "লুপের পরিচিতি",
-      "content_en": "A loop lets you repeat a block of code multiple times without writing it again and again. Python has two main loops: 'for' and 'while'. Use a 'for' loop when you know how many times to repeat, and a 'while' loop when you repeat until a condition becomes false.",
-      "content_bn": "লুপ ব্যবহার করে তুমি একই কোড বারবার লেখা ছাড়াই বহুবার চালাতে পারো। Python-এ প্রধানত দুই ধরনের লুপ আছে: 'for' এবং 'while'। যখন তুমি জানো কতবার রিপিট করতে হবে, তখন 'for' লুপ ব্যবহার করো। আর যখন একটি শর্ত মিথ্যা না হওয়া পর্যন্ত রিপিট করতে হবে, তখন 'while' লুপ ব্যবহার করো।",
-      "code_example": "for i in range(5):\n    print(i)",
+      "module": "python",
+      "title_en": "Print",
+      "title_bn": "প্রিন্ট",
+      "content_en": "print() displays output on the screen. It can print text, numbers, or several values at once separated by commas, and adds a new line at the end unless told otherwise using the 'end' parameter.",
+      "content_bn": "print() স্ক্রিনে আউটপুট দেখায়। এটি টেক্সট, সংখ্যা, অথবা কমা দিয়ে আলাদা করা একাধিক মান একসাথে প্রিন্ট করতে পারে।",
+      "code_example": "print(\"Hello, World!\")\nprint(\"My name is\", \"Rupanjana\")\nprint(\"No newline\", end=\" - \")\nprint(\"continued\")",
       "language": "python"
     },
     {
       "id": 2,
-      "title_en": "Introduction to Functions",
-      "title_bn": "ফাংশনের পরিচিতি",
-      "content_en": "A function is a reusable block of code that performs a specific task. You define it once with 'def' and can call it many times with different inputs.",
-      "content_bn": "ফাংশন হলো এমন একটি রিইউজেবল কোড ব্লক যা একটি নির্দিষ্ট কাজ করে। তুমি এটিকে একবার 'def' দিয়ে সংজ্ঞায়িত করো এবং বিভিন্ন ইনপুট দিয়ে বহুবার কল করতে পারো।",
-      "code_example": "def add(a, b):\n    return a + b\n\nprint(add(3, 4))",
+      "module": "python",
+      "title_en": "Variables",
+      "title_bn": "ভ্যারিয়েবল",
+      "content_en": "A variable stores a value in memory. Python does not require declaring a type — the type is inferred automatically from the assigned value, and can change later since Python is dynamically typed.",
+      "content_bn": "ভ্যারিয়েবল মেমরিতে একটি মান সংরক্ষণ করে। Python-এ টাইপ ঘোষণা করতে হয় না, মান থেকেই টাইপ স্বয়ংক্রিয়ভাবে নির্ধারিত হয়।",
+      "code_example": "name = \"Rupanjana\"\nage = 20\ngpa = 3.85\nprint(name, age, gpa)\nprint(type(age))",
       "language": "python"
     },
     {
       "id": 3,
-      "title_en": "Arrays / Lists Basics",
-      "title_bn": "অ্যারে / লিস্টের বেসিক",
-      "content_en": "A list stores multiple values in a single variable. You can access elements using an index starting from 0.",
-      "content_bn": "লিস্ট একটি ভ্যারিয়েবলে একাধিক মান সংরক্ষণ করে। তুমি ইনডেক্স ব্যবহার করে এলিমেন্টে অ্যাক্সেস করতে পারো, যা ০ থেকে শুরু হয়।",
-      "code_example": "nums = [10, 20, 30]\nfor n in nums:\n    print(n)",
+      "module": "python",
+      "title_en": "Input",
+      "title_bn": "ইনপুট",
+      "content_en": "input() pauses the program and waits for the user to type something, returning it as a string. To use it as a number, convert it explicitly with int() or float().",
+      "content_bn": "input() ব্যবহারকারীর টাইপ করা তথ্য নেয় এবং সবসময় স্ট্রিং হিসেবে রিটার্ন করে; সংখ্যা হিসেবে ব্যবহার করতে int() বা float() লাগবে।",
+      "code_example": "name = input(\"Enter your name: \")\nage = int(input(\"Enter your age: \"))\nprint(\"Hello\", name, \"-\", age, \"years old.\")",
       "language": "python"
     },
     {
       "id": 4,
-      "title_en": "C Arrays and Loops",
-      "title_bn": "সি অ্যারে এবং লুপ",
-      "content_en": "In C, an array stores multiple values of the same type in contiguous memory. You use a 'for' loop with an index to access each element, starting from index 0.",
-      "content_bn": "সি ভাষায় অ্যারে একই টাইপের একাধিক মান পাশাপাশি মেমরিতে সংরক্ষণ করে। তুমি একটি ইনডেক্স সহ 'for' লুপ ব্যবহার করে প্রতিটি এলিমেন্ট অ্যাক্সেস করতে পারো, যা ইনডেক্স ০ থেকে শুরু হয়।",
-      "code_example": "#include <stdio.h>\n\nint main() {\n    int nums[3] = {10, 20, 30};\n    for (int i = 0; i < 3; i++) {\n        printf(\"%d\\n\", nums[i]);\n    }\n    return 0;\n}",
-      "language": "c"
+      "module": "python",
+      "title_en": "Arithmetic Operations",
+      "title_bn": "গাণিতিক অপারেশন",
+      "content_en": "Python supports +, -, *, / (true division, always float), // (floor division), % (modulus/remainder), and ** (exponent). / always returns a float, while // discards the decimal part.",
+      "content_bn": "Python-এ +, -, *, /, //, %, ** ইত্যাদি অপারেটর ব্যবহার করে গাণিতিক হিসাব করা যায়।",
+      "code_example": "a, b = 17, 5\nprint(a + b)   # 22\nprint(a / b)   # 3.4\nprint(a // b)  # 3\nprint(a % b)   # 2\nprint(a ** 2)  # 289",
+      "language": "python"
     },
     {
       "id": 5,
-      "title_en": "C++ Classes and Objects",
-      "title_bn": "সি++ ক্লাস এবং অবজেক্ট",
-      "content_en": "A class in C++ is a blueprint for creating objects. It bundles data (attributes) and functions (methods) together. You create an object from a class using its name, then call its methods with the dot operator.",
-      "content_bn": "সি++ এ ক্লাস হলো অবজেক্ট তৈরির একটি ব্লুপ্রিন্ট। এটি ডেটা (অ্যাট্রিবিউট) এবং ফাংশন (মেথড) একসাথে বান্ডল করে। তুমি ক্লাসের নাম ব্যবহার করে একটি অবজেক্ট তৈরি করো, তারপর ডট অপারেটর দিয়ে এর মেথড কল করো।",
-      "code_example": "#include <iostream>\nusing namespace std;\n\nclass Student {\npublic:\n    string name;\n    void greet() {\n        cout << \"Hello, \" << name << \"!\" << endl;\n    }\n};\n\nint main() {\n    Student s;\n    s.name = \"Rupanjana\";\n    s.greet();\n    return 0;\n}",
+      "module": "python",
+      "title_en": "Swapping",
+      "title_bn": "সোয়াপিং",
+      "content_en": "Swapping exchanges the values of two variables. Python allows a direct one-line swap using tuple assignment, without a temporary variable.",
+      "content_bn": "Python-এ tuple assignment ব্যবহার করে সরাসরি এক লাইনে দুটি ভ্যারিয়েবলের মান অদল-বদল করা যায়।",
+      "code_example": "a = 5\nb = 10\na, b = b, a\nprint(\"a =\", a)  # 10\nprint(\"b =\", b)  # 5",
+      "language": "python"
+    },
+    {
+      "id": 6,
+      "module": "python",
+      "title_en": "Conditional",
+      "title_bn": "কন্ডিশনাল",
+      "content_en": "if, elif, else let a program choose different actions depending on whether a condition is True or False. Python uses indentation, not curly braces, to mark blocks.",
+      "content_bn": "if, elif, else ব্যবহার করে প্রোগ্রাম বিভিন্ন শর্ত অনুযায়ী ভিন্ন পথ বেছে নিতে পারে।",
+      "code_example": "marks = 72\nif marks >= 80:\n    print(\"Grade A\")\nelif marks >= 60:\n    print(\"Grade B\")\nelse:\n    print(\"Grade C\")",
+      "language": "python"
+    },
+    {
+      "id": 7,
+      "module": "python",
+      "title_en": "For Loop",
+      "title_bn": "ফর লুপ",
+      "content_en": "A for loop repeats a block of code for each item in a sequence — a range() of numbers, a list, or a string — without manually managing a counter.",
+      "content_bn": "for লুপ একটি sequence-এর প্রতিটি আইটেমের জন্য কোড বারবার চালায়, ম্যানুয়াল কাউন্টার ছাড়াই।",
+      "code_example": "for i in range(1, 6):\n    print(i, end=\" \")\n\nfruits = [\"apple\", \"banana\", \"mango\"]\nfor fruit in fruits:\n    print(fruit)",
+      "language": "python"
+    },
+    {
+      "id": 8,
+      "module": "python",
+      "title_en": "While Loop",
+      "title_bn": "হোয়াইল লুপ",
+      "content_en": "A while loop repeats as long as a condition remains True. The programmer must update something inside the loop so the condition eventually becomes False, or it runs forever.",
+      "content_bn": "while লুপ একটি শর্ত সত্য থাকা পর্যন্ত রিপিট করে; শর্তটি এক সময় মিথ্যা করতে হবে, না হলে লুপ কখনো থামবে না।",
+      "code_example": "count = 1\nwhile count <= 5:\n    print(\"Count:\", count)\n    count += 1",
+      "language": "python"
+    },
+    {
+      "id": 9,
+      "module": "python",
+      "title_en": "List",
+      "title_bn": "লিস্ট",
+      "content_en": "A list is an ordered, changeable collection that can hold mixed data types, indexed from 0. Lists support methods like append(), remove(), and sort().",
+      "content_bn": "লিস্ট একটি অর্ডারড, পরিবর্তনযোগ্য কালেকশন যা একাধিক টাইপের মান রাখতে পারে, ইনডেক্স ০ থেকে শুরু হয়।",
+      "code_example": "marks = [90, 85, 70, 60]\nmarks.append(95)\nmarks.remove(60)\nmarks.sort()\nprint(marks)\nprint(\"First:\", marks[0], \"Last:\", marks[-1])",
+      "language": "python"
+    },
+    {
+      "id": 10,
+      "module": "python",
+      "title_en": "Functions",
+      "title_bn": "ফাংশন",
+      "content_en": "A function is a reusable block of code defined with def, which can take parameters and optionally return a value. Functions avoid repeating logic and make programs easier to debug.",
+      "content_bn": "ফাংশন হলো def দিয়ে সংজ্ঞায়িত রিইউজেবল কোড ব্লক, যা প্যারামিটার নিতে পারে এবং মান রিটার্ন করতে পারে।",
+      "code_example": "def add(a, b=10):\n    return a + b\n\nprint(add(5))     # 15\nprint(add(5, 7))  # 12",
+      "language": "python"
+    },
+    {
+      "id": 11,
+      "module": "python",
+      "title_en": "Math Module",
+      "title_bn": "ম্যাথ মডিউল",
+      "content_en": "Python's built-in math module provides extra mathematical functions and constants — square roots, rounding, trigonometry, logarithms, and pi.",
+      "content_bn": "math মডিউল ব্যবহার করে বর্গমূল, রাউন্ডিং, ত্রিকোণমিতি ইত্যাদি গাণিতিক ফাংশন ব্যবহার করা যায়।",
+      "code_example": "import math\nprint(math.sqrt(25))   # 5.0\nprint(math.pi)\nprint(math.floor(4.7)) # 4\nprint(math.ceil(4.2))  # 5",
+      "language": "python"
+    },
+    {
+      "id": 12,
+      "module": "python",
+      "title_en": "Dictionary",
+      "title_bn": "ডিকশনারি",
+      "content_en": "A dictionary stores data as key-value pairs, allowing fast lookup using a key instead of a numeric index. Keys must be unique.",
+      "content_bn": "ডিকশনারি key-value pair আকারে ডেটা রাখে, key দিয়ে দ্রুত মান খুঁজে পাওয়া যায়।",
+      "code_example": "student = {\"name\": \"Rupa\", \"id\": 253134007}\nprint(student[\"name\"])\nstudent[\"cgpa\"] = 3.90\nfor key, value in student.items():\n    print(key, \":\", value)",
+      "language": "python"
+    },
+    {
+      "id": 13,
+      "module": "python",
+      "title_en": "Set",
+      "title_bn": "সেট",
+      "content_en": "A set is an unordered collection of unique values — duplicates are automatically removed. Sets support union, intersection, and difference operations.",
+      "content_bn": "সেট হলো ইউনিক মানের একটি আনঅর্ডারড কালেকশন, ডুপ্লিকেট মান স্বয়ংক্রিয়ভাবে বাদ যায়।",
+      "code_example": "a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nprint(a.union(b))\nprint(a.intersection(b))\nprint(a.difference(b))",
+      "language": "python"
+    },
+    {
+      "id": 14,
+      "module": "python",
+      "title_en": "Files",
+      "title_bn": "ফাইল",
+      "content_en": "Python reads and writes files using open(). The with statement automatically closes the file afterward, even if an error occurs.",
+      "content_bn": "open() দিয়ে ফাইল পড়া বা লেখা যায়; with statement ব্যবহার করলে ফাইল স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যায়।",
+      "code_example": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"Hello, this is a note.\\n\")\n\nwith open(\"notes.txt\", \"r\") as f:\n    print(f.read())",
+      "language": "python"
+    },
+    {
+      "id": 15,
+      "module": "python",
+      "title_en": "Todo List (Mini Project)",
+      "title_bn": "টুডু লিস্ট (মিনি প্রজেক্ট)",
+      "content_en": "A todo list program combines lists, functions, and loops: adding tasks, viewing them, and removing tasks. It's a good first project to practice basics together.",
+      "content_bn": "টুডু লিস্ট প্রজেক্টে লিস্ট, ফাংশন এবং লুপ একসাথে ব্যবহার করে টাস্ক যোগ, দেখা এবং মুছে ফেলা হয়।",
+      "code_example": "tasks = []\ndef add_task(t):\n    tasks.append(t)\n\ndef show_tasks():\n    for i, t in enumerate(tasks, start=1):\n        print(f\"{i}. {t}\")\n\nadd_task(\"Finish assignment\")\nshow_tasks()",
+      "language": "python"
+    },
+    {
+      "id": 16,
+      "module": "python",
+      "title_en": "Try Except",
+      "title_bn": "ট্রাই এক্সেপ্ট",
+      "content_en": "try/except handles errors gracefully instead of crashing the program. Code that might fail goes in try; the matching except block runs if an error occurs. finally always runs.",
+      "content_bn": "try/except দিয়ে এরর হ্যান্ডেল করা যায় যাতে প্রোগ্রাম ক্র্যাশ না করে।",
+      "code_example": "try:\n    num = int(input(\"Enter a number: \"))\n    print(10 / num)\nexcept ValueError:\n    print(\"Not a valid number!\")\nexcept ZeroDivisionError:\n    print(\"Cannot divide by zero!\")\nfinally:\n    print(\"Done.\")",
+      "language": "python"
+    },
+    {
+      "id": 17,
+      "module": "python",
+      "title_en": "Tuple",
+      "title_bn": "টাপল",
+      "content_en": "A tuple is an ordered collection like a list, but immutable — once created its values cannot be changed. Tuples are often used for fixed groupings of related data.",
+      "content_bn": "টাপল লিস্টের মতোই একটি অর্ডারড কালেকশন, তবে ইমিউটেবল — একবার তৈরি হলে মান পরিবর্তন করা যায় না।",
+      "code_example": "point = (10, 20)\nx, y = point\nprint(x, y)\nstudent = (\"Rupa\", 253134007, 3.85)\nprint(student)",
+      "language": "python"
+    },
+    {
+      "id": 18,
+      "module": "c",
+      "title_en": "Introduction to C & Program Structure",
+      "title_bn": "সি ভাষার পরিচিতি ও প্রোগ্রাম কাঠামো",
+      "content_en": "C is a procedural, compiled language. Every program has preprocessor directives (#include), a main() function as the entry point, declarations, statements, and a return value.",
+      "content_bn": "সি একটি প্রসিডিউরাল, কম্পাইলড ভাষা। প্রতিটি প্রোগ্রামে #include, main() ফাংশন, স্টেটমেন্ট এবং রিটার্ন ভ্যালু থাকে।",
+      "code_example": "#include <stdio.h>\nint main() {\n    printf(\"Hello, World!\\n\");\n    return 0;\n}",
+      "language": "c"
+    },
+    {
+      "id": 19,
+      "module": "c",
+      "title_en": "Variables & Data Types",
+      "title_bn": "ভ্যারিয়েবল ও ডেটা টাইপ",
+      "content_en": "A variable is a named memory location storing a value that can change. It must be declared with a type: int, float, double, char, and their variants.",
+      "content_bn": "ভ্যারিয়েবল হলো একটি নামযুক্ত মেমরি লোকেশন যা মান সংরক্ষণ করে; ব্যবহারের আগে টাইপ ঘোষণা করতে হয়।",
+      "code_example": "int age = 20;\nfloat price = 99.5;\ndouble pi = 3.14159265;\nchar grade = 'A';\nprintf(\"Age: %d, Price: %.2f, Grade: %c\\n\", age, price, grade);",
+      "language": "c"
+    },
+    {
+      "id": 20,
+      "module": "c",
+      "title_en": "Operators",
+      "title_bn": "অপারেটর",
+      "content_en": "C has arithmetic (+, -, *, /, %), relational (==, !=, >, <), logical (&&, ||, !), and assignment operators (=, +=, -=). % gives the remainder after integer division.",
+      "content_bn": "সি ভাষায় arithmetic, relational, logical এবং assignment অপারেটর ব্যবহার করা যায়।",
+      "code_example": "int a = 10, b = 3;\nprintf(\"%d\\n\", a + b);      // 13\nprintf(\"%d\\n\", a %% b);      // 1\nprintf(\"%d\\n\", a > b);      // 1",
+      "language": "c"
+    },
+    {
+      "id": 21,
+      "module": "c",
+      "title_en": "Input and Output (scanf / printf)",
+      "title_bn": "ইনপুট ও আউটপুট (scanf / printf)",
+      "content_en": "printf() displays output; scanf() reads user input into a variable, requiring the variable's address with &.",
+      "content_bn": "printf() আউটপুট দেখায়, scanf() ইউজার ইনপুট নেয়; scanf-এ ভ্যারিয়েবলের ঠিকানা (&) দিতে হয়।",
+      "code_example": "int num;\nprintf(\"Enter a number: \");\nscanf(\"%d\", &num);\nprintf(\"You entered: %d\\n\", num);",
+      "language": "c"
+    },
+    {
+      "id": 22,
+      "module": "c",
+      "title_en": "Conditional Statements (if-else, switch)",
+      "title_bn": "কন্ডিশনাল স্টেটমেন্ট (if-else, switch)",
+      "content_en": "if checks a condition, else runs when false, else-if chains multiple conditions. switch compares one variable against many fixed values, each case usually ending with break.",
+      "content_bn": "if-else দিয়ে শর্ত অনুযায়ী সিদ্ধান্ত নেওয়া যায়; switch একাধিক নির্দিষ্ট মানের সাথে তুলনা করতে ব্যবহৃত হয়।",
+      "code_example": "int marks = 75;\nif (marks >= 80) {\n    printf(\"Grade A\\n\");\n} else if (marks >= 60) {\n    printf(\"Grade B\\n\");\n} else {\n    printf(\"Grade C\\n\");\n}",
+      "language": "c"
+    },
+    {
+      "id": 23,
+      "module": "c",
+      "title_en": "Loops (for, while, do-while)",
+      "title_bn": "লুপ (for, while, do-while)",
+      "content_en": "for is best when repetitions are known in advance. while checks the condition before running (may run zero times). do-while checks after running (always runs at least once).",
+      "content_bn": "for লুপ যখন জানা থাকে কতবার চালাতে হবে; while শর্ত আগে চেক করে; do-while অন্তত একবার চলে।",
+      "code_example": "for (int i = 1; i <= 5; i++) {\n    printf(\"%d \", i);\n}\nint x = 10;\ndo {\n    printf(\"x = %d\\n\", x);\n    x++;\n} while (x < 10);",
+      "language": "c"
+    },
+    {
+      "id": 24,
+      "module": "c",
+      "title_en": "Functions",
+      "title_bn": "ফাংশন",
+      "content_en": "A function is a reusable named block of code with a return type, name, parameters, and body. A function returning nothing uses void.",
+      "content_bn": "ফাংশন হলো রিটার্ন টাইপ, নাম, প্যারামিটার ও বডি সহ রিইউজেবল কোড ব্লক।",
+      "code_example": "int add(int a, int b);\nint main() {\n    printf(\"Sum = %d\\n\", add(5, 7));\n    return 0;\n}\nint add(int a, int b) {\n    return a + b;\n}",
+      "language": "c"
+    },
+    {
+      "id": 25,
+      "module": "c",
+      "title_en": "Arrays (1D and 2D)",
+      "title_bn": "অ্যারে (১ডি এবং ২ডি)",
+      "content_en": "An array stores multiple values of the same type in contiguous memory, indexed from 0. A 2D array is like a grid (rows and columns), commonly used for matrices.",
+      "content_bn": "অ্যারে একই টাইপের একাধিক মান পাশাপাশি মেমরিতে রাখে, ইনডেক্স ০ থেকে শুরু হয়।",
+      "code_example": "int marks[5] = {90, 85, 70, 60, 95};\nfor (int i = 0; i < 5; i++) {\n    printf(\"%d \", marks[i]);\n}\nint matrix[2][3] = {{1,2,3}, {4,5,6}};",
+      "language": "c"
+    },
+    {
+      "id": 26,
+      "module": "c",
+      "title_en": "Strings (character arrays)",
+      "title_bn": "স্ট্রিং (ক্যারেক্টার অ্যারে)",
+      "content_en": "C has no built-in string type — a string is a char array ending with a null character '\\0', which marks where the string stops.",
+      "content_bn": "সি ভাষায় স্ট্রিং হলো একটি char array যা '\\0' দিয়ে শেষ হয়, একে null-terminated বলা হয়।",
+      "code_example": "int myStrlen(char str[]) {\n    int len = 0;\n    while (str[len] != '\\0') {\n        len++;\n    }\n    return len;\n}",
+      "language": "c"
+    },
+    {
+      "id": 27,
+      "module": "c",
+      "title_en": "Pointers",
+      "title_bn": "পয়েন্টার",
+      "content_en": "A pointer stores the memory address of another variable, declared using *. & gets an address, * (dereference) gets the value at that address.",
+      "content_bn": "পয়েন্টার অন্য একটি ভ্যারিয়েবলের মেমরি অ্যাড্রেস সংরক্ষণ করে; & দিয়ে অ্যাড্রেস পাওয়া যায়, * দিয়ে সেই অ্যাড্রেসের মান।",
+      "code_example": "int num = 50;\nint *p = &num;\nprintf(\"%d\\n\", *p);   // 50\n*p = 100;\nprintf(\"%d\\n\", num);  // 100",
+      "language": "c"
+    },
+    {
+      "id": 28,
+      "module": "c",
+      "title_en": "Structures (struct)",
+      "title_bn": "স্ট্রাকচার (struct)",
+      "content_en": "A structure groups related variables of different types under one name, useful for modeling real-world entities like a Student with name, id, and marks.",
+      "content_bn": "স্ট্রাকচার বিভিন্ন টাইপের সম্পর্কিত ভ্যারিয়েবলকে একটি নামের অধীনে গ্রুপ করে।",
+      "code_example": "struct Student {\n    char name[30];\n    int id;\n    float marks;\n};\nstruct Student s1 = {\"Rupa\", 253134007, 89.5};\nprintf(\"%s\\n\", s1.name);",
+      "language": "c"
+    },
+    {
+      "id": 29,
+      "module": "c",
+      "title_en": "Recursion",
+      "title_bn": "রিকার্শন",
+      "content_en": "Recursion is when a function calls itself to solve a smaller version of the same problem, until it reaches a base case that stops the recursion.",
+      "content_bn": "রিকার্শন হলো এমন একটি প্রক্রিয়া যেখানে ফাংশন নিজেকে বারবার কল করে একটি বেস কেসে পৌঁছানো পর্যন্ত।",
+      "code_example": "int factorial(int n) {\n    if (n == 0 || n == 1) return 1;\n    return n * factorial(n - 1);\n}\nprintf(\"%d\\n\", factorial(5)); // 120",
+      "language": "c"
+    },
+    {
+      "id": 30,
+      "module": "cpp",
+      "title_en": "Reference Variables (&)",
+      "title_bn": "রেফারেন্স ভ্যারিয়েবল (&)",
+      "content_en": "A reference is an alias for an existing variable, created with &. Unlike a pointer it cannot be null or reassigned once created — C++'s cleaner alternative to pointers for function parameters.",
+      "content_bn": "রেফারেন্স হলো একটি বিদ্যমান ভ্যারিয়েবলের আরেকটি নাম, & দিয়ে তৈরি হয়; এটি পয়েন্টারের চেয়ে সহজ।",
+      "code_example": "void increment(int &n) {\n    n = n + 1;\n}\nint main() {\n    int x = 5;\n    increment(x);\n    cout << x << endl; // 6\n}",
+      "language": "cpp"
+    },
+    {
+      "id": 31,
+      "module": "cpp",
+      "title_en": "Function Overloading",
+      "title_bn": "ফাংশন ওভারলোডিং",
+      "content_en": "C++ allows multiple functions with the same name as long as their parameter lists differ in number or type. The compiler picks the correct version based on the arguments.",
+      "content_bn": "একই নামের একাধিক ফাংশন থাকতে পারে যদি তাদের প্যারামিটার আলাদা হয়; এটি ফাংশন ওভারলোডিং নামে পরিচিত।",
+      "code_example": "int add(int a, int b) { return a + b; }\ndouble add(double a, double b) { return a + b; }\ncout << add(2, 3) << endl;      // 5\ncout << add(2.5, 3.5) << endl;  // 6.0",
+      "language": "cpp"
+    },
+    {
+      "id": 32,
+      "module": "cpp",
+      "title_en": "Default Arguments",
+      "title_bn": "ডিফল্ট আর্গুমেন্ট",
+      "content_en": "A C++ function can specify default values for parameters, so the caller can omit them. Default arguments must be the last parameters in the list.",
+      "content_bn": "C++ ফাংশনের প্যারামিটারে ডিফল্ট মান দেওয়া যায়, যা না দিলেও ফাংশন কাজ করে।",
+      "code_example": "void greet(string name, string greeting = \"Hello\") {\n    cout << greeting << \", \" << name << \"!\" << endl;\n}\ngreet(\"Rupa\");                 // Hello, Rupa!\ngreet(\"Rupa\", \"Good morning\");",
+      "language": "cpp"
+    },
+    {
+      "id": 33,
+      "module": "cpp",
+      "title_en": "Classes & Objects",
+      "title_bn": "ক্লাস ও অবজেক্ট",
+      "content_en": "A class is a blueprint bundling data and methods together — the foundation of OOP. An object is a specific instance created from a class.",
+      "content_bn": "ক্লাস হলো একটি ব্লুপ্রিন্ট যা ডেটা ও মেথড একসাথে বান্ডল করে; অবজেক্ট হলো ক্লাসের একটি নির্দিষ্ট ইনস্ট্যান্স।",
+      "code_example": "class Student {\npublic:\n    string name;\n    void display() {\n        cout << name << endl;\n    }\n};\nStudent s1;\ns1.name = \"Rupa\";\ns1.display();",
+      "language": "cpp"
+    },
+    {
+      "id": 34,
+      "module": "cpp",
+      "title_en": "Constructors & Destructors",
+      "title_bn": "কনস্ট্রাক্টর ও ডেস্ট্রাক্টর",
+      "content_en": "A constructor runs automatically when an object is created, used to initialize data. A destructor runs automatically when the object is destroyed, used for cleanup.",
+      "content_bn": "কনস্ট্রাক্টর অবজেক্ট তৈরি হওয়ার সাথে সাথে চলে; ডেস্ট্রাক্টর অবজেক্ট ধ্বংস হওয়ার সময় চলে।",
+      "code_example": "class Student {\npublic:\n    string name;\n    Student(string n) { name = n; }\n    ~Student() { cout << name << \" destroyed.\" << endl; }\n};\nStudent s1(\"Rupa\");",
+      "language": "cpp"
+    },
+    {
+      "id": 35,
+      "module": "cpp",
+      "title_en": "Inheritance",
+      "title_bn": "ইনহেরিটেন্স",
+      "content_en": "Inheritance lets a derived class reuse and extend the data and methods of a base class, avoiding duplicated code — models 'IS-A' relationships.",
+      "content_bn": "ইনহেরিটেন্স দিয়ে একটি ক্লাস আরেকটি ক্লাসের ডেটা ও মেথড উত্তরাধিকারসূত্রে পায়।",
+      "code_example": "class Person {\npublic:\n    string name;\n};\nclass Student : public Person {\npublic:\n    int id;\n};\nStudent s1;\ns1.name = \"Rupa\"; s1.id = 1;",
+      "language": "cpp"
+    },
+    {
+      "id": 36,
+      "module": "cpp",
+      "title_en": "Polymorphism (Virtual Functions)",
+      "title_bn": "পলিমরফিজম (ভার্চুয়াল ফাংশন)",
+      "content_en": "Polymorphism means the same function call behaves differently depending on the actual object type, achieved in C++ using virtual functions that a derived class can override.",
+      "content_bn": "পলিমরফিজম মানে একই ফাংশন কল বিভিন্ন অবজেক্ট টাইপের জন্য ভিন্নভাবে কাজ করে; virtual function দিয়ে এটি সম্ভব হয়।",
+      "code_example": "class Animal {\npublic:\n    virtual void sound() { cout << \"generic sound\" << endl; }\n};\nclass Dog : public Animal {\npublic:\n    void sound() override { cout << \"Woof!\" << endl; }\n};",
+      "language": "cpp"
+    },
+    {
+      "id": 37,
+      "module": "cpp",
+      "title_en": "Operator Overloading",
+      "title_bn": "অপারেটর ওভারলোডিং",
+      "content_en": "C++ allows redefining what operators like +, ==, or << do for objects of a custom class, making objects behave more like built-in types.",
+      "content_bn": "অপারেটর ওভারলোডিং দিয়ে কাস্টম ক্লাসের অবজেক্টের জন্য +, == এর মতো অপারেটরের নতুন আচরণ সংজ্ঞায়িত করা যায়।",
+      "code_example": "class Point {\npublic:\n    int x, y;\n    Point operator+(const Point &o) {\n        return Point{x + o.x, y + o.y};\n    }\n};",
+      "language": "cpp"
+    },
+    {
+      "id": 38,
+      "module": "cpp",
+      "title_en": "Namespaces",
+      "title_bn": "নেমস্পেস",
+      "content_en": "A namespace groups related names under one label to avoid naming conflicts. std, used throughout C++'s standard library, is itself a namespace.",
+      "content_bn": "নেমস্পেস সম্পর্কিত নামগুলোকে একটি লেবেলের অধীনে গ্রুপ করে যাতে নামের দ্বন্দ্ব না হয়।",
+      "code_example": "namespace Shatakshi {\n    int stock = 50;\n}\nnamespace Warehouse {\n    int stock = 200;\n}\ncout << Shatakshi::stock << endl; // 50",
+      "language": "cpp"
+    },
+    {
+      "id": 39,
+      "module": "cpp",
+      "title_en": "String Class (std::string)",
+      "title_bn": "স্ট্রিং ক্লাস (std::string)",
+      "content_en": "Unlike C's manual char arrays, C++'s string header provides a full string class supporting + (concatenation), == (comparison), and methods like .length() and .find().",
+      "content_bn": "std::string ক্লাস C++-এ পূর্ণাঙ্গ স্ট্রিং সাপোর্ট দেয়, যেখানে + দিয়ে concatenation এবং বিভিন্ন মেথড ব্যবহার করা যায়।",
+      "code_example": "string first = \"Rupanjana\";\nstring last = \"Chowdhury\";\nstring full = first + \" \" + last;\ncout << full.length() << endl;",
+      "language": "cpp"
+    },
+    {
+      "id": 40,
+      "module": "cpp",
+      "title_en": "Vector (std::vector)",
+      "title_bn": "ভেক্টর (std::vector)",
+      "content_en": "A plain C array has a fixed size. C++'s vector from the STL is a dynamic array that can grow or shrink at runtime using push_back() and pop_back().",
+      "content_bn": "vector হলো একটি ডাইনামিক অ্যারে যা রানটাইমে push_back() দিয়ে বড় হতে পারে, C অ্যারের মতো ফিক্সড সাইজ নয়।",
+      "code_example": "vector<int> marks;\nmarks.push_back(90);\nmarks.push_back(85);\ncout << marks.size() << endl; // 2",
+      "language": "cpp"
+    },
+    {
+      "id": 41,
+      "module": "cpp",
+      "title_en": "Dynamic Memory (new / delete)",
+      "title_bn": "ডাইনামিক মেমরি (new / delete)",
+      "content_en": "C++ replaces C's malloc()/free() with new and delete for allocating and freeing heap memory. new also calls a class's constructor automatically.",
+      "content_bn": "new এবং delete দিয়ে C++-এ heap মেমরি allocate ও free করা যায়; new কনস্ট্রাক্টরও স্বয়ংক্রিয়ভাবে কল করে।",
+      "code_example": "int *p = new int;\n*p = 42;\ncout << *p << endl;\ndelete p;\nint *arr = new int[5];\ndelete[] arr;",
+      "language": "cpp"
+    },
+    {
+      "id": 42,
+      "module": "cpp",
+      "title_en": "STL Stack & Queue",
+      "title_bn": "STL স্ট্যাক ও কিউ",
+      "content_en": "C++'s STL provides ready-made stack (LIFO: push/pop/top) and queue (FIFO: push/pop/front) containers instead of building them manually with arrays as in C.",
+      "content_bn": "STL-এর stack (LIFO) এবং queue (FIFO) কন্টেইনার ব্যবহার করে ম্যানুয়ালি অ্যারে দিয়ে বানানোর দরকার নেই।",
+      "code_example": "stack<int> st;\nst.push(10); st.push(20);\ncout << st.top() << endl; // 20\nqueue<int> q;\nq.push(1); q.push(2);\ncout << q.front() << endl; // 1",
+      "language": "cpp"
+    },
+    {
+      "id": 43,
+      "module": "cpp",
+      "title_en": "Exception Handling (try / catch)",
+      "title_bn": "এক্সেপশন হ্যান্ডলিং (try / catch)",
+      "content_en": "C++ handles runtime errors gracefully using try/catch/throw, stopping a problem from crashing the whole program. C has no built-in exception mechanism at all.",
+      "content_bn": "try/catch/throw দিয়ে C++ প্রোগ্রামের রানটাইম এরর গ্রেসফুলভাবে হ্যান্ডেল করা যায়।",
+      "code_example": "double divide(double a, double b) {\n    if (b == 0) throw runtime_error(\"Division by zero!\");\n    return a / b;\n}\ntry {\n    cout << divide(5, 0);\n} catch (const runtime_error &e) {\n    cout << e.what();\n}",
       "language": "cpp"
     }
   ],
   "quizzes": [
     {
       "id": 1,
-      "lesson_id": 1,
-      "question_en": "What does range(5) produce?",
-      "question_bn": "range(5) কী উৎপন্ন করে?",
+      "module": "python",
+      "question_en": "What does print(1, 2, 3) output?",
+      "question_bn": "print(1, 2, 3) কী প্রিন্ট করে?",
       "options": [
-        "0,1,2,3,4",
-        "1,2,3,4,5",
-        "0,1,2,3,4,5",
-        "1,2,3,4"
+        "1 2 3",
+        "1,2,3",
+        "[1, 2, 3]",
+        "123"
       ],
-      "answer": "0,1,2,3,4"
+      "answer": "1 2 3"
     },
     {
       "id": 2,
-      "lesson_id": 1,
-      "question_en": "Which loop keeps running until a condition becomes false?",
-      "question_bn": "কোন লুপ একটি শর্ত মিথ্যা না হওয়া পর্যন্ত চলতে থাকে?",
+      "module": "python",
+      "question_en": "Which function converts input text into an integer?",
+      "question_bn": "কোন ফাংশন input টেক্সটকে ইন্টিজারে রূপান্তর করে?",
       "options": [
-        "for",
-        "while",
-        "do",
-        "loop"
+        "str()",
+        "int()",
+        "float()",
+        "num()"
       ],
-      "answer": "while"
+      "answer": "int()"
     },
     {
       "id": 3,
-      "lesson_id": 1,
-      "question_en": "Which keyword immediately stops a loop in Python?",
-      "question_bn": "Python-এ কোন কিওয়ার্ড দিয়ে লুপ সাথে সাথে থামানো যায়?",
+      "module": "python",
+      "question_en": "What does 17 // 5 evaluate to?",
+      "question_bn": "17 // 5 এর ফলাফল কত?",
       "options": [
-        "stop",
-        "exit",
-        "break",
-        "end"
+        "3.4",
+        "3",
+        "2",
+        "4"
       ],
-      "answer": "break"
+      "answer": "3"
     },
     {
       "id": 4,
-      "lesson_id": 2,
-      "question_en": "Which keyword is used to define a function in Python?",
-      "question_bn": "Python-এ ফাংশন সংজ্ঞায়িত করতে কোন কিওয়ার্ড ব্যবহার হয়?",
+      "module": "python",
+      "question_en": "What does 17 % 5 evaluate to?",
+      "question_bn": "17 % 5 এর ফলাফল কত?",
       "options": [
-        "func",
-        "def",
-        "function",
-        "lambda"
+        "3",
+        "2",
+        "0",
+        "1"
       ],
-      "answer": "def"
+      "answer": "2"
     },
     {
       "id": 5,
-      "lesson_id": 2,
-      "question_en": "Which statement sends a value back from a function?",
-      "question_bn": "কোন স্টেটমেন্ট ফাংশন থেকে একটি মান ফেরত পাঠায়?",
+      "module": "python",
+      "question_en": "Which line correctly swaps a and b in Python?",
+      "question_bn": "কোনটি সঠিকভাবে a এবং b এর মান swap করে?",
       "options": [
-        "send",
-        "return",
-        "back",
-        "output"
+        "a, b = b, a",
+        "swap(a, b)",
+        "a = b = temp",
+        "temp(a, b)"
       ],
-      "answer": "return"
+      "answer": "a, b = b, a"
     },
     {
       "id": 6,
-      "lesson_id": 2,
-      "question_en": "In add(a, b=5), what is 5 called?",
-      "question_bn": "add(a, b=5) এ 5 কে কী বলা হয়?",
+      "module": "python",
+      "question_en": "What does range(1, 6) generate?",
+      "question_bn": "range(1, 6) কী উৎপন্ন করে?",
       "options": [
-        "Return value",
-        "Default parameter",
-        "Global variable",
-        "Loop counter"
+        "1,2,3,4,5",
+        "1,2,3,4,5,6",
+        "0,1,2,3,4,5",
+        "2,3,4,5,6"
       ],
-      "answer": "Default parameter"
+      "answer": "1,2,3,4,5"
     },
     {
       "id": 7,
-      "lesson_id": 3,
-      "question_en": "What is the index of the first element in a Python list?",
-      "question_bn": "Python লিস্টের প্রথম এলিমেন্টের ইনডেক্স কত?",
+      "module": "python",
+      "question_en": "Which loop always runs its body at least once in general programming logic?",
+      "question_bn": "কোন লুপের বডি সবসময় অন্তত একবার চলার প্রবণতা থাকে?",
       "options": [
-        "1",
-        "0",
-        "-1",
-        "None"
+        "for",
+        "while",
+        "do-while",
+        "if"
       ],
-      "answer": "0"
+      "answer": "do-while"
     },
     {
       "id": 8,
-      "lesson_id": 3,
-      "question_en": "Which method adds an item to the end of a list?",
-      "question_bn": "কোন মেথড লিস্টের শেষে একটি আইটেম যোগ করে?",
+      "module": "python",
+      "question_en": "Which method adds an item to the end of a Python list?",
+      "question_bn": "কোন মেথড Python লিস্টের শেষে একটি আইটেম যোগ করে?",
       "options": [
         "add()",
         "append()",
@@ -153,46 +538,189 @@
     },
     {
       "id": 9,
-      "lesson_id": 3,
-      "question_en": "What does nums[-1] refer to in a Python list?",
-      "question_bn": "Python লিস্টে nums[-1] কী বোঝায়?",
+      "module": "python",
+      "question_en": "What is the default return value of a function with no return statement?",
+      "question_bn": "return statement ছাড়া ফাংশনের ডিফল্ট রিটার্ন মান কী?",
       "options": [
-        "First element",
-        "Last element",
-        "An error",
-        "Empty list"
+        "0",
+        "None",
+        "Empty string",
+        "False"
       ],
-      "answer": "Last element"
+      "answer": "None"
     },
     {
       "id": 10,
-      "lesson_id": 4,
-      "question_en": "Which header file is needed for printf in C?",
-      "question_bn": "সি ভাষায় printf ব্যবহার করতে কোন হেডার ফাইল লাগে?",
+      "module": "python",
+      "question_en": "Which math function rounds a number down?",
+      "question_bn": "কোন math ফাংশন সংখ্যাকে নিচের দিকে রাউন্ড করে?",
       "options": [
-        "<stdio.h>",
-        "<stdlib.h>",
-        "<string.h>",
-        "<math.h>"
+        "math.ceil()",
+        "math.floor()",
+        "math.round()",
+        "math.trunc()"
       ],
-      "answer": "<stdio.h>"
+      "answer": "math.floor()"
     },
     {
       "id": 11,
-      "lesson_id": 4,
-      "question_en": "How do you correctly declare an array of 5 integers in C?",
-      "question_bn": "সি ভাষায় ৫টি ইন্টিজারের অ্যারে কীভাবে সঠিকভাবে ডিক্লেয়ার করবে?",
+      "module": "python",
+      "question_en": "In a dictionary, what must be unique?",
+      "question_bn": "ডিকশনারিতে কোনটি অবশ্যই ইউনিক হতে হবে?",
       "options": [
-        "int arr(5);",
-        "array int arr[5];",
-        "int arr[5];",
-        "int[5] arr;"
+        "Values",
+        "Keys",
+        "Both keys and values",
+        "Neither"
       ],
-      "answer": "int arr[5];"
+      "answer": "Keys"
     },
     {
       "id": 12,
-      "lesson_id": 4,
+      "module": "python",
+      "question_en": "What happens to duplicate values when a list is converted to a set?",
+      "question_bn": "লিস্টকে সেটে রূপান্তর করলে ডুপ্লিকেট মানের কী হয়?",
+      "options": [
+        "They stay",
+        "They are removed",
+        "They cause an error",
+        "They double"
+      ],
+      "answer": "They are removed"
+    },
+    {
+      "id": 13,
+      "module": "python",
+      "question_en": "Which file mode overwrites an existing file for writing?",
+      "question_bn": "কোন ফাইল মোড বিদ্যমান ফাইলকে ওভাররাইট করে লেখার জন্য খোলে?",
+      "options": [
+        "\"r\"",
+        "\"w\"",
+        "\"a\"",
+        "\"x\""
+      ],
+      "answer": "\"w\""
+    },
+    {
+      "id": 14,
+      "module": "python",
+      "question_en": "Which except block catches a division by zero error?",
+      "question_bn": "কোন except ব্লক division by zero এরর ধরে?",
+      "options": [
+        "ValueError",
+        "ZeroDivisionError",
+        "TypeError",
+        "IndexError"
+      ],
+      "answer": "ZeroDivisionError"
+    },
+    {
+      "id": 15,
+      "module": "python",
+      "question_en": "Can a tuple's values be changed after creation?",
+      "question_bn": "টাপল তৈরির পর এর মান কি পরিবর্তন করা যায়?",
+      "options": [
+        "Yes, always",
+        "No, tuples are immutable",
+        "Only numbers can change",
+        "Only if empty"
+      ],
+      "answer": "No, tuples are immutable"
+    },
+    {
+      "id": 16,
+      "module": "c",
+      "question_en": "Which function is the entry point of every C program?",
+      "question_bn": "সি প্রোগ্রামের এন্ট্রি পয়েন্ট কোন ফাংশন?",
+      "options": [
+        "start()",
+        "main()",
+        "init()",
+        "run()"
+      ],
+      "answer": "main()"
+    },
+    {
+      "id": 17,
+      "module": "c",
+      "question_en": "Which data type stores a single character in C?",
+      "question_bn": "সি ভাষায় একটি ক্যারেক্টার সংরক্ষণ করতে কোন ডেটা টাইপ ব্যবহার হয়?",
+      "options": [
+        "int",
+        "char",
+        "float",
+        "string"
+      ],
+      "answer": "char"
+    },
+    {
+      "id": 18,
+      "module": "c",
+      "question_en": "What does the % operator return?",
+      "question_bn": "% অপারেটর কী রিটার্ন করে?",
+      "options": [
+        "Quotient",
+        "Remainder",
+        "Power",
+        "Product"
+      ],
+      "answer": "Remainder"
+    },
+    {
+      "id": 19,
+      "module": "c",
+      "question_en": "What symbol is required before a variable name in scanf()?",
+      "question_bn": "scanf()-এ ভ্যারিয়েবলের নামের আগে কোন সিম্বল লাগে?",
+      "options": [
+        "*",
+        "&",
+        "#",
+        "%"
+      ],
+      "answer": "&"
+    },
+    {
+      "id": 20,
+      "module": "c",
+      "question_en": "In a switch statement, which keyword stops fall-through to the next case?",
+      "question_bn": "switch statement-এ কোন কিওয়ার্ড পরের case-এ পড়া বন্ধ করে?",
+      "options": [
+        "stop",
+        "break",
+        "exit",
+        "return"
+      ],
+      "answer": "break"
+    },
+    {
+      "id": 21,
+      "module": "c",
+      "question_en": "Which loop checks its condition before running the loop body?",
+      "question_bn": "কোন লুপ তার বডি চালানোর আগে শর্ত চেক করে?",
+      "options": [
+        "do-while",
+        "while",
+        "goto",
+        "None of these"
+      ],
+      "answer": "while"
+    },
+    {
+      "id": 22,
+      "module": "c",
+      "question_en": "What return type is used for a function that returns nothing?",
+      "question_bn": "কিছু রিটার্ন করে না এমন ফাংশনের রিটার্ন টাইপ কী?",
+      "options": [
+        "null",
+        "none",
+        "void",
+        "empty"
+      ],
+      "answer": "void"
+    },
+    {
+      "id": 23,
+      "module": "c",
       "question_en": "In C, array indexing starts from which number?",
       "question_bn": "সি ভাষায় অ্যারে ইনডেক্সিং কোন সংখ্যা থেকে শুরু হয়?",
       "options": [
@@ -204,36 +732,127 @@
       "answer": "0"
     },
     {
-      "id": 13,
-      "lesson_id": 5,
-      "question_en": "Which operator is used to access a class member from an object in C++?",
-      "question_bn": "সি++ এ অবজেক্ট থেকে ক্লাস মেম্বার অ্যাক্সেস করতে কোন অপারেটর ব্যবহার হয়?",
+      "id": 24,
+      "module": "c",
+      "question_en": "What special character marks the end of a C string?",
+      "question_bn": "সি স্ট্রিং-এর শেষ চিহ্নিত করতে কোন বিশেষ ক্যারেক্টার ব্যবহার হয়?",
       "options": [
-        ".",
-        "->",
-        "::",
-        "&"
+        "'\\n'",
+        "'\\0'",
+        "' '",
+        "'\\e'"
       ],
-      "answer": "."
+      "answer": "'\\0'"
     },
     {
-      "id": 14,
-      "lesson_id": 5,
-      "question_en": "Which keyword is used to define a class in C++?",
-      "question_bn": "সি++ এ ক্লাস সংজ্ঞায়িত করতে কোন কিওয়ার্ড ব্যবহার হয়?",
+      "id": 25,
+      "module": "c",
+      "question_en": "What does the * operator do when used before a pointer variable?",
+      "question_bn": "পয়েন্টার ভ্যারিয়েবলের আগে * অপারেটর কী করে?",
       "options": [
+        "Gets the address",
+        "Dereferences to get the value",
+        "Multiplies the pointer",
+        "Declares a new pointer"
+      ],
+      "answer": "Dereferences to get the value"
+    },
+    {
+      "id": 26,
+      "module": "c",
+      "question_en": "Which keyword is used to group related variables of different types together?",
+      "question_bn": "বিভিন্ন টাইপের সম্পর্কিত ভ্যারিয়েবল একসাথে গ্রুপ করতে কোন কিওয়ার্ড ব্যবহার হয়?",
+      "options": [
+        "union",
         "struct",
-        "object",
         "class",
-        "define"
+        "group"
       ],
-      "answer": "class"
+      "answer": "struct"
     },
     {
-      "id": 15,
-      "lesson_id": 5,
-      "question_en": "What is a special function called that runs automatically when an object is created?",
-      "question_bn": "একটি অবজেক্ট তৈরি হওয়ার সাথে সাথে স্বয়ংক্রিয়ভাবে চলা বিশেষ ফাংশনটিকে কী বলা হয়?",
+      "id": 27,
+      "module": "c",
+      "question_en": "What must every recursive function have to eventually stop?",
+      "question_bn": "একটি রিকার্সিভ ফাংশনকে থামার জন্য অবশ্যই কী থাকতে হবে?",
+      "options": [
+        "A loop",
+        "A base case",
+        "A pointer",
+        "A global variable"
+      ],
+      "answer": "A base case"
+    },
+    {
+      "id": 28,
+      "module": "cpp",
+      "question_en": "What symbol is used to declare a reference variable in C++?",
+      "question_bn": "C++-এ রেফারেন্স ভ্যারিয়েবল ডিক্লেয়ার করতে কোন সিম্বল ব্যবহার হয়?",
+      "options": [
+        "*",
+        "&",
+        "#",
+        "@"
+      ],
+      "answer": "&"
+    },
+    {
+      "id": 29,
+      "module": "cpp",
+      "question_en": "Can a reference in C++ be reassigned to refer to a different variable after creation?",
+      "question_bn": "একটি রেফারেন্স তৈরির পর কি অন্য ভ্যারিয়েবলকে নির্দেশ করতে পারে?",
+      "options": [
+        "Yes, anytime",
+        "No, never",
+        "Only with a cast",
+        "Only for pointers"
+      ],
+      "answer": "No, never"
+    },
+    {
+      "id": 30,
+      "module": "cpp",
+      "question_en": "What allows multiple functions to share the same name with different parameters?",
+      "question_bn": "একই নামের একাধিক ফাংশন বিভিন্ন প্যারামিটার সহ থাকতে দেয় কোনটি?",
+      "options": [
+        "Overriding",
+        "Function overloading",
+        "Inheritance",
+        "Polymorphism"
+      ],
+      "answer": "Function overloading"
+    },
+    {
+      "id": 31,
+      "module": "cpp",
+      "question_en": "Where must default arguments be placed in a function's parameter list?",
+      "question_bn": "ফাংশনের প্যারামিটার লিস্টে ডিফল্ট আর্গুমেন্ট কোথায় থাকতে হবে?",
+      "options": [
+        "At the beginning",
+        "Anywhere",
+        "At the end",
+        "Only alone"
+      ],
+      "answer": "At the end"
+    },
+    {
+      "id": 32,
+      "module": "cpp",
+      "question_en": "What is a specific instance created from a class called?",
+      "question_bn": "একটি ক্লাস থেকে তৈরি নির্দিষ্ট instance-কে কী বলা হয়?",
+      "options": [
+        "A method",
+        "An object",
+        "A namespace",
+        "A header"
+      ],
+      "answer": "An object"
+    },
+    {
+      "id": 33,
+      "module": "cpp",
+      "question_en": "Which special function runs automatically when an object is created?",
+      "question_bn": "একটি অবজেক্ট তৈরি হওয়ার সাথে সাথে কোন বিশেষ ফাংশন স্বয়ংক্রিয়ভাবে চলে?",
       "options": [
         "Destructor",
         "Constructor",
@@ -241,21 +860,121 @@
         "Builder"
       ],
       "answer": "Constructor"
+    },
+    {
+      "id": 34,
+      "module": "cpp",
+      "question_en": "What keyword lets a derived class inherit from a base class?",
+      "question_bn": "একটি derived ক্লাস base ক্লাস থেকে inherit করতে কোন কিওয়ার্ড ব্যবহার হয়?",
+      "options": [
+        ": public",
+        "extends",
+        "inherits",
+        "-> base"
+      ],
+      "answer": ": public"
+    },
+    {
+      "id": 35,
+      "module": "cpp",
+      "question_en": "What keyword must a base class method have to be overridden by a derived class at runtime?",
+      "question_bn": "রানটাইমে override করার জন্য base ক্লাসের মেথডে কোন কিওয়ার্ড দরকার?",
+      "options": [
+        "static",
+        "virtual",
+        "const",
+        "final"
+      ],
+      "answer": "virtual"
+    },
+    {
+      "id": 36,
+      "module": "cpp",
+      "question_en": "What is it called when an operator like + is redefined for a custom class?",
+      "question_bn": "কাস্টম ক্লাসের জন্য + এর মতো অপারেটর নতুন করে সংজ্ঞায়িত করাকে কী বলা হয়?",
+      "options": [
+        "Operator overloading",
+        "Function overloading",
+        "Casting",
+        "Templating"
+      ],
+      "answer": "Operator overloading"
+    },
+    {
+      "id": 37,
+      "module": "cpp",
+      "question_en": "Which operator specifies exactly which namespace a name belongs to?",
+      "question_bn": "কোন নাম কোন namespace-এর তা নির্দিষ্ট করতে কোন অপারেটর ব্যবহার হয়?",
+      "options": [
+        ".",
+        "->",
+        "::",
+        "&"
+      ],
+      "answer": "::"
+    },
+    {
+      "id": 38,
+      "module": "cpp",
+      "question_en": "Which C++ class manages strings with built-in memory handling, unlike C's char arrays?",
+      "question_bn": "কোন C++ ক্লাস char array-এর বদলে বিল্ট-ইন মেমরি ম্যানেজমেন্ট সহ স্ট্রিং সামলায়?",
+      "options": [
+        "std::string",
+        "std::array",
+        "std::char",
+        "std::text"
+      ],
+      "answer": "std::string"
+    },
+    {
+      "id": 39,
+      "module": "cpp",
+      "question_en": "Which STL container is a dynamic array that can grow at runtime?",
+      "question_bn": "কোন STL কন্টেইনার একটি ডাইনামিক অ্যারে যা রানটাইমে বড় হতে পারে?",
+      "options": [
+        "array",
+        "vector",
+        "list",
+        "set"
+      ],
+      "answer": "vector"
+    },
+    {
+      "id": 40,
+      "module": "cpp",
+      "question_en": "Which keyword frees memory that was allocated with new[]?",
+      "question_bn": "new[] দিয়ে allocate করা মেমরি free করতে কোন কিওয়ার্ড ব্যবহার হয়?",
+      "options": [
+        "delete",
+        "delete[]",
+        "free()",
+        "remove()"
+      ],
+      "answer": "delete[]"
+    },
+    {
+      "id": 41,
+      "module": "cpp",
+      "question_en": "In C++ exception handling, which block catches a thrown exception?",
+      "question_bn": "C++ exception handling-এ কোন ব্লক থ্রো করা exception ধরে?",
+      "options": [
+        "try",
+        "throw",
+        "catch",
+        "finally"
+      ],
+      "answer": "catch"
     }
   ],
   "users": {
     "Rupanjana": {
-      "salt": "43a86d3346fe9ab00a5eb562dd21670f",
-      "password_hash": "ad37c858abb331469503983bb18879896ce0e7efce34164d405fd7480494f253",
+      "salt": "46726c61c42cbc0fbe81e4f5fa865ba7",
+      "password_hash": "6dc402b3d3bc3ab01555996a175503b42b6febebe802769a6a44e957b7b1c5d3",
       "completed_lessons": [],
-      "quiz_scores": {
-        "1": "correct",
-        "2": "incorrect",
-        "3": "correct"
-      },
-      "xp": 30,
-      "streak": 1,
-      "last_activity_date": "2026-08-05"
+      "quiz_scores": {},
+      "xp": 0,
+      "streak": 0,
+      "last_activity_date": null
     }
   }
 }

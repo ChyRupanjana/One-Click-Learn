@@ -45,12 +45,13 @@ class CodeLearnApp(tk.Tk):
         self.data = dm.load_data()
         self.language = "en"          # UI language: "en" or "bn"
         self.current_user = None      # set after login
+        self.current_module = None    # "python" / "c" / "cpp", set on module select
 
         container = tk.Frame(self, bg=BG_COLOR)
         container.pack(fill="both", expand=True)
         self.frames = {}
 
-        for F in (LoginScreen, HomeScreen, LessonListScreen, LessonDetailScreen,
+        for F in (LoginScreen, HomeScreen, ModuleSelectScreen, LessonListScreen, LessonDetailScreen,
                   QuizScreen, ProgressScreen, CertificateScreen, PlaygroundScreen):
             frame = F(container, self)
             self.frames[F.__name__] = frame
@@ -154,7 +155,7 @@ class HomeScreen(tk.Frame):
         btn_style = {"font": ("Helvetica", 13), "width": 28, "bg": BTN_COLOR,
                      "fg": "white", "bd": 0, "pady": 10, "cursor": "hand2"}
 
-        tk.Button(self, text="📚 Lessons / পাঠসমূহ", command=lambda: app.show_frame("LessonListScreen"),
+        tk.Button(self, text="📚 Lessons / পাঠসমূহ", command=lambda: app.show_frame("ModuleSelectScreen"),
                    **btn_style).pack(pady=6)
         tk.Button(self, text="💻 Code Playground / কোড লেখো", command=lambda: app.show_frame("PlaygroundScreen"),
                    **{**btn_style, "bg": "#8e44ad"}).pack(pady=6)
@@ -177,7 +178,15 @@ class HomeScreen(tk.Frame):
         )
 
 
-class LessonListScreen(tk.Frame):
+class ModuleSelectScreen(tk.Frame):
+    """Lets the user pick which language module to study: Python, C, or C++."""
+
+    MODULES = [
+        ("python", "🐍 Python Module / পাইথন মডিউল", "#3776ab"),
+        ("c", "🔵 C Module / সি মডিউল", "#5c6bc0"),
+        ("cpp", "🔷 C++ Module / সি++ মডিউল", "#00599c"),
+    ]
+
     def __init__(self, parent, app):
         super().__init__(parent, bg=BG_COLOR)
         self.app = app
@@ -185,8 +194,38 @@ class LessonListScreen(tk.Frame):
         top = tk.Frame(self, bg=BG_COLOR)
         top.pack(fill="x", pady=15, padx=20)
         tk.Button(top, text="← Back", command=lambda: app.show_frame("HomeScreen")).pack(side="left")
-        tk.Label(top, text="Lessons / পাঠসমূহ", font=("Helvetica", 20, "bold"),
+        tk.Label(top, text="Choose a Module / মডিউল বেছে নাও", font=("Helvetica", 20, "bold"),
                  bg=BG_COLOR, fg=ACCENT_COLOR).pack(side="left", padx=20)
+
+        body = tk.Frame(self, bg=BG_COLOR)
+        body.pack(expand=True)
+
+        for module_key, label, color in self.MODULES:
+            tk.Button(body, text=label, font=("Helvetica", 14, "bold"), width=30, bg=color,
+                      fg="white", bd=0, pady=15, cursor="hand2",
+                      command=lambda m=module_key: self.open_module(m)).pack(pady=12)
+
+    def open_module(self, module_key):
+        self.app.current_module = module_key
+        lesson_list = self.app.frames["LessonListScreen"]
+        lesson_list.on_show()
+        self.app.show_frame("LessonListScreen")
+
+
+class LessonListScreen(tk.Frame):
+    def __init__(self, parent, app):
+        super().__init__(parent, bg=BG_COLOR)
+        self.app = app
+
+        top = tk.Frame(self, bg=BG_COLOR)
+        top.pack(fill="x", pady=15, padx=20)
+        tk.Button(top, text="← Back", command=lambda: app.show_frame("ModuleSelectScreen")).pack(side="left")
+        self.title_label = tk.Label(top, text="Lessons", font=("Helvetica", 20, "bold"),
+                                     bg=BG_COLOR, fg=ACCENT_COLOR)
+        self.title_label.pack(side="left", padx=20)
+
+        tk.Button(top, text="📝 Take Module Quiz / কুইজ দাও", bg="#8e44ad", fg="white",
+                  font=("Helvetica", 11, "bold"), command=self.start_quiz).pack(side="right")
 
         self.listbox = tk.Listbox(self, font=("Helvetica", 13), height=15)
         self.listbox.pack(fill="both", expand=True, padx=20, pady=10)
@@ -194,14 +233,17 @@ class LessonListScreen(tk.Frame):
 
     def on_show(self):
         self.app.refresh_data()
+        module = self.app.current_module
+        module_names = {"python": "Python", "c": "C", "cpp": "C++"}
+        self.title_label.config(text=f"{module_names.get(module, '')} Lessons / পাঠসমূহ")
+
         self.listbox.delete(0, tk.END)
         self.lesson_ids = []
         completed = self.app.get_current_user_data()["completed_lessons"]
-        for lesson in dm.get_lessons(self.app.data):
+        for lesson in dm.get_lessons_by_module(self.app.data, module):
             mark = "✅ " if lesson["id"] in completed else "⬜ "
-            lang_tag = f"[{lesson['language'].upper()}] "
             title = lesson["title_bn"] if self.app.language == "bn" else lesson["title_en"]
-            self.listbox.insert(tk.END, f"{mark}{lang_tag}{title}")
+            self.listbox.insert(tk.END, f"{mark}{title}")
             self.lesson_ids.append(lesson["id"])
 
     def select_lesson(self, event):
@@ -212,6 +254,11 @@ class LessonListScreen(tk.Frame):
         detail_frame = self.app.frames["LessonDetailScreen"]
         detail_frame.load_lesson(lesson_id)
         self.app.show_frame("LessonDetailScreen")
+
+    def start_quiz(self):
+        quiz_frame = self.app.frames["QuizScreen"]
+        quiz_frame.load_quiz(self.app.current_module)
+        self.app.show_frame("QuizScreen")
 
 
 class LessonDetailScreen(tk.Frame):
@@ -247,9 +294,6 @@ class LessonDetailScreen(tk.Frame):
 
         tk.Button(btn_frame, text="✔ Mark Lesson Complete", command=self.complete_lesson,
                   bg=BTN_COLOR, fg="white", font=("Helvetica", 11)).pack(side="left", padx=10)
-
-        tk.Button(btn_frame, text="📝 Take Quiz", command=self.go_to_quiz,
-                  bg="#8e44ad", fg="white", font=("Helvetica", 11)).pack(side="left")
 
         tk.Label(self, text="Output:", font=("Helvetica", 11, "bold"), bg=BG_COLOR,
                  fg=ACCENT_COLOR).pack(anchor="w", padx=20, pady=(10, 0))
@@ -311,11 +355,6 @@ class LessonDetailScreen(tk.Frame):
         self.app.refresh_data()
         messagebox.showinfo("Great job!", "Lesson marked complete. +20 XP")
 
-    def go_to_quiz(self):
-        quiz_frame = self.app.frames["QuizScreen"]
-        quiz_frame.load_quiz(self.current_lesson["id"])
-        self.app.show_frame("QuizScreen")
-
 
 class QuizScreen(tk.Frame):
     """Multi-question quiz for a lesson, with Next/Previous navigation,
@@ -363,9 +402,9 @@ class QuizScreen(tk.Frame):
                                    width=14, bg="#8e44ad", fg="white", command=self.go_next)
         self.next_btn.pack(side="left", padx=8)
 
-    def load_quiz(self, lesson_id):
+    def load_quiz(self, module):
         self.app.refresh_data()
-        self.quiz_list = dm.get_quizzes_by_lesson(self.app.data, lesson_id)
+        self.quiz_list = dm.get_quizzes_by_module(self.app.data, module)
         self.current_index = 0
         self.session_answers = {}
         self.render_question()

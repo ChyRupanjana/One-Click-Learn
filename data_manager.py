@@ -27,6 +27,10 @@ def get_lessons(data):
     return data["lessons"]
 
 
+def get_lessons_by_module(data, module):
+    return [l for l in data["lessons"] if l["module"] == module]
+
+
 def get_lesson_by_id(data, lesson_id):
     for lesson in data["lessons"]:
         if lesson["id"] == lesson_id:
@@ -34,9 +38,9 @@ def get_lesson_by_id(data, lesson_id):
     return None
 
 
-def get_quizzes_by_lesson(data, lesson_id):
-    """Returns ALL quiz questions belonging to a lesson, as a list."""
-    return [q for q in data["quizzes"] if q["lesson_id"] == lesson_id]
+def get_quizzes_by_module(data, module):
+    """Returns ALL quiz questions belonging to a module (python/c/cpp)."""
+    return [q for q in data["quizzes"] if q["module"] == module]
 
 
 def get_user(data, username):
