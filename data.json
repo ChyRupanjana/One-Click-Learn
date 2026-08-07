@@ -1,0 +1,261 @@
+{
+  "lessons": [
+    {
+      "id": 1,
+      "title_en": "Introduction to Loops",
+      "title_bn": "লুপের পরিচিতি",
+      "content_en": "A loop lets you repeat a block of code multiple times without writing it again and again. Python has two main loops: 'for' and 'while'. Use a 'for' loop when you know how many times to repeat, and a 'while' loop when you repeat until a condition becomes false.",
+      "content_bn": "লুপ ব্যবহার করে তুমি একই কোড বারবার লেখা ছাড়াই বহুবার চালাতে পারো। Python-এ প্রধানত দুই ধরনের লুপ আছে: 'for' এবং 'while'। যখন তুমি জানো কতবার রিপিট করতে হবে, তখন 'for' লুপ ব্যবহার করো। আর যখন একটি শর্ত মিথ্যা না হওয়া পর্যন্ত রিপিট করতে হবে, তখন 'while' লুপ ব্যবহার করো।",
+      "code_example": "for i in range(5):\n    print(i)",
+      "language": "python"
+    },
+    {
+      "id": 2,
+      "title_en": "Introduction to Functions",
+      "title_bn": "ফাংশনের পরিচিতি",
+      "content_en": "A function is a reusable block of code that performs a specific task. You define it once with 'def' and can call it many times with different inputs.",
+      "content_bn": "ফাংশন হলো এমন একটি রিইউজেবল কোড ব্লক যা একটি নির্দিষ্ট কাজ করে। তুমি এটিকে একবার 'def' দিয়ে সংজ্ঞায়িত করো এবং বিভিন্ন ইনপুট দিয়ে বহুবার কল করতে পারো।",
+      "code_example": "def add(a, b):\n    return a + b\n\nprint(add(3, 4))",
+      "language": "python"
+    },
+    {
+      "id": 3,
+      "title_en": "Arrays / Lists Basics",
+      "title_bn": "অ্যারে / লিস্টের বেসিক",
+      "content_en": "A list stores multiple values in a single variable. You can access elements using an index starting from 0.",
+      "content_bn": "লিস্ট একটি ভ্যারিয়েবলে একাধিক মান সংরক্ষণ করে। তুমি ইনডেক্স ব্যবহার করে এলিমেন্টে অ্যাক্সেস করতে পারো, যা ০ থেকে শুরু হয়।",
+      "code_example": "nums = [10, 20, 30]\nfor n in nums:\n    print(n)",
+      "language": "python"
+    },
+    {
+      "id": 4,
+      "title_en": "C Arrays and Loops",
+      "title_bn": "সি অ্যারে এবং লুপ",
+      "content_en": "In C, an array stores multiple values of the same type in contiguous memory. You use a 'for' loop with an index to access each element, starting from index 0.",
+      "content_bn": "সি ভাষায় অ্যারে একই টাইপের একাধিক মান পাশাপাশি মেমরিতে সংরক্ষণ করে। তুমি একটি ইনডেক্স সহ 'for' লুপ ব্যবহার করে প্রতিটি এলিমেন্ট অ্যাক্সেস করতে পারো, যা ইনডেক্স ০ থেকে শুরু হয়।",
+      "code_example": "#include <stdio.h>\n\nint main() {\n    int nums[3] = {10, 20, 30};\n    for (int i = 0; i < 3; i++) {\n        printf(\"%d\\n\", nums[i]);\n    }\n    return 0;\n}",
+      "language": "c"
+    },
+    {
+      "id": 5,
+      "title_en": "C++ Classes and Objects",
+      "title_bn": "সি++ ক্লাস এবং অবজেক্ট",
+      "content_en": "A class in C++ is a blueprint for creating objects. It bundles data (attributes) and functions (methods) together. You create an object from a class using its name, then call its methods with the dot operator.",
+      "content_bn": "সি++ এ ক্লাস হলো অবজেক্ট তৈরির একটি ব্লুপ্রিন্ট। এটি ডেটা (অ্যাট্রিবিউট) এবং ফাংশন (মেথড) একসাথে বান্ডল করে। তুমি ক্লাসের নাম ব্যবহার করে একটি অবজেক্ট তৈরি করো, তারপর ডট অপারেটর দিয়ে এর মেথড কল করো।",
+      "code_example": "#include <iostream>\nusing namespace std;\n\nclass Student {\npublic:\n    string name;\n    void greet() {\n        cout << \"Hello, \" << name << \"!\" << endl;\n    }\n};\n\nint main() {\n    Student s;\n    s.name = \"Rupanjana\";\n    s.greet();\n    return 0;\n}",
+      "language": "cpp"
+    }
+  ],
+  "quizzes": [
+    {
+      "id": 1,
+      "lesson_id": 1,
+      "question_en": "What does range(5) produce?",
+      "question_bn": "range(5) কী উৎপন্ন করে?",
+      "options": [
+        "0,1,2,3,4",
+        "1,2,3,4,5",
+        "0,1,2,3,4,5",
+        "1,2,3,4"
+      ],
+      "answer": "0,1,2,3,4"
+    },
+    {
+      "id": 2,
+      "lesson_id": 1,
+      "question_en": "Which loop keeps running until a condition becomes false?",
+      "question_bn": "কোন লুপ একটি শর্ত মিথ্যা না হওয়া পর্যন্ত চলতে থাকে?",
+      "options": [
+        "for",
+        "while",
+        "do",
+        "loop"
+      ],
+      "answer": "while"
+    },
+    {
+      "id": 3,
+      "lesson_id": 1,
+      "question_en": "Which keyword immediately stops a loop in Python?",
+      "question_bn": "Python-এ কোন কিওয়ার্ড দিয়ে লুপ সাথে সাথে থামানো যায়?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "end"
+      ],
+      "answer": "break"
+    },
+    {
+      "id": 4,
+      "lesson_id": 2,
+      "question_en": "Which keyword is used to define a function in Python?",
+      "question_bn": "Python-এ ফাংশন সংজ্ঞায়িত করতে কোন কিওয়ার্ড ব্যবহার হয়?",
+      "options": [
+        "func",
+        "def",
+        "function",
+        "lambda"
+      ],
+      "answer": "def"
+    },
+    {
+      "id": 5,
+      "lesson_id": 2,
+      "question_en": "Which statement sends a value back from a function?",
+      "question_bn": "কোন স্টেটমেন্ট ফাংশন থেকে একটি মান ফেরত পাঠায়?",
+      "options": [
+        "send",
+        "return",
+        "back",
+        "output"
+      ],
+      "answer": "return"
+    },
+    {
+      "id": 6,
+      "lesson_id": 2,
+      "question_en": "In add(a, b=5), what is 5 called?",
+      "question_bn": "add(a, b=5) এ 5 কে কী বলা হয়?",
+      "options": [
+        "Return value",
+        "Default parameter",
+        "Global variable",
+        "Loop counter"
+      ],
+      "answer": "Default parameter"
+    },
+    {
+      "id": 7,
+      "lesson_id": 3,
+      "question_en": "What is the index of the first element in a Python list?",
+      "question_bn": "Python লিস্টের প্রথম এলিমেন্টের ইনডেক্স কত?",
+      "options": [
+        "1",
+        "0",
+        "-1",
+        "None"
+      ],
+      "answer": "0"
+    },
+    {
+      "id": 8,
+      "lesson_id": 3,
+      "question_en": "Which method adds an item to the end of a list?",
+      "question_bn": "কোন মেথড লিস্টের শেষে একটি আইটেম যোগ করে?",
+      "options": [
+        "add()",
+        "append()",
+        "insert()",
+        "push()"
+      ],
+      "answer": "append()"
+    },
+    {
+      "id": 9,
+      "lesson_id": 3,
+      "question_en": "What does nums[-1] refer to in a Python list?",
+      "question_bn": "Python লিস্টে nums[-1] কী বোঝায়?",
+      "options": [
+        "First element",
+        "Last element",
+        "An error",
+        "Empty list"
+      ],
+      "answer": "Last element"
+    },
+    {
+      "id": 10,
+      "lesson_id": 4,
+      "question_en": "Which header file is needed for printf in C?",
+      "question_bn": "সি ভাষায় printf ব্যবহার করতে কোন হেডার ফাইল লাগে?",
+      "options": [
+        "<stdio.h>",
+        "<stdlib.h>",
+        "<string.h>",
+        "<math.h>"
+      ],
+      "answer": "<stdio.h>"
+    },
+    {
+      "id": 11,
+      "lesson_id": 4,
+      "question_en": "How do you correctly declare an array of 5 integers in C?",
+      "question_bn": "সি ভাষায় ৫টি ইন্টিজারের অ্যারে কীভাবে সঠিকভাবে ডিক্লেয়ার করবে?",
+      "options": [
+        "int arr(5);",
+        "array int arr[5];",
+        "int arr[5];",
+        "int[5] arr;"
+      ],
+      "answer": "int arr[5];"
+    },
+    {
+      "id": 12,
+      "lesson_id": 4,
+      "question_en": "In C, array indexing starts from which number?",
+      "question_bn": "সি ভাষায় অ্যারে ইনডেক্সিং কোন সংখ্যা থেকে শুরু হয়?",
+      "options": [
+        "1",
+        "0",
+        "-1",
+        "It depends"
+      ],
+      "answer": "0"
+    },
+    {
+      "id": 13,
+      "lesson_id": 5,
+      "question_en": "Which operator is used to access a class member from an object in C++?",
+      "question_bn": "সি++ এ অবজেক্ট থেকে ক্লাস মেম্বার অ্যাক্সেস করতে কোন অপারেটর ব্যবহার হয়?",
+      "options": [
+        ".",
+        "->",
+        "::",
+        "&"
+      ],
+      "answer": "."
+    },
+    {
+      "id": 14,
+      "lesson_id": 5,
+      "question_en": "Which keyword is used to define a class in C++?",
+      "question_bn": "সি++ এ ক্লাস সংজ্ঞায়িত করতে কোন কিওয়ার্ড ব্যবহার হয়?",
+      "options": [
+        "struct",
+        "object",
+        "class",
+        "define"
+      ],
+      "answer": "class"
+    },
+    {
+      "id": 15,
+      "lesson_id": 5,
+      "question_en": "What is a special function called that runs automatically when an object is created?",
+      "question_bn": "একটি অবজেক্ট তৈরি হওয়ার সাথে সাথে স্বয়ংক্রিয়ভাবে চলা বিশেষ ফাংশনটিকে কী বলা হয়?",
+      "options": [
+        "Destructor",
+        "Constructor",
+        "Initializer",
+        "Builder"
+      ],
+      "answer": "Constructor"
+    }
+  ],
+  "users": {
+    "Rupanjana": {
+      "salt": "43a86d3346fe9ab00a5eb562dd21670f",
+      "password_hash": "ad37c858abb331469503983bb18879896ce0e7efce34164d405fd7480494f253",
+      "completed_lessons": [],
+      "quiz_scores": {
+        "1": "correct",
+        "2": "incorrect",
+        "3": "correct"
+      },
+      "xp": 30,
+      "streak": 1,
+      "last_activity_date": "2026-08-05"
+    }
+  }
+}
