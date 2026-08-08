@@ -7,13 +7,6 @@ Passwords are hashed (never stored as plain text) using Python's built-in
 hashlib with a per-user salt. This is fine for a student project, but note
 it is not a full production-grade auth system (no rate limiting, no
 password reset flow, etc.).
-
-Note on Google / Apple Sign-In: genuine OAuth login requires registering
-the app with Google Cloud Console / Apple Developer, real client
-credentials, and a browser-based redirect flow. That can't be faked inside
-a local Tkinter app without those real credentials — see main.py's
-PlaygroundScreen... actually LoginScreen for how this is surfaced honestly
-to the user instead of being silently faked.
 """
 
 import hashlib
