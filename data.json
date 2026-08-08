@@ -968,23 +968,503 @@
   ],
   "users": {
     "Rupanjana": {
-      "salt": "46726c61c42cbc0fbe81e4f5fa865ba7",
-      "password_hash": "6dc402b3d3bc3ab01555996a175503b42b6febebe802769a6a44e957b7b1c5d3",
+      "salt": "5da8cb4c9c1ddceb12001afa3768c269",
+      "password_hash": "d2c8bf909ebc8a72e04053a88864eef4c4177259446fe0a7918a339629acc6f5",
+      "email": "rupanjana.chowdhury06@gmail.com",
       "completed_lessons": [],
       "quiz_scores": {},
-      "xp": 0,
-      "streak": 0,
-      "last_activity_date": null
-    },
-    "Bristi": {
-      "salt": "bf3cce1209a0d255ed28b2c1a0aae711",
-      "password_hash": "b928385b4f6452b6d912d5a381687997d3447cb6410a8045318369de5e865592",
-      "email": "rupanjana.chowdhury06@gamil.com",
-      "completed_lessons": [],
-      "quiz_scores": {},
+      "completed_contest_problems": [],
       "xp": 0,
       "streak": 0,
       "last_activity_date": null
     }
-  }
+  },
+  "contests": [
+    {
+      "id": 1,
+      "module": "python",
+      "title_en": "Fundamentals Contest — Round 1",
+      "title_bn": "ফান্ডামেন্টালস কনটেস্ট — রাউন্ড ১",
+      "unlock_after_lessons": 2,
+      "problems": [
+        {
+          "id": 1,
+          "title_en": "Sum of Two Numbers",
+          "title_bn": "দুই সংখ্যার যোগফল",
+          "difficulty": "Easy",
+          "statement_en": "Read two integers, each on its own line. Print their sum only (nothing else).",
+          "statement_bn": "দুটি ইন্টিজার পড়ো, প্রতিটি আলাদা লাইনে। শুধু তাদের যোগফল প্রিন্ট করো।",
+          "sample_input": "3\n4",
+          "sample_output": "7",
+          "test_cases": [
+            {
+              "input": "3\n4",
+              "expected_output": "7"
+            },
+            {
+              "input": "10\n20",
+              "expected_output": "30"
+            },
+            {
+              "input": "-5\n5",
+              "expected_output": "0"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title_en": "Even or Odd",
+          "title_bn": "জোড় নাকি বিজোড়",
+          "difficulty": "Medium",
+          "statement_en": "Read one integer. Print 'Even' if it's even, otherwise print 'Odd'.",
+          "statement_bn": "একটি ইন্টিজার পড়ো। জোড় হলে 'Even' প্রিন্ট করো, বিজোড় হলে 'Odd' প্রিন্ট করো।",
+          "sample_input": "4",
+          "sample_output": "Even",
+          "test_cases": [
+            {
+              "input": "4",
+              "expected_output": "Even"
+            },
+            {
+              "input": "7",
+              "expected_output": "Odd"
+            },
+            {
+              "input": "0",
+              "expected_output": "Even"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title_en": "Factorial",
+          "title_bn": "ফ্যাক্টোরিয়াল",
+          "difficulty": "Hard",
+          "statement_en": "Read one non-negative integer n. Print n! (n factorial). For n=0, print 1.",
+          "statement_bn": "একটি অ-ঋণাত্মক ইন্টিজার n পড়ো। n! (ফ্যাক্টোরিয়াল) প্রিন্ট করো। n=0 হলে 1 প্রিন্ট করো।",
+          "sample_input": "5",
+          "sample_output": "120",
+          "test_cases": [
+            {
+              "input": "5",
+              "expected_output": "120"
+            },
+            {
+              "input": "0",
+              "expected_output": "1"
+            },
+            {
+              "input": "7",
+              "expected_output": "5040"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "module": "python",
+      "title_en": "Fundamentals Contest — Round 2",
+      "title_bn": "ফান্ডামেন্টালস কনটেস্ট — রাউন্ড ২",
+      "unlock_after_lessons": 4,
+      "problems": [
+        {
+          "id": 1,
+          "title_en": "Maximum of Three",
+          "title_bn": "তিনটির মধ্যে সর্বোচ্চ",
+          "difficulty": "Easy",
+          "statement_en": "Read three integers, each on its own line. Print the largest one.",
+          "statement_bn": "তিনটি ইন্টিজার পড়ো, প্রতিটি আলাদা লাইনে। সবচেয়ে বড়টি প্রিন্ট করো।",
+          "sample_input": "3\n7\n5",
+          "sample_output": "7",
+          "test_cases": [
+            {
+              "input": "3\n7\n5",
+              "expected_output": "7"
+            },
+            {
+              "input": "-1\n-5\n-2",
+              "expected_output": "-1"
+            },
+            {
+              "input": "10\n10\n10",
+              "expected_output": "10"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title_en": "Reverse a Number",
+          "title_bn": "সংখ্যা উল্টানো",
+          "difficulty": "Medium",
+          "statement_en": "Read one positive integer. Print it with its digits reversed.",
+          "statement_bn": "একটি ধনাত্মক ইন্টিজার পড়ো। এর অঙ্কগুলো উল্টে প্রিন্ট করো।",
+          "sample_input": "123",
+          "sample_output": "321",
+          "test_cases": [
+            {
+              "input": "123",
+              "expected_output": "321"
+            },
+            {
+              "input": "456",
+              "expected_output": "654"
+            },
+            {
+              "input": "7",
+              "expected_output": "7"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title_en": "Check Prime",
+          "title_bn": "মৌলিক সংখ্যা চেক",
+          "difficulty": "Hard",
+          "statement_en": "Read one integer n (n >= 2). Print 'Prime' if n is prime, otherwise print 'Not Prime'.",
+          "statement_bn": "একটি ইন্টিজার n (n >= 2) পড়ো। n মৌলিক হলে 'Prime' প্রিন্ট করো, না হলে 'Not Prime' প্রিন্ট করো।",
+          "sample_input": "7",
+          "sample_output": "Prime",
+          "test_cases": [
+            {
+              "input": "7",
+              "expected_output": "Prime"
+            },
+            {
+              "input": "10",
+              "expected_output": "Not Prime"
+            },
+            {
+              "input": "13",
+              "expected_output": "Prime"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "module": "c",
+      "title_en": "C Challenge — Round 1",
+      "title_bn": "সি চ্যালেঞ্জ — রাউন্ড ১",
+      "unlock_after_lessons": 2,
+      "problems": [
+        {
+          "id": 1,
+          "title_en": "Sum of Two Numbers",
+          "title_bn": "দুই সংখ্যার যোগফল",
+          "difficulty": "Easy",
+          "statement_en": "Read two integers, each on its own line. Print their sum only.",
+          "statement_bn": "দুটি ইন্টিজার পড়ো, প্রতিটি আলাদা লাইনে। শুধু তাদের যোগফল প্রিন্ট করো।",
+          "sample_input": "6\n9",
+          "sample_output": "15",
+          "test_cases": [
+            {
+              "input": "6\n9",
+              "expected_output": "15"
+            },
+            {
+              "input": "100\n200",
+              "expected_output": "300"
+            },
+            {
+              "input": "-3\n3",
+              "expected_output": "0"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title_en": "Largest of Three",
+          "title_bn": "তিনটির মধ্যে সর্ববৃহৎ",
+          "difficulty": "Medium",
+          "statement_en": "Read three integers, each on its own line. Print the largest one.",
+          "statement_bn": "তিনটি ইন্টিজার পড়ো, প্রতিটি আলাদা লাইনে। সবচেয়ে বড়টি প্রিন্ট করো।",
+          "sample_input": "4\n9\n2",
+          "sample_output": "9",
+          "test_cases": [
+            {
+              "input": "4\n9\n2",
+              "expected_output": "9"
+            },
+            {
+              "input": "-10\n-2\n-5",
+              "expected_output": "-2"
+            },
+            {
+              "input": "5\n5\n5",
+              "expected_output": "5"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title_en": "Armstrong Number",
+          "title_bn": "আর্মস্ট্রং সংখ্যা",
+          "difficulty": "Hard",
+          "statement_en": "Read one 3-digit integer n. Print 'Armstrong' if it's an Armstrong number (sum of cubes of its digits equals n), otherwise print 'Not Armstrong'.",
+          "statement_bn": "একটি ৩-অঙ্কের ইন্টিজার n পড়ো। এটি আর্মস্ট্রং সংখ্যা হলে 'Armstrong' প্রিন্ট করো, না হলে 'Not Armstrong' প্রিন্ট করো।",
+          "sample_input": "153",
+          "sample_output": "Armstrong",
+          "test_cases": [
+            {
+              "input": "153",
+              "expected_output": "Armstrong"
+            },
+            {
+              "input": "370",
+              "expected_output": "Armstrong"
+            },
+            {
+              "input": "123",
+              "expected_output": "Not Armstrong"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "module": "c",
+      "title_en": "C Challenge — Round 2",
+      "title_bn": "সি চ্যালেঞ্জ — রাউন্ড ২",
+      "unlock_after_lessons": 4,
+      "problems": [
+        {
+          "id": 1,
+          "title_en": "Count Digits",
+          "title_bn": "অঙ্ক গণনা",
+          "difficulty": "Easy",
+          "statement_en": "Read one positive integer. Print how many digits it has.",
+          "statement_bn": "একটি ধনাত্মক ইন্টিজার পড়ো। এতে কয়টি অঙ্ক আছে তা প্রিন্ট করো।",
+          "sample_input": "12345",
+          "sample_output": "5",
+          "test_cases": [
+            {
+              "input": "12345",
+              "expected_output": "5"
+            },
+            {
+              "input": "7",
+              "expected_output": "1"
+            },
+            {
+              "input": "1000",
+              "expected_output": "4"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title_en": "Reverse a Number",
+          "title_bn": "সংখ্যা উল্টানো",
+          "difficulty": "Medium",
+          "statement_en": "Read one positive integer. Print it with its digits reversed.",
+          "statement_bn": "একটি ধনাত্মক ইন্টিজার পড়ো। এর অঙ্কগুলো উল্টে প্রিন্ট করো।",
+          "sample_input": "123",
+          "sample_output": "321",
+          "test_cases": [
+            {
+              "input": "123",
+              "expected_output": "321"
+            },
+            {
+              "input": "456",
+              "expected_output": "654"
+            },
+            {
+              "input": "89",
+              "expected_output": "98"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title_en": "GCD of Two Numbers",
+          "title_bn": "দুই সংখ্যার গসাগু",
+          "difficulty": "Hard",
+          "statement_en": "Read two positive integers, each on its own line. Print their GCD (Greatest Common Divisor).",
+          "statement_bn": "দুটি ধনাত্মক ইন্টিজার পড়ো, প্রতিটি আলাদা লাইনে। তাদের গসাগু (GCD) প্রিন্ট করো।",
+          "sample_input": "12\n18",
+          "sample_output": "6",
+          "test_cases": [
+            {
+              "input": "12\n18",
+              "expected_output": "6"
+            },
+            {
+              "input": "100\n75",
+              "expected_output": "25"
+            },
+            {
+              "input": "17\n13",
+              "expected_output": "1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "module": "cpp",
+      "title_en": "C++ Challenge — Round 1",
+      "title_bn": "সি++ চ্যালেঞ্জ — রাউন্ড ১",
+      "unlock_after_lessons": 2,
+      "problems": [
+        {
+          "id": 1,
+          "title_en": "Sum of Two Numbers",
+          "title_bn": "দুই সংখ্যার যোগফল",
+          "difficulty": "Easy",
+          "statement_en": "Read two integers, each on its own line. Print their sum only.",
+          "statement_bn": "দুটি ইন্টিজার পড়ো, প্রতিটি আলাদা লাইনে। শুধু তাদের যোগফল প্রিন্ট করো।",
+          "sample_input": "8\n12",
+          "sample_output": "20",
+          "test_cases": [
+            {
+              "input": "8\n12",
+              "expected_output": "20"
+            },
+            {
+              "input": "50\n50",
+              "expected_output": "100"
+            },
+            {
+              "input": "-7\n7",
+              "expected_output": "0"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title_en": "Palindrome Number",
+          "title_bn": "প্যালিনড্রোম সংখ্যা",
+          "difficulty": "Medium",
+          "statement_en": "Read one integer. Print 'Palindrome' if it reads the same forwards and backwards, otherwise print 'Not Palindrome'.",
+          "statement_bn": "একটি ইন্টিজার পড়ো। এটি সামনে-পেছনে একই হলে 'Palindrome' প্রিন্ট করো, না হলে 'Not Palindrome' প্রিন্ট করো।",
+          "sample_input": "121",
+          "sample_output": "Palindrome",
+          "test_cases": [
+            {
+              "input": "121",
+              "expected_output": "Palindrome"
+            },
+            {
+              "input": "123",
+              "expected_output": "Not Palindrome"
+            },
+            {
+              "input": "7",
+              "expected_output": "Palindrome"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title_en": "Nth Fibonacci",
+          "title_bn": "n-তম ফিবোনাচ্চি",
+          "difficulty": "Hard",
+          "statement_en": "Read one integer n (n >= 1). Print the nth Fibonacci number, where the 1st and 2nd Fibonacci numbers are 0 and 1.",
+          "statement_bn": "একটি ইন্টিজার n (n >= 1) পড়ো। n-তম ফিবোনাচ্চি সংখ্যা প্রিন্ট করো (১ম = 0, ২য় = 1)।",
+          "sample_input": "1",
+          "sample_output": "0",
+          "test_cases": [
+            {
+              "input": "1",
+              "expected_output": "0"
+            },
+            {
+              "input": "2",
+              "expected_output": "1"
+            },
+            {
+              "input": "7",
+              "expected_output": "8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "module": "cpp",
+      "title_en": "C++ Challenge — Round 2",
+      "title_bn": "সি++ চ্যালেঞ্জ — রাউন্ড ২",
+      "unlock_after_lessons": 4,
+      "problems": [
+        {
+          "id": 1,
+          "title_en": "Minimum of Three",
+          "title_bn": "তিনটির মধ্যে সর্বনিম্ন",
+          "difficulty": "Easy",
+          "statement_en": "Read three integers, each on its own line. Print the smallest one.",
+          "statement_bn": "তিনটি ইন্টিজার পড়ো, প্রতিটি আলাদা লাইনে। সবচেয়ে ছোটটি প্রিন্ট করো।",
+          "sample_input": "4\n9\n2",
+          "sample_output": "2",
+          "test_cases": [
+            {
+              "input": "4\n9\n2",
+              "expected_output": "2"
+            },
+            {
+              "input": "-10\n-2\n-5",
+              "expected_output": "-10"
+            },
+            {
+              "input": "5\n5\n5",
+              "expected_output": "5"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title_en": "Count Vowels",
+          "title_bn": "স্বরবর্ণ গণনা",
+          "difficulty": "Medium",
+          "statement_en": "Read one line of lowercase text. Print how many vowels (a, e, i, o, u) it contains.",
+          "statement_bn": "ছোট হাতের অক্ষরে এক লাইন টেক্সট পড়ো। এতে কয়টি স্বরবর্ণ (a, e, i, o, u) আছে তা প্রিন্ট করো।",
+          "sample_input": "hello world",
+          "sample_output": "3",
+          "test_cases": [
+            {
+              "input": "hello world",
+              "expected_output": "3"
+            },
+            {
+              "input": "programming",
+              "expected_output": "3"
+            },
+            {
+              "input": "xyz",
+              "expected_output": "0"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title_en": "Perfect Number",
+          "title_bn": "পারফেক্ট সংখ্যা",
+          "difficulty": "Hard",
+          "statement_en": "Read one positive integer. Print 'Perfect' if it is a perfect number (sum of its proper divisors equals the number), otherwise print 'Not Perfect'.",
+          "statement_bn": "একটি ধনাত্মক ইন্টিজার পড়ো। এটি পারফেক্ট সংখ্যা হলে 'Perfect' প্রিন্ট করো, না হলে 'Not Perfect' প্রিন্ট করো।",
+          "sample_input": "28",
+          "sample_output": "Perfect",
+          "test_cases": [
+            {
+              "input": "28",
+              "expected_output": "Perfect"
+            },
+            {
+              "input": "6",
+              "expected_output": "Perfect"
+            },
+            {
+              "input": "10",
+              "expected_output": "Not Perfect"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

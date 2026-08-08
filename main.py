@@ -139,6 +139,35 @@ TEXTS = {
     "running_generic_msg": {"en": "Running code...\n", "bn": "কোড চলছে...\n"},
     "no_output_msg": {"en": "(no output)", "bn": "(কোনো আউটপুট নেই)"},
     "error_prefix": {"en": "Error:\n", "bn": "ত্রুটি:\n"},
+
+    # ContestListScreen / ContestScreen / ProblemScreen
+    "contests_btn": {"en": "🏆 Contests", "bn": "🏆 কনটেস্ট"},
+    "contest_list_title": {"en": "Contests", "bn": "কনটেস্ট সমূহ"},
+    "locked_label": {"en": "🔒 Locked — complete {n} more lesson(s) to unlock",
+                      "bn": "🔒 লক করা আছে — আনলক করতে আরও {n}টা lesson শেষ করো"},
+    "unlocked_label": {"en": "🔓 Unlocked", "bn": "🔓 আনলক হয়েছে"},
+    "problems_solved_label": {"en": "Solved: {solved}/{total}", "bn": "সমাধান হয়েছে: {solved}/{total}"},
+    "difficulty_easy": {"en": "Easy", "bn": "সহজ"},
+    "difficulty_medium": {"en": "Medium", "bn": "মাঝারি"},
+    "difficulty_hard": {"en": "Hard", "bn": "কঠিন"},
+    "solved_mark": {"en": "✅ Solved", "bn": "✅ সমাধান হয়েছে"},
+    "not_solved_mark": {"en": "⬜ Not solved", "bn": "⬜ সমাধান হয়নি"},
+    "submit_btn": {"en": "Submit Solution", "bn": "সমাধান জমা দাও"},
+    "test_case_label": {"en": "Test Case {n}", "bn": "টেস্ট কেস {n}"},
+    "passed_label": {"en": "PASSED", "bn": "পাস"},
+    "failed_label": {"en": "FAILED", "bn": "ফেইল"},
+    "all_tests_passed_msg": {"en": "🎉 All test cases passed! Problem solved.",
+                              "bn": "🎉 সব টেস্ট কেস পাস হয়েছে! সমস্যাটি সমাধান হয়েছে।"},
+    "some_tests_failed_msg": {"en": "Some test cases failed. Try again!",
+                               "bn": "কিছু টেস্ট কেস ফেইল করেছে। আবার চেষ্টা করো!"},
+    "already_solved_msg": {"en": "Already solved earlier — resubmitting won't award extra XP.",
+                            "bn": "আগেই সমাধান হয়েছিল — আবার জমা দিলে অতিরিক্ত এক্সপি পাবে না।"},
+    "problem_solved_title": {"en": "Problem Solved!", "bn": "সমস্যা সমাধান হয়েছে!"},
+    "problem_solved_msg": {"en": "Great work! +{xp} XP", "bn": "চমৎকার! +{xp} এক্সপি"},
+    "input_label": {"en": "Input", "bn": "ইনপুট"},
+    "expected_label": {"en": "Expected", "bn": "প্রত্যাশিত"},
+    "your_output_label": {"en": "Your Output", "bn": "তোমার আউটপুট"},
+    "locked_contest_msg": {"en": "This contest is still locked.", "bn": "এই কনটেস্টটি এখনো লক করা আছে।"},
 }
 
 
@@ -198,16 +227,20 @@ class CodeLearnApp(tk.Tk):
         self.configure(bg=BG_COLOR)
 
         self.data = dm.load_data()
+        self.contests = dm.load_contests()
         self.language = "en"          # UI language: "en" or "bn" — controls EVERYTHING
         self.current_user = None      # set after login
         self.current_module = None    # "python" / "c" / "cpp", set on module select
+        self.current_contest = None   # set on contest select
+        self.current_problem = None   # set on problem select
 
         container = tk.Frame(self, bg=BG_COLOR)
         container.pack(fill="both", expand=True)
         self.frames = {}
 
         for F in (LoginScreen, HomeScreen, ModuleSelectScreen, LessonListScreen, LessonDetailScreen,
-                  QuizScreen, ProgressScreen, CertificateScreen, PlaygroundScreen):
+                  QuizScreen, ProgressScreen, CertificateScreen, PlaygroundScreen,
+                  ContestListScreen, ContestScreen, ProblemScreen):
             frame = F(container, self)
             self.frames[F.__name__] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -556,6 +589,9 @@ class LessonListScreen(tk.Frame):
         self.quiz_btn = tk.Button(top, bg="#8e44ad", fg="white",
                                    font=("Helvetica", 11, "bold"), command=self.start_quiz)
         self.quiz_btn.pack(side="right")
+        self.contests_btn = tk.Button(top, bg="#e67e22", fg="white",
+                                       font=("Helvetica", 11, "bold"), command=self.open_contests)
+        self.contests_btn.pack(side="right", padx=8)
         LanguageToggle(top, app, on_change=self.on_show).pack(side="right", padx=10)
 
         self.listbox = tk.Listbox(self, font=("Helvetica", 13), height=15)
@@ -568,6 +604,7 @@ class LessonListScreen(tk.Frame):
         app = self.app
         self.back_btn.config(text=tr(app, "back_btn"))
         self.quiz_btn.config(text=tr(app, "take_quiz_btn"))
+        self.contests_btn.config(text=tr(app, "contests_btn"))
 
     def on_show(self):
         self.app.refresh_data()
@@ -598,6 +635,10 @@ class LessonListScreen(tk.Frame):
         quiz_frame = self.app.frames["QuizScreen"]
         quiz_frame.load_quiz(self.app.current_module)
         self.app.show_frame("QuizScreen")
+
+    def open_contests(self):
+        contest_list_frame = self.app.frames["ContestListScreen"]
+        self.app.show_frame("ContestListScreen")
 
 
 class LessonDetailScreen(tk.Frame):
@@ -1054,6 +1095,294 @@ class PlaygroundScreen(tk.Frame):
         self.output_box.delete("1.0", tk.END)
         self.output_box.insert(tk.END, text)
         self.output_box.config(state="disabled")
+
+
+class ContestListScreen(tk.Frame):
+    """Shows all contests for the current module, with a lock/unlock state
+    based on how many lessons of that module the user has completed
+    (a new contest unlocks every 4 completed lessons)."""
+
+    def __init__(self, parent, app):
+        super().__init__(parent, bg=BG_COLOR)
+        self.app = app
+
+        top = tk.Frame(self, bg=BG_COLOR)
+        top.pack(fill="x", pady=15, padx=20)
+        self.back_btn = tk.Button(top, command=lambda: app.show_frame("LessonListScreen"))
+        self.back_btn.pack(side="left")
+        self.title_label = tk.Label(top, font=("Helvetica", 20, "bold"), bg=BG_COLOR, fg=ACCENT_COLOR)
+        self.title_label.pack(side="left", padx=20)
+        LanguageToggle(top, app, on_change=self.on_show).pack(side="right")
+
+        self.list_container = tk.Frame(self, bg=BG_COLOR)
+        self.list_container.pack(fill="both", expand=True, padx=20, pady=10)
+
+        self.apply_language()
+
+    def apply_language(self):
+        app = self.app
+        self.back_btn.config(text=tr(app, "back_btn"))
+        self.title_label.config(text=tr(app, "contest_list_title"))
+
+    def on_show(self):
+        app = self.app
+        app.refresh_data()
+        self.apply_language()
+
+        for widget in self.list_container.winfo_children():
+            widget.destroy()
+
+        contests = dm.get_contests_by_module(app.contests, app.current_module)
+        for contest in contests:
+            row = tk.Frame(self.list_container, bg="white", padx=15, pady=12,
+                            highlightbackground="#ddd", highlightthickness=1)
+            row.pack(fill="x", pady=6)
+
+            unlocked = dm.is_contest_unlocked(app.data, app.current_user, contest)
+            title = contest["title_bn"] if app.language == "bn" else contest["title_en"]
+
+            tk.Label(row, text=title, font=("Helvetica", 14, "bold"),
+                     bg="white", fg=ACCENT_COLOR).pack(side="left")
+
+            if unlocked:
+                solved = dm.get_solved_count_in_contest(app.data, app.current_user, contest)
+                total = len(contest["problems"])
+                status_text = tr(app, "unlocked_label") + "   |   " + \
+                    tr(app, "problems_solved_label", solved=solved, total=total)
+                status_color = "#27ae60"
+                cmd = lambda c=contest: self.open_contest(c)
+            else:
+                done = dm.get_completed_lesson_count_in_module(app.data, app.current_user, contest["module"])
+                remaining = max(0, contest["unlock_after_lessons"] - done)
+                status_text = tr(app, "locked_label", n=remaining)
+                status_color = "#999"
+                cmd = None
+
+            tk.Label(row, text=status_text, font=("Helvetica", 10), bg="white", fg=status_color).pack(side="left", padx=15)
+
+            btn = tk.Button(row, text="→", font=("Helvetica", 12, "bold"), bg=BTN_COLOR, fg="white",
+                             width=4, state="normal" if unlocked else "disabled",
+                             command=cmd if cmd else (lambda: None))
+            btn.pack(side="right")
+
+    def open_contest(self, contest):
+        self.app.current_contest = contest
+        contest_frame = self.app.frames["ContestScreen"]
+        contest_frame.on_show()
+        self.app.show_frame("ContestScreen")
+
+
+class ContestScreen(tk.Frame):
+    """Lists the Easy / Medium / Hard problems inside one unlocked contest."""
+
+    def __init__(self, parent, app):
+        super().__init__(parent, bg=BG_COLOR)
+        self.app = app
+
+        top = tk.Frame(self, bg=BG_COLOR)
+        top.pack(fill="x", pady=15, padx=20)
+        self.back_btn = tk.Button(top, command=lambda: app.show_frame("ContestListScreen"))
+        self.back_btn.pack(side="left")
+        self.title_label = tk.Label(top, font=("Helvetica", 20, "bold"), bg=BG_COLOR, fg=ACCENT_COLOR)
+        self.title_label.pack(side="left", padx=20)
+        LanguageToggle(top, app, on_change=self.on_show).pack(side="right")
+
+        self.list_container = tk.Frame(self, bg=BG_COLOR)
+        self.list_container.pack(fill="both", expand=True, padx=20, pady=10)
+
+        self.apply_language()
+
+    def apply_language(self):
+        self.back_btn.config(text=tr(self.app, "back_btn"))
+
+    DIFFICULTY_COLORS = {"easy": "#27ae60", "medium": "#e67e22", "hard": "#c0392b"}
+
+    def on_show(self):
+        app = self.app
+        app.refresh_data()
+        self.apply_language()
+        contest = app.current_contest
+        if not contest:
+            return
+
+        title = contest["title_bn"] if app.language == "bn" else contest["title_en"]
+        self.title_label.config(text=title)
+
+        for widget in self.list_container.winfo_children():
+            widget.destroy()
+
+        for problem in contest["problems"]:
+            row = tk.Frame(self.list_container, bg="white", padx=15, pady=12,
+                            highlightbackground="#ddd", highlightthickness=1, cursor="hand2")
+            row.pack(fill="x", pady=6)
+
+            p_title = problem["title_bn"] if app.language == "bn" else problem["title_en"]
+            diff_key = f"difficulty_{problem['difficulty']}"
+            diff_text = tr(app, diff_key)
+            diff_color = self.DIFFICULTY_COLORS.get(problem["difficulty"], "#555")
+
+            solved = dm.is_problem_solved(app.data, app.current_user, problem["id"])
+            solved_text = tr(app, "solved_mark") if solved else tr(app, "not_solved_mark")
+
+            left = tk.Frame(row, bg="white")
+            left.pack(side="left", fill="x", expand=True)
+            tk.Label(left, text=p_title, font=("Helvetica", 13, "bold"), bg="white", fg=ACCENT_COLOR).pack(anchor="w")
+            tag_frame = tk.Frame(left, bg="white")
+            tag_frame.pack(anchor="w", pady=(3, 0))
+            tk.Label(tag_frame, text=diff_text, font=("Helvetica", 9, "bold"), bg=diff_color, fg="white",
+                     padx=8, pady=2).pack(side="left")
+            tk.Label(tag_frame, text="   " + solved_text, font=("Helvetica", 9),
+                     bg="white", fg="#27ae60" if solved else "#999").pack(side="left")
+
+            for widget in (row, left):
+                widget.bind("<Button-1>", lambda e, p=problem: self.open_problem(p))
+
+            arrow = tk.Label(row, text="→", font=("Helvetica", 14, "bold"), bg="white", fg=BTN_COLOR)
+            arrow.pack(side="right")
+            arrow.bind("<Button-1>", lambda e, p=problem: self.open_problem(p))
+
+    def open_problem(self, problem):
+        self.app.current_problem = problem
+        problem_frame = self.app.frames["ProblemScreen"]
+        problem_frame.load_problem(problem)
+        self.app.show_frame("ProblemScreen")
+
+
+class ProblemScreen(tk.Frame):
+    """Problem statement + a multi-language code editor. Submitting runs the
+    code against ALL of the problem's test cases (via code_runner.run_test_cases)
+    and marks the problem solved (awarding XP once) only if every case passes."""
+
+    def __init__(self, parent, app):
+        super().__init__(parent, bg=BG_COLOR)
+        self.app = app
+        self.current_problem = None
+
+        top = tk.Frame(self, bg=BG_COLOR)
+        top.pack(fill="x", pady=10, padx=20)
+        self.back_btn = tk.Button(top, command=lambda: app.show_frame("ContestScreen"))
+        self.back_btn.pack(side="left")
+        LanguageToggle(top, app, on_change=self.apply_language).pack(side="right")
+
+        self.title_label = tk.Label(self, font=("Helvetica", 17, "bold"), bg=BG_COLOR, fg=ACCENT_COLOR)
+        self.title_label.pack(pady=(5, 0), padx=20, anchor="w")
+
+        self.diff_label = tk.Label(self, font=("Helvetica", 10, "bold"), fg="white", padx=8, pady=2)
+        self.diff_label.pack(padx=20, pady=(4, 8), anchor="w")
+
+        self.description_label = tk.Label(self, font=("Helvetica", 12), bg=BG_COLOR, fg="#333",
+                                           wraplength=930, justify="left")
+        self.description_label.pack(pady=(0, 10), padx=20, anchor="w")
+
+        lang_frame = tk.Frame(self, bg=BG_COLOR)
+        lang_frame.pack(fill="x", padx=20, pady=(0, 5))
+        self.language_field_label = tk.Label(lang_frame, font=("Helvetica", 11, "bold"),
+                                              bg=BG_COLOR, fg=ACCENT_COLOR)
+        self.language_field_label.pack(side="left")
+        self.language_var = tk.StringVar(value="python")
+        self.language_dropdown = ttk.Combobox(lang_frame, textvariable=self.language_var,
+                                               values=LANGUAGES, state="readonly", width=12,
+                                               font=("Helvetica", 11))
+        self.language_dropdown.pack(side="left", padx=10)
+        self.language_dropdown.bind("<<ComboboxSelected>>", self.on_language_change)
+
+        self.code_box = tk.Text(self, height=10, font=("Consolas", 12), bg="#2d2d2d", fg="#f8f8f2",
+                                 insertbackground="white")
+        self.code_box.pack(fill="both", expand=True, padx=20, pady=(5, 10))
+
+        self.submit_btn = tk.Button(self, bg="#27ae60", fg="white",
+                                     font=("Helvetica", 12, "bold"), command=self.submit)
+        self.submit_btn.pack(padx=20, anchor="w")
+
+        self.results_box = tk.Text(self, height=8, font=("Consolas", 10), bg="#1e1e1e", fg="#00ff88")
+        self.results_box.pack(fill="both", expand=True, padx=20, pady=(10, 15))
+        self.results_box.config(state="disabled")
+
+        self.apply_language()
+
+    def apply_language(self):
+        app = self.app
+        self.back_btn.config(text=tr(app, "back_btn"))
+        self.language_field_label.config(text=tr(app, "language_field_label"))
+        self.submit_btn.config(text=tr(app, "submit_btn"))
+        if self.current_problem:
+            self._render_problem_text()
+
+    DIFFICULTY_COLORS = {"easy": "#27ae60", "medium": "#e67e22", "hard": "#c0392b"}
+
+    def _render_problem_text(self):
+        app = self.app
+        problem = self.current_problem
+        title = problem["title_bn"] if app.language == "bn" else problem["title_en"]
+        desc = problem["description_bn"] if app.language == "bn" else problem["description_en"]
+        self.title_label.config(text=title)
+        self.diff_label.config(text=tr(app, f"difficulty_{problem['difficulty']}"),
+                                bg=self.DIFFICULTY_COLORS.get(problem["difficulty"], "#555"))
+        self.description_label.config(text=desc)
+
+    def load_problem(self, problem):
+        self.current_problem = problem
+        self.language_var.set("python")
+        self.code_box.delete("1.0", tk.END)
+        self.code_box.insert(tk.END, DEFAULT_SNIPPETS["python"])
+        self._set_results("")
+        self._render_problem_text()
+
+    def on_language_change(self, event=None):
+        self.code_box.delete("1.0", tk.END)
+        self.code_box.insert(tk.END, DEFAULT_SNIPPETS[self.language_var.get()])
+
+    def submit(self):
+        code = self.code_box.get("1.0", tk.END)
+        language = self.language_var.get()
+        self.submit_btn.config(state="disabled")
+        self._set_results(tr(self.app, "running_code_msg", language=language))
+        threading.Thread(target=self._submit_thread, args=(language, code), daemon=True).start()
+
+    def _submit_thread(self, language, code):
+        problem = self.current_problem
+        results = code_runner.run_test_cases(language, code, problem["test_cases"])
+        self.after(0, self._show_submit_results, results)
+
+    def _show_submit_results(self, results):
+        app = self.app
+        lines = []
+        all_passed = all(r["passed"] for r in results)
+        for i, r in enumerate(results, start=1):
+            status = tr(app, "passed_label") if r["passed"] else tr(app, "failed_label")
+            lines.append(f"{tr(app, 'test_case_label', n=i)}: {status}")
+            if not r["passed"]:
+                lines.append(f"  {tr(app, 'input_label')}: {r['input']}")
+                lines.append(f"  {tr(app, 'expected_label')}: {r['expected']}")
+                lines.append(f"  {tr(app, 'your_output_label')}: {r['actual']}")
+                if r["error"]:
+                    lines.append(f"  {tr(app, 'error_prefix')}{r['error']}")
+
+        if all_passed:
+            already_solved = dm.is_problem_solved(app.data, app.current_user, self.current_problem["id"])
+            dm.mark_problem_solved(app.data, app.current_user, self.current_problem["id"],
+                                    self.current_problem["xp_reward"])
+            app.refresh_data()
+            lines.append("")
+            lines.append(tr(app, "all_tests_passed_msg"))
+            self._set_results("\n".join(lines))
+            if already_solved:
+                messagebox.showinfo(tr(app, "problem_solved_title"), tr(app, "already_solved_msg"))
+            else:
+                messagebox.showinfo(tr(app, "problem_solved_title"),
+                                     tr(app, "problem_solved_msg", xp=self.current_problem["xp_reward"]))
+        else:
+            lines.append("")
+            lines.append(tr(app, "some_tests_failed_msg"))
+            self._set_results("\n".join(lines))
+
+        self.submit_btn.config(state="normal")
+
+    def _set_results(self, text):
+        self.results_box.config(state="normal")
+        self.results_box.delete("1.0", tk.END)
+        self.results_box.insert(tk.END, text)
+        self.results_box.config(state="disabled")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,8 @@
 """
 data_manager.py
-Handles all reading/writing to data.json (lessons, quizzes, multi-user progress).
-No database used — everything is stored in a single JSON file.
+Handles all reading/writing to data.json (lessons, quizzes, multi-user progress)
+and contests.json (coding contest problems, unlocked every 4 lessons per module).
+No database used — everything is stored in plain JSON files.
 """
 
 import json
@@ -9,6 +10,7 @@ import os
 from datetime import date
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), "data.json")
+CONTESTS_FILE = os.path.join(os.path.dirname(__file__), "contests.json")
 
 
 def load_data():
@@ -104,3 +106,69 @@ def get_progress_percent(data, username):
     if total == 0:
         return 0
     return round((done / total) * 100, 1)
+
+
+# ---------------------------------------------------------------------------
+# Contest support. Contest CONTENT (problems, test cases) lives in its own
+# file (contests.json) — completely separate from data.json — so adding or
+# editing contests never risks corrupting lesson/quiz/user data. Which
+# problems a user has SOLVED is still tracked per-user inside data.json.
+# ---------------------------------------------------------------------------
+
+def load_contests():
+    """Load contests.json and return the list of contest dicts."""
+    with open(CONTESTS_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)["contests"]
+
+
+def get_contests_by_module(contests, module):
+    return [c for c in contests if c["module"] == module]
+
+
+def get_contest_by_id(contests, contest_id):
+    for c in contests:
+        if c["id"] == contest_id:
+            return c
+    return None
+
+
+def get_problem_by_id(contest, problem_id):
+    for p in contest["problems"]:
+        if p["id"] == problem_id:
+            return p
+    return None
+
+
+def get_completed_lesson_count_in_module(data, username, module):
+    """How many lessons THIS user has completed within a single module —
+    this count (not specific lesson IDs) is what unlocks contests."""
+    completed = set(data["users"][username]["completed_lessons"])
+    module_lesson_ids = {l["id"] for l in get_lessons_by_module(data, module)}
+    return len(completed & module_lesson_ids)
+
+
+def is_contest_unlocked(data, username, contest):
+    done = get_completed_lesson_count_in_module(data, username, contest["module"])
+    return done >= contest["unlock_after_lessons"]
+
+
+def is_problem_solved(data, username, problem_id):
+    user = data["users"][username]
+    return problem_id in user.get("completed_contest_problems", [])
+
+def get_solved_count_in_contest(data, username, contest):
+    return sum(1 for p in contest["problems"] if is_problem_solved(data, username, p["id"]))
+
+
+def mark_problem_solved(data, username, problem_id, xp_reward):
+    """Marks a contest problem solved (only once — resubmitting an already
+    solved problem awards no extra XP) and saves data.json."""
+    user = data["users"][username]
+    if "completed_contest_problems" not in user:
+        user["completed_contest_problems"] = []
+    if problem_id not in user["completed_contest_problems"]:
+        user["completed_contest_problems"].append(problem_id)
+        user["xp"] += xp_reward
+        _update_streak(user)
+        save_data(data)
+    return user

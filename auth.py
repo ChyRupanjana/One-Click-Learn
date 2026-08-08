@@ -63,6 +63,7 @@ def create_user(data, username, password, email=""):
         "email": email,
         "completed_lessons": [],
         "quiz_scores": {},
+        "completed_contest_problems": [],
         "xp": 0,
         "streak": 0,
         "last_activity_date": None,
