@@ -975,6 +975,16 @@
       "xp": 0,
       "streak": 0,
       "last_activity_date": null
+    },
+    "Bristi": {
+      "salt": "bf3cce1209a0d255ed28b2c1a0aae711",
+      "password_hash": "b928385b4f6452b6d912d5a381687997d3447cb6410a8045318369de5e865592",
+      "email": "rupanjana.chowdhury06@gamil.com",
+      "completed_lessons": [],
+      "quiz_scores": {},
+      "xp": 0,
+      "streak": 0,
+      "last_activity_date": null
     }
   }
 }

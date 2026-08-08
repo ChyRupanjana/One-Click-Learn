@@ -46,14 +46,20 @@ DEFAULT_SNIPPETS = {
 TEXTS = {
     # LoginScreen
     "app_name":            {"en": "CodeLearn", "bn": "CodeLearn"},
-    "login_subtitle":       {"en": "Login", "bn": "সাইন ইন"},
-    "username_label":       {"en": "Username or Email:", "bn": "ইউজারনেম বা ইমেইল:"},
-    "email_hint_label":     {"en": "Email (only needed to sign up):", "bn": "ইমেইল (শুধু সাইন আপের জন্য প্রয়োজন):"},
+    "signin_tab":            {"en": "Sign In", "bn": "সাইন ইন"},
+    "signup_tab":            {"en": "Sign Up", "bn": "সাইন আপ"},
+    "signin_username_label": {"en": "Username or Email:", "bn": "ইউজারনেম বা ইমেইল:"},
+    "signup_username_label": {"en": "Username:", "bn": "ইউজারনেম:"},
+    "email_hint_label":     {"en": "Email (optional):", "bn": "ইমেইল (ঐচ্ছিক):"},
     "password_label":       {"en": "Password:", "bn": "পাসওয়ার্ড:"},
+    "confirm_password_label": {"en": "Confirm Password:", "bn": "পাসওয়ার্ড নিশ্চিত করো:"},
     "remember_me":          {"en": "Remember Me for 30 days", "bn": "৩০ দিন মনে রাখো"},
-    "login_btn":            {"en": "Login", "bn": "লগইন"},
-    "signup_btn":           {"en": "Create New Account", "bn": "নতুন অ্যাকাউন্ট তৈরি করো"},
-    "account_created_msg":  {"en": "Account created! You can log in now.", "bn": "অ্যাকাউন্ট তৈরি হয়েছে! এখন লগইন করতে পারো।"},
+    "login_btn":            {"en": "Sign In", "bn": "সাইন ইন করো"},
+    "signup_btn":           {"en": "Create Account", "bn": "অ্যাকাউন্ট তৈরি করো"},
+    "no_account_prompt":    {"en": "Don't have an account?  Sign Up", "bn": "অ্যাকাউন্ট নেই?  সাইন আপ করো"},
+    "have_account_prompt":  {"en": "Already have an account?  Sign In", "bn": "আগে থেকেই অ্যাকাউন্ট আছে?  সাইন ইন করো"},
+    "passwords_mismatch_msg": {"en": "Passwords do not match.", "bn": "পাসওয়ার্ড দুটো মিলছে না।"},
+    "account_created_msg":  {"en": "Account created! Please sign in.", "bn": "অ্যাকাউন্ট তৈরি হয়েছে! এখন সাইন ইন করো।"},
 
     # HomeScreen
     "app_subtitle":  {"en": "Learn Coding in Bangla & English", "bn": "বাংলা ও ইংরেজিতে কোডিং শেখো"},
@@ -237,9 +243,15 @@ class CodeLearnApp(tk.Tk):
 
 
 class LoginScreen(tk.Frame):
+    """Real-app-style auth screen: a 'Sign In' / 'Sign Up' tab pair up top,
+    and only the matching form below. New users switch to Sign Up, create
+    their account with a username + password, then switch back to Sign In
+    to actually log in with those credentials."""
+
     def __init__(self, parent, app):
         super().__init__(parent, bg=BG_COLOR)
         self.app = app
+        self.mode = "signin"   # "signin" or "signup"
 
         LanguageToggle(self, app, on_change=self.apply_language).place(relx=1.0, y=15, anchor="ne", x=-20)
 
@@ -247,62 +259,138 @@ class LoginScreen(tk.Frame):
         card.place(relx=0.5, rely=0.5, anchor="center")
 
         tk.Label(card, text=tr(app, "app_name"), font=("Helvetica", 26, "bold"),
-                 bg="white", fg=ACCENT_COLOR).pack(pady=(0, 5))
-        self.subtitle_label = tk.Label(card, font=("Helvetica", 12), bg="white", fg="#777")
-        self.subtitle_label.pack(pady=(0, 15))
+                 bg="white", fg=ACCENT_COLOR).pack(pady=(0, 15))
 
-        self.username_field_label = tk.Label(card, bg="white", font=("Helvetica", 11))
-        self.username_field_label.pack(anchor="w")
-        self.username_entry = tk.Entry(card, font=("Helvetica", 12), width=28)
-        self.username_entry.pack(pady=(0, 10))
+        # --- Tab pair: Sign In | Sign Up ---
+        tabs = tk.Frame(card, bg="white")
+        tabs.pack(pady=(0, 18))
+        self.signin_tab_btn = tk.Label(tabs, font=("Helvetica", 12, "bold"), width=12,
+                                        pady=8, cursor="hand2")
+        self.signin_tab_btn.pack(side="left")
+        self.signup_tab_btn = tk.Label(tabs, font=("Helvetica", 12, "bold"), width=12,
+                                        pady=8, cursor="hand2")
+        self.signup_tab_btn.pack(side="left")
+        self.signin_tab_btn.bind("<Button-1>", lambda e: self.switch_mode("signin"))
+        self.signup_tab_btn.bind("<Button-1>", lambda e: self.switch_mode("signup"))
 
-        self.email_field_label = tk.Label(card, bg="white", font=("Helvetica", 9), fg="#888")
-        self.email_field_label.pack(anchor="w")
-        self.email_entry = tk.Entry(card, font=("Helvetica", 12), width=28)
-        self.email_entry.pack(pady=(0, 10))
+        # --- Sign In form ---
+        self.signin_frame = tk.Frame(card, bg="white")
 
-        self.password_field_label = tk.Label(card, bg="white", font=("Helvetica", 11))
-        self.password_field_label.pack(anchor="w")
-        self.password_entry = tk.Entry(card, font=("Helvetica", 12), width=28, show="*")
-        self.password_entry.pack(pady=(0, 10))
+        self.signin_username_field_label = tk.Label(self.signin_frame, bg="white", font=("Helvetica", 11))
+        self.signin_username_field_label.pack(anchor="w")
+        self.signin_username_entry = tk.Entry(self.signin_frame, font=("Helvetica", 12), width=28)
+        self.signin_username_entry.pack(pady=(0, 10))
+
+        self.signin_password_field_label = tk.Label(self.signin_frame, bg="white", font=("Helvetica", 11))
+        self.signin_password_field_label.pack(anchor="w")
+        self.signin_password_entry = tk.Entry(self.signin_frame, font=("Helvetica", 12), width=28, show="*")
+        self.signin_password_entry.pack(pady=(0, 10))
 
         self.remember_var = tk.BooleanVar(value=True)
-        self.remember_check = tk.Checkbutton(card, variable=self.remember_var,
+        self.remember_check = tk.Checkbutton(self.signin_frame, variable=self.remember_var,
                                               bg="white", font=("Helvetica", 10))
         self.remember_check.pack(anchor="w", pady=(0, 12))
 
-        self.login_btn = tk.Button(card, bg=BTN_COLOR, fg="white", font=("Helvetica", 12, "bold"),
-                                    width=24, command=self.login)
+        self.login_btn = tk.Button(self.signin_frame, bg=BTN_COLOR, fg="white",
+                                    font=("Helvetica", 12, "bold"), width=24, command=self.login)
         self.login_btn.pack(pady=4)
-        self.signup_btn = tk.Button(card, bg="#27ae60", fg="white", font=("Helvetica", 11),
-                                     width=24, command=self.signup)
-        self.signup_btn.pack(pady=4)
+
+        self.goto_signup_link = tk.Label(self.signin_frame, font=("Helvetica", 10, "underline"),
+                                          bg="white", fg=BTN_COLOR, cursor="hand2")
+        self.goto_signup_link.pack(pady=(10, 0))
+        self.goto_signup_link.bind("<Button-1>", lambda e: self.switch_mode("signup"))
+
+        # --- Sign Up form ---
+        self.signup_frame = tk.Frame(card, bg="white")
+
+        self.signup_username_field_label = tk.Label(self.signup_frame, bg="white", font=("Helvetica", 11))
+        self.signup_username_field_label.pack(anchor="w")
+        self.signup_username_entry = tk.Entry(self.signup_frame, font=("Helvetica", 12), width=28)
+        self.signup_username_entry.pack(pady=(0, 10))
+
+        self.signup_email_field_label = tk.Label(self.signup_frame, bg="white", font=("Helvetica", 11))
+        self.signup_email_field_label.pack(anchor="w")
+        self.signup_email_entry = tk.Entry(self.signup_frame, font=("Helvetica", 12), width=28)
+        self.signup_email_entry.pack(pady=(0, 10))
+
+        self.signup_password_field_label = tk.Label(self.signup_frame, bg="white", font=("Helvetica", 11))
+        self.signup_password_field_label.pack(anchor="w")
+        self.signup_password_entry = tk.Entry(self.signup_frame, font=("Helvetica", 12), width=28, show="*")
+        self.signup_password_entry.pack(pady=(0, 10))
+
+        self.signup_confirm_field_label = tk.Label(self.signup_frame, bg="white", font=("Helvetica", 11))
+        self.signup_confirm_field_label.pack(anchor="w")
+        self.signup_confirm_entry = tk.Entry(self.signup_frame, font=("Helvetica", 12), width=28, show="*")
+        self.signup_confirm_entry.pack(pady=(0, 10))
+
+        self.signup_btn_widget = tk.Button(self.signup_frame, bg="#27ae60", fg="white",
+                                            font=("Helvetica", 12, "bold"), width=24, command=self.signup)
+        self.signup_btn_widget.pack(pady=4)
+
+        self.goto_signin_link = tk.Label(self.signup_frame, font=("Helvetica", 10, "underline"),
+                                          bg="white", fg=BTN_COLOR, cursor="hand2")
+        self.goto_signin_link.pack(pady=(10, 0))
+        self.goto_signin_link.bind("<Button-1>", lambda e: self.switch_mode("signin"))
 
         self.message_label = tk.Label(card, text="", bg="white", font=("Helvetica", 10), fg="#e74c3c",
                                        wraplength=320, justify="left")
         self.message_label.pack(pady=(10, 0))
 
+        self.switch_mode("signin")
         self.apply_language()
+
+    def switch_mode(self, mode):
+        self.mode = mode
+        self.message_label.config(text="")
+        if mode == "signin":
+            self.signup_frame.pack_forget()
+            self.signin_frame.pack()
+        else:
+            self.signin_frame.pack_forget()
+            self.signup_frame.pack()
+        self._refresh_tab_styles()
+
+    def _refresh_tab_styles(self):
+        active_bg, active_fg = BTN_COLOR, "white"
+        inactive_bg, inactive_fg = "#f0f0f0", "#555"
+        if self.mode == "signin":
+            self.signin_tab_btn.config(bg=active_bg, fg=active_fg)
+            self.signup_tab_btn.config(bg=inactive_bg, fg=inactive_fg)
+        else:
+            self.signin_tab_btn.config(bg=inactive_bg, fg=inactive_fg)
+            self.signup_tab_btn.config(bg=active_bg, fg=active_fg)
 
     def apply_language(self):
         app = self.app
-        self.subtitle_label.config(text=tr(app, "login_subtitle"))
-        self.username_field_label.config(text=tr(app, "username_label"))
-        self.email_field_label.config(text=tr(app, "email_hint_label"))
-        self.password_field_label.config(text=tr(app, "password_label"))
+        self.signin_tab_btn.config(text=tr(app, "signin_tab"))
+        self.signup_tab_btn.config(text=tr(app, "signup_tab"))
+
+        self.signin_username_field_label.config(text=tr(app, "signin_username_label"))
+        self.signin_password_field_label.config(text=tr(app, "password_label"))
         self.remember_check.config(text=tr(app, "remember_me"))
         self.login_btn.config(text=tr(app, "login_btn"))
-        self.signup_btn.config(text=tr(app, "signup_btn"))
+        self.goto_signup_link.config(text=tr(app, "no_account_prompt"))
+
+        self.signup_username_field_label.config(text=tr(app, "signup_username_label"))
+        self.signup_email_field_label.config(text=tr(app, "email_hint_label"))
+        self.signup_password_field_label.config(text=tr(app, "password_label"))
+        self.signup_confirm_field_label.config(text=tr(app, "confirm_password_label"))
+        self.signup_btn_widget.config(text=tr(app, "signup_btn"))
+        self.goto_signin_link.config(text=tr(app, "have_account_prompt"))
 
     def on_show(self):
-        self.username_entry.delete(0, tk.END)
-        self.email_entry.delete(0, tk.END)
-        self.password_entry.delete(0, tk.END)
+        self.signin_username_entry.delete(0, tk.END)
+        self.signin_password_entry.delete(0, tk.END)
+        self.signup_username_entry.delete(0, tk.END)
+        self.signup_email_entry.delete(0, tk.END)
+        self.signup_password_entry.delete(0, tk.END)
+        self.signup_confirm_entry.delete(0, tk.END)
         self.message_label.config(text="")
+        self.switch_mode("signin")
 
     def login(self):
-        identifier = self.username_entry.get().strip()
-        password = self.password_entry.get()
+        identifier = self.signin_username_entry.get().strip()
+        password = self.signin_password_entry.get()
         self.app.refresh_data()
 
         success, msg, username = auth.verify_login(self.app.data, identifier, password)
@@ -317,15 +405,25 @@ class LoginScreen(tk.Frame):
             self.message_label.config(text=msg, fg="#e74c3c")
 
     def signup(self):
-        username = self.username_entry.get().strip()
-        email = self.email_entry.get().strip()
-        password = self.password_entry.get()
-        self.app.refresh_data()
+        username = self.signup_username_entry.get().strip()
+        email = self.signup_email_entry.get().strip()
+        password = self.signup_password_entry.get()
+        confirm = self.signup_confirm_entry.get()
 
+        if password != confirm:
+            self.message_label.config(text=tr(self.app, "passwords_mismatch_msg"), fg="#e74c3c")
+            return
+
+        self.app.refresh_data()
         success, msg = auth.create_user(self.app.data, username, password, email=email)
         if success:
             dm.save_data(self.app.data)
             self.message_label.config(text=tr(self.app, "account_created_msg"), fg="#27ae60")
+            self.signup_username_entry.delete(0, tk.END)
+            self.signup_email_entry.delete(0, tk.END)
+            self.signup_password_entry.delete(0, tk.END)
+            self.signup_confirm_entry.delete(0, tk.END)
+            self.after(1200, lambda: self.switch_mode("signin"))
         else:
             self.message_label.config(text=msg, fg="#e74c3c")
 
