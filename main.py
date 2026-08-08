@@ -60,7 +60,14 @@ class CodeLearnApp(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
-        self.show_frame("LoginScreen")
+        # Auto-login: if a "Remember Me" session was saved last time, skip
+        # the login screen and go straight into the app for that user.
+        remembered_user = auth.load_session()
+        if remembered_user and remembered_user in self.data["users"]:
+            self.current_user = remembered_user
+            self.show_frame("HomeScreen")
+        else:
+            self.show_frame("LoginScreen")
 
     def show_frame(self, name):
         frame = self.frames[name]
@@ -76,6 +83,7 @@ class CodeLearnApp(tk.Tk):
 
     def logout(self):
         self.current_user = None
+        auth.clear_session()
         self.show_frame("LoginScreen")
 
 
@@ -84,51 +92,96 @@ class LoginScreen(tk.Frame):
         super().__init__(parent, bg=BG_COLOR)
         self.app = app
 
-        card = tk.Frame(self, bg="white", padx=40, pady=40)
+        card = tk.Frame(self, bg="white", padx=40, pady=30)
         card.place(relx=0.5, rely=0.5, anchor="center")
 
         tk.Label(card, text="CodeLearn", font=("Helvetica", 26, "bold"),
                  bg="white", fg=ACCENT_COLOR).pack(pady=(0, 5))
         tk.Label(card, text="Login / সাইন ইন", font=("Helvetica", 12),
-                 bg="white", fg="#777").pack(pady=(0, 20))
+                 bg="white", fg="#777").pack(pady=(0, 15))
 
-        tk.Label(card, text="Username:", bg="white", font=("Helvetica", 11)).pack(anchor="w")
+        tk.Label(card, text="Username or Email:", bg="white", font=("Helvetica", 11)).pack(anchor="w")
         self.username_entry = tk.Entry(card, font=("Helvetica", 12), width=28)
         self.username_entry.pack(pady=(0, 10))
 
+        tk.Label(card, text="Email (only needed to sign up):", bg="white",
+                 font=("Helvetica", 9), fg="#888").pack(anchor="w")
+        self.email_entry = tk.Entry(card, font=("Helvetica", 12), width=28)
+        self.email_entry.pack(pady=(0, 10))
+
         tk.Label(card, text="Password:", bg="white", font=("Helvetica", 11)).pack(anchor="w")
         self.password_entry = tk.Entry(card, font=("Helvetica", 12), width=28, show="*")
-        self.password_entry.pack(pady=(0, 15))
+        self.password_entry.pack(pady=(0, 10))
+
+        self.remember_var = tk.BooleanVar(value=True)
+        tk.Checkbutton(card, text="Remember Me for 30 days / ৩০ দিন মনে রাখো", variable=self.remember_var,
+                        bg="white", font=("Helvetica", 10)).pack(anchor="w", pady=(0, 12))
 
         tk.Button(card, text="Login", bg=BTN_COLOR, fg="white", font=("Helvetica", 12, "bold"),
-                  width=24, command=self.login).pack(pady=5)
+                  width=24, command=self.login).pack(pady=4)
         tk.Button(card, text="Create New Account", bg="#27ae60", fg="white", font=("Helvetica", 11),
-                  width=24, command=self.signup).pack(pady=5)
+                  width=24, command=self.signup).pack(pady=4)
 
-        self.message_label = tk.Label(card, text="", bg="white", font=("Helvetica", 10), fg="#e74c3c")
+        divider = tk.Frame(card, bg="white")
+        divider.pack(fill="x", pady=(15, 8))
+        tk.Frame(divider, bg="#ddd", height=1).pack(fill="x", side="left", expand=True)
+        tk.Label(divider, text="  or continue with  ", bg="white", font=("Helvetica", 9), fg="#999").pack(side="left")
+        tk.Frame(divider, bg="#ddd", height=1).pack(fill="x", side="left", expand=True)
+
+        social_frame = tk.Frame(card, bg="white")
+        social_frame.pack(pady=(0, 5))
+        tk.Button(social_frame, text="🔴 Google", width=11, font=("Helvetica", 10),
+                  command=lambda: self.social_login("Google")).pack(side="left", padx=4)
+        tk.Button(social_frame, text="⚫ Apple", width=11, font=("Helvetica", 10),
+                  command=lambda: self.social_login("Apple")).pack(side="left", padx=4)
+
+        self.message_label = tk.Label(card, text="", bg="white", font=("Helvetica", 10), fg="#e74c3c",
+                                       wraplength=320, justify="left")
         self.message_label.pack(pady=(10, 0))
 
     def on_show(self):
         self.username_entry.delete(0, tk.END)
+        self.email_entry.delete(0, tk.END)
         self.password_entry.delete(0, tk.END)
         self.message_label.config(text="")
 
     def login(self):
-        username = self.username_entry.get().strip()
+        identifier = self.username_entry.get().strip()
         password = self.password_entry.get()
         self.app.refresh_data()
 
-        success, msg = auth.verify_login(self.app.data, username, password)
+        success, msg, username = auth.verify_login(self.app.data, identifier, password)
         if success:
             self.app.current_user = username
+            if self.remember_var.get():
+                auth.save_session(username)
+            else:
+                auth.clear_session()
             self.app.show_frame("HomeScreen")
         else:
             self.message_label.config(text=msg, fg="#e74c3c")
 
     def signup(self):
         username = self.username_entry.get().strip()
+        email = self.email_entry.get().strip()
         password = self.password_entry.get()
         self.app.refresh_data()
+
+        success, msg = auth.create_user(self.app.data, username, password, email=email)
+        if success:
+            dm.save_data(self.app.data)
+            self.message_label.config(text="Account created! You can log in now.", fg="#27ae60")
+        else:
+            self.message_label.config(text=msg, fg="#e74c3c")
+
+    def social_login(self, provider):
+        messagebox.showinfo(
+            f"{provider} Sign-In",
+            f"Real {provider} Sign-In needs a registered app with {provider}'s developer "
+            f"platform (OAuth client credentials + a secure browser redirect flow) — that "
+            f"can't be faked inside a local desktop app without those real credentials.\n\n"
+            f"For now, please use username/email + password to log in or create an account."
+        )
 
         success, msg = auth.create_user(self.app.data, username, password)
         if success:
