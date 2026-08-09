@@ -183,6 +183,43 @@ TEXTS = {
     "penalty_col": {"en": "Penalty", "bn": "পেনাল্টি"},
     "no_submissions_msg": {"en": "No one has submitted to this contest yet.",
                             "bn": "এই কনটেস্টে এখনো কেউ সাবমিট করেনি।"},
+
+    # Admin / Student Management
+    "admin_login_link": {"en": "⚙ Admin Login", "bn": "⚙ অ্যাডমিন লগইন"},
+    "admin_login_title": {"en": "Admin Login", "bn": "অ্যাডমিন লগইন"},
+    "admin_password_label": {"en": "Admin Password:", "bn": "অ্যাডমিন পাসওয়ার্ড:"},
+    "admin_login_btn": {"en": "Enter", "bn": "প্রবেশ করো"},
+    "admin_wrong_password_msg": {"en": "Incorrect admin password.", "bn": "ভুল অ্যাডমিন পাসওয়ার্ড।"},
+    "student_mgmt_title": {"en": "Student Management", "bn": "স্টুডেন্ট ম্যানেজমেন্ট"},
+    "admin_logout_btn": {"en": "Exit Admin", "bn": "অ্যাডমিন থেকে বের হও"},
+    "col_username": {"en": "Username", "bn": "ইউজারনেম"},
+    "col_email": {"en": "Email", "bn": "ইমেইল"},
+    "col_xp": {"en": "XP", "bn": "এক্সপি"},
+    "col_level": {"en": "Level", "bn": "লেভেল"},
+    "col_streak": {"en": "Streak", "bn": "ধারাবাহিকতা"},
+    "col_lessons": {"en": "Lessons", "bn": "লেসন"},
+    "col_quizzes": {"en": "Quizzes", "bn": "কুইজ"},
+    "col_contests": {"en": "Contests", "bn": "কনটেস্ট"},
+    "col_certificate": {"en": "Certificate", "bn": "সার্টিফিকেট"},
+    "col_actions": {"en": "Actions", "bn": "একশন"},
+    "cert_yes": {"en": "✅ Yes", "bn": "✅ হ্যাঁ"},
+    "cert_no": {"en": "— No", "bn": "— না"},
+    "edit_btn": {"en": "Edit", "bn": "এডিট"},
+    "delete_btn": {"en": "Delete", "bn": "ডিলিট"},
+    "confirm_delete_title": {"en": "Delete Student", "bn": "স্টুডেন্ট ডিলিট"},
+    "confirm_delete_msg": {"en": "Permanently delete '{username}'? This cannot be undone.",
+                            "bn": "'{username}' কে স্থায়ীভাবে ডিলিট করবে? এটা আর ফেরানো যাবে না।"},
+    "edit_student_title": {"en": "Edit Student: {username}", "bn": "স্টুডেন্ট এডিট করো: {username}"},
+    "xp_field_label": {"en": "XP:", "bn": "এক্সপি:"},
+    "save_btn": {"en": "Save", "bn": "সেভ করো"},
+    "cancel_btn": {"en": "Cancel", "bn": "বাতিল"},
+    "reset_progress_btn": {"en": "Reset All Progress", "bn": "সব প্রোগ্রেস রিসেট করো"},
+    "confirm_reset_title": {"en": "Reset Progress", "bn": "প্রোগ্রেস রিসেট"},
+    "confirm_reset_msg": {"en": "This clears all lessons, quizzes, and contest progress for '{username}' (XP resets to 0). Continue?",
+                           "bn": "এতে '{username}' এর সব লেসন, কুইজ, আর কনটেস্ট প্রোগ্রেস মুছে যাবে (এক্সপি ০ হয়ে যাবে)। এগিয়ে যাবে?"},
+    "no_students_msg": {"en": "No students have registered yet.", "bn": "এখনো কোনো স্টুডেন্ট রেজিস্টার করেনি।"},
+    "invalid_xp_msg": {"en": "Please enter a valid non-negative number for XP.",
+                        "bn": "এক্সপির জন্য একটা সঠিক অ-ঋণাত্মক সংখ্যা দাও।"},
 }
 
 
@@ -255,7 +292,8 @@ class CodeLearnApp(tk.Tk):
 
         for F in (LoginScreen, HomeScreen, ModuleSelectScreen, LessonListScreen, LessonDetailScreen,
                   QuizScreen, ProgressScreen, CertificateScreen, PlaygroundScreen,
-                  ContestListScreen, ContestScreen, ProblemScreen, LeaderboardScreen):
+                  ContestListScreen, ContestScreen, ProblemScreen, LeaderboardScreen,
+                  AdminLoginScreen, StudentManagementScreen):
             frame = F(container, self)
             self.frames[F.__name__] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -384,6 +422,11 @@ class LoginScreen(tk.Frame):
                                        wraplength=320, justify="left")
         self.message_label.pack(pady=(10, 0))
 
+        self.admin_link = tk.Label(self, font=("Helvetica", 9, "underline"),
+                                    bg=BG_COLOR, fg="#999", cursor="hand2")
+        self.admin_link.place(relx=0.5, rely=1.0, anchor="s", y=-15)
+        self.admin_link.bind("<Button-1>", lambda e: app.show_frame("AdminLoginScreen"))
+
         self.switch_mode("signin")
         self.apply_language()
 
@@ -425,6 +468,7 @@ class LoginScreen(tk.Frame):
         self.signup_confirm_field_label.config(text=tr(app, "confirm_password_label"))
         self.signup_btn_widget.config(text=tr(app, "signup_btn"))
         self.goto_signin_link.config(text=tr(app, "have_account_prompt"))
+        self.admin_link.config(text=tr(app, "admin_login_link"))
 
     def on_show(self):
         self.signin_username_entry.delete(0, tk.END)
@@ -1588,6 +1632,203 @@ class LeaderboardScreen(tk.Frame):
                 tk.Label(self.table_frame, text=text, bg=cell_bg, fg=cell_fg,
                          font=("Helvetica", 9, "bold"), padx=8, pady=6,
                          justify="center").grid(row=i, column=4 + j, sticky="nsew", padx=1, pady=1)
+
+
+class AdminLoginScreen(tk.Frame):
+    """A separate password gate (not tied to any student account) that
+    unlocks the Student Management panel. Default password is 'admin123'
+    (see auth.py DEFAULT_ADMIN_PASSWORD) — change it via auth.set_admin_password()."""
+
+    def __init__(self, parent, app):
+        super().__init__(parent, bg=BG_COLOR)
+        self.app = app
+
+        LanguageToggle(self, app, on_change=self.apply_language).place(relx=1.0, y=15, anchor="ne", x=-20)
+
+        card = tk.Frame(self, bg="white", padx=40, pady=30)
+        card.place(relx=0.5, rely=0.5, anchor="center")
+
+        self.title_label = tk.Label(card, font=("Helvetica", 20, "bold"), bg="white", fg=ACCENT_COLOR)
+        self.title_label.pack(pady=(0, 20))
+
+        self.password_field_label = tk.Label(card, bg="white", font=("Helvetica", 11))
+        self.password_field_label.pack(anchor="w")
+        self.password_entry = tk.Entry(card, font=("Helvetica", 12), width=28, show="*")
+        self.password_entry.pack(pady=(0, 12))
+        self.password_entry.bind("<Return>", lambda e: self.try_login())
+
+        self.enter_btn = tk.Button(card, bg=BTN_COLOR, fg="white", font=("Helvetica", 12, "bold"),
+                                    width=24, command=self.try_login)
+        self.enter_btn.pack(pady=4)
+
+        self.back_link = tk.Label(card, font=("Helvetica", 9, "underline"), bg="white",
+                                   fg="#999", cursor="hand2")
+        self.back_link.pack(pady=(12, 0))
+        self.back_link.bind("<Button-1>", lambda e: app.show_frame("LoginScreen"))
+
+        self.message_label = tk.Label(card, text="", bg="white", font=("Helvetica", 10), fg="#e74c3c")
+        self.message_label.pack(pady=(10, 0))
+
+        self.apply_language()
+
+    def apply_language(self):
+        app = self.app
+        self.title_label.config(text=tr(app, "admin_login_title"))
+        self.password_field_label.config(text=tr(app, "admin_password_label"))
+        self.enter_btn.config(text=tr(app, "admin_login_btn"))
+        self.back_link.config(text=tr(app, "back_btn"))
+
+    def on_show(self):
+        self.password_entry.delete(0, tk.END)
+        self.message_label.config(text="")
+
+    def try_login(self):
+        password = self.password_entry.get()
+        if auth.verify_admin_password(password):
+            self.app.show_frame("StudentManagementScreen")
+        else:
+            self.message_label.config(text=tr(self.app, "admin_wrong_password_msg"))
+
+
+class StudentManagementScreen(tk.Frame):
+    """Admin-only panel: a scrollable table of every registered student's
+    progress (lessons, quizzes, contests, XP, certificate eligibility) with
+    per-row Edit (change XP / reset progress) and Delete actions."""
+
+    def __init__(self, parent, app):
+        super().__init__(parent, bg=BG_COLOR)
+        self.app = app
+
+        top = tk.Frame(self, bg=BG_COLOR)
+        top.pack(fill="x", pady=15, padx=20)
+        self.back_btn = tk.Button(top, command=lambda: app.show_frame("LoginScreen"))
+        self.back_btn.pack(side="left")
+        self.title_label = tk.Label(top, font=("Helvetica", 20, "bold"), bg=BG_COLOR, fg=ACCENT_COLOR)
+        self.title_label.pack(side="left", padx=20)
+        LanguageToggle(top, app, on_change=self.on_show).pack(side="right")
+
+        table_outer = tk.Frame(self, bg=BG_COLOR)
+        table_outer.pack(fill="both", expand=True, padx=20, pady=(0, 15))
+
+        self.canvas = tk.Canvas(table_outer, bg=BG_COLOR, highlightthickness=0)
+        scrollbar = tk.Scrollbar(table_outer, orient="vertical", command=self.canvas.yview)
+        self.table_frame = tk.Frame(self.canvas, bg=BG_COLOR)
+        self.table_frame.bind("<Configure>",
+                               lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
+        self.canvas.create_window((0, 0), window=self.table_frame, anchor="nw")
+        self.canvas.configure(yscrollcommand=scrollbar.set)
+        self.canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        self.empty_label = tk.Label(self, font=("Helvetica", 12), bg=BG_COLOR, fg="#999")
+
+        self.apply_language()
+
+    def apply_language(self):
+        self.back_btn.config(text=tr(self.app, "admin_logout_btn"))
+        self.title_label.config(text=tr(self.app, "student_mgmt_title"))
+
+    def on_show(self):
+        app = self.app
+        app.refresh_data()
+        self.apply_language()
+
+        for widget in self.table_frame.winfo_children():
+            widget.destroy()
+        self.empty_label.pack_forget()
+
+        students = dm.get_all_students_summary(app.data, app.contests)
+        if not students:
+            self.empty_label.config(text=tr(app, "no_students_msg"))
+            self.empty_label.pack(pady=30)
+            return
+
+        headers = ["col_username", "col_email", "col_xp", "col_level", "col_streak",
+                   "col_lessons", "col_quizzes", "col_contests", "col_certificate", "col_actions"]
+        header_style = {"font": ("Helvetica", 10, "bold"), "bg": BTN_COLOR, "fg": "white", "padx": 8, "pady": 8}
+        for c, key in enumerate(headers):
+            tk.Label(self.table_frame, text=tr(app, key), **header_style).grid(
+                row=0, column=c, sticky="nsew", padx=1, pady=1)
+
+        for i, s in enumerate(students, start=1):
+            row_bg = "white" if i % 2 else "#f7f8fa"
+            cell_style = {"font": ("Helvetica", 10), "bg": row_bg, "fg": ACCENT_COLOR, "padx": 8, "pady": 6}
+
+            tk.Label(self.table_frame, text=s["username"], anchor="w", **cell_style).grid(row=i, column=0, sticky="nsew", padx=1, pady=1)
+            tk.Label(self.table_frame, text=s["email"] or "—", anchor="w", **cell_style).grid(row=i, column=1, sticky="nsew", padx=1, pady=1)
+            tk.Label(self.table_frame, text=str(s["xp"]), **cell_style).grid(row=i, column=2, sticky="nsew", padx=1, pady=1)
+            tk.Label(self.table_frame, text=str(s["level"]), **cell_style).grid(row=i, column=3, sticky="nsew", padx=1, pady=1)
+            tk.Label(self.table_frame, text=str(s["streak"]), **cell_style).grid(row=i, column=4, sticky="nsew", padx=1, pady=1)
+            tk.Label(self.table_frame, text=f"{s['lessons_done']}/{s['lessons_total']}", **cell_style).grid(row=i, column=5, sticky="nsew", padx=1, pady=1)
+            tk.Label(self.table_frame, text=f"{s['quizzes_correct']}/{s['quizzes_total']}", **cell_style).grid(row=i, column=6, sticky="nsew", padx=1, pady=1)
+            tk.Label(self.table_frame, text=f"{s['contests_solved']}/{s['contests_total']}", **cell_style).grid(row=i, column=7, sticky="nsew", padx=1, pady=1)
+
+            cert_text = tr(app, "cert_yes") if s["certificate_eligible"] else tr(app, "cert_no")
+            cert_fg = "#1e7a3d" if s["certificate_eligible"] else "#999"
+            tk.Label(self.table_frame, text=cert_text, bg=row_bg, fg=cert_fg,
+                     font=("Helvetica", 10, "bold"), padx=8, pady=6).grid(row=i, column=8, sticky="nsew", padx=1, pady=1)
+
+            action_cell = tk.Frame(self.table_frame, bg=row_bg)
+            action_cell.grid(row=i, column=9, sticky="nsew", padx=1, pady=1)
+            tk.Button(action_cell, text=tr(app, "edit_btn"), font=("Helvetica", 9), bg="#eaf3fb",
+                      fg=BTN_COLOR, command=lambda u=s["username"]: self.open_edit_dialog(u)).pack(side="left", padx=2, pady=4)
+            tk.Button(action_cell, text=tr(app, "delete_btn"), font=("Helvetica", 9), bg="#fdecea",
+                      fg="#c0392b", command=lambda u=s["username"]: self.delete_student(u)).pack(side="left", padx=2, pady=4)
+
+    def delete_student(self, username):
+        app = self.app
+        if messagebox.askyesno(tr(app, "confirm_delete_title"), tr(app, "confirm_delete_msg", username=username)):
+            dm.delete_student(app.data, username)
+            self.on_show()
+
+    def open_edit_dialog(self, username):
+        app = self.app
+        user = app.data["users"][username]
+
+        dialog = tk.Toplevel(self)
+        dialog.title(tr(app, "edit_student_title", username=username))
+        dialog.configure(bg="white")
+        dialog.geometry("360x260")
+        dialog.transient(self.winfo_toplevel())
+        dialog.grab_set()
+
+        tk.Label(dialog, text=tr(app, "edit_student_title", username=username), font=("Helvetica", 13, "bold"),
+                 bg="white", fg=ACCENT_COLOR, wraplength=320, justify="left").pack(pady=(15, 10), padx=15)
+
+        xp_frame = tk.Frame(dialog, bg="white")
+        xp_frame.pack(pady=5, padx=15, anchor="w")
+        tk.Label(xp_frame, text=tr(app, "xp_field_label"), bg="white", font=("Helvetica", 11)).pack(side="left")
+        xp_entry = tk.Entry(xp_frame, font=("Helvetica", 11), width=10)
+        xp_entry.insert(0, str(user.get("xp", 0)))
+        xp_entry.pack(side="left", padx=8)
+
+        def save_xp():
+            try:
+                new_xp = int(xp_entry.get())
+                if new_xp < 0:
+                    raise ValueError
+            except ValueError:
+                messagebox.showwarning(tr(app, "edit_btn"), tr(app, "invalid_xp_msg"))
+                return
+            dm.set_student_xp(app.data, username, new_xp)
+            dialog.destroy()
+            self.on_show()
+
+        btn_frame = tk.Frame(dialog, bg="white")
+        btn_frame.pack(pady=10, padx=15, anchor="w")
+        tk.Button(btn_frame, text=tr(app, "save_btn"), bg=BTN_COLOR, fg="white",
+                  font=("Helvetica", 10, "bold"), command=save_xp).pack(side="left", padx=(0, 8))
+        tk.Button(btn_frame, text=tr(app, "cancel_btn"), font=("Helvetica", 10),
+                  command=dialog.destroy).pack(side="left")
+
+        def reset_progress():
+            if messagebox.askyesno(tr(app, "confirm_reset_title"), tr(app, "confirm_reset_msg", username=username)):
+                dm.reset_student_progress(app.data, username)
+                dialog.destroy()
+                self.on_show()
+
+        tk.Button(dialog, text=tr(app, "reset_progress_btn"), bg="#fdecea", fg="#c0392b",
+                  font=("Helvetica", 10, "bold"), command=reset_progress).pack(pady=(15, 10), padx=15, anchor="w")
 
 
 if __name__ == "__main__":

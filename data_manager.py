@@ -313,3 +313,81 @@ def get_contest_leaderboard(data, contest):
 
     rows.sort(key=lambda r: (-r["score"], r["penalty"]))
     return rows
+
+
+# ---------------------------------------------------------------------------
+# Student Management (admin-only). Summarizes every registered user's
+# progress across lessons, quizzes, and contests, and supports admin actions
+# (edit XP, reset progress, delete account).
+# ---------------------------------------------------------------------------
+
+def get_all_students_summary(data, contests):
+    """
+    Returns one summary dict per registered user:
+        {"username", "email", "xp", "level", "streak",
+         "lessons_done", "lessons_total",
+         "quizzes_correct", "quizzes_total",
+         "contests_solved", "contests_total",
+         "certificate_eligible"}
+    """
+    total_lessons = len(data["lessons"])
+    total_quizzes = len(data["quizzes"])
+    total_contest_problems = sum(len(c["problems"]) for c in contests)
+
+    summaries = []
+    for username, user in data["users"].items():
+        lessons_done = len(user.get("completed_lessons", []))
+        quizzes_correct = sum(1 for v in user.get("quiz_scores", {}).values() if v == "correct")
+        contests_solved = len(user.get("completed_contest_problems", []))
+
+        summaries.append({
+            "username": username,
+            "email": user.get("email", ""),
+            "xp": user.get("xp", 0),
+            "level": get_level(user.get("xp", 0)),
+            "streak": user.get("streak", 0),
+            "lessons_done": lessons_done,
+            "lessons_total": total_lessons,
+            "quizzes_correct": quizzes_correct,
+            "quizzes_total": total_quizzes,
+            "contests_solved": contests_solved,
+            "contests_total": total_contest_problems,
+            "certificate_eligible": lessons_done >= total_lessons and total_lessons > 0,
+        })
+
+    summaries.sort(key=lambda s: s["username"].lower())
+    return summaries
+
+
+def delete_student(data, username):
+    """Permanently removes a student's account and all their progress."""
+    if username in data["users"]:
+        del data["users"][username]
+        save_data(data)
+        return True
+    return False
+
+
+def set_student_xp(data, username, new_xp):
+    """Admin override: directly sets a student's XP to a specific value."""
+    user = data["users"][username]
+    user["xp"] = max(0, int(new_xp))
+    save_data(data)
+    return user
+
+
+def reset_student_progress(data, username):
+    """Admin action: wipes ALL of a student's learning progress (lessons,
+    quizzes, contest problems, contest timers/submissions, XP, streak) but
+    keeps their account (username/password/email) intact."""
+    user = data["users"][username]
+    user["completed_lessons"] = []
+    user["quiz_scores"] = {}
+    user["completed_contest_problems"] = []
+    user["contest_start_dates"] = {}
+    user["contest_submissions"] = {}
+    user["xp"] = 0
+    user["streak"] = 0
+    user["last_activity_date"] = None
+    save_data(data)
+    return user
