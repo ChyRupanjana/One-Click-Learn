@@ -173,6 +173,16 @@ TEXTS = {
     "contest_expired_msg": {"en": "⛔ Submission deadline has passed (7 days). You can still read the problems, but can no longer submit.",
                              "bn": "⛔ সাবমিট করার সময়সীমা (৭ দিন) শেষ হয়ে গেছে। তুমি এখনো প্রবলেম পড়তে পারবে, কিন্তু সাবমিট করতে পারবে না।"},
     "contest_deadline_expired_short": {"en": "⛔ Deadline expired — read-only", "bn": "⛔ সময়সীমা শেষ — শুধু পড়া যাবে"},
+
+    # LeaderboardScreen
+    "leaderboard_btn": {"en": "🏆 Leaderboard", "bn": "🏆 লিডারবোর্ড"},
+    "leaderboard_title": {"en": "Leaderboard", "bn": "লিডারবোর্ড"},
+    "rank_col": {"en": "Rank", "bn": "র‍্যাংক"},
+    "team_col": {"en": "Username", "bn": "ইউজারনেম"},
+    "score_col": {"en": "Score", "bn": "স্কোর"},
+    "penalty_col": {"en": "Penalty", "bn": "পেনাল্টি"},
+    "no_submissions_msg": {"en": "No one has submitted to this contest yet.",
+                            "bn": "এই কনটেস্টে এখনো কেউ সাবমিট করেনি।"},
 }
 
 
@@ -245,7 +255,7 @@ class CodeLearnApp(tk.Tk):
 
         for F in (LoginScreen, HomeScreen, ModuleSelectScreen, LessonListScreen, LessonDetailScreen,
                   QuizScreen, ProgressScreen, CertificateScreen, PlaygroundScreen,
-                  ContestListScreen, ContestScreen, ProblemScreen):
+                  ContestListScreen, ContestScreen, ProblemScreen, LeaderboardScreen):
             frame = F(container, self)
             self.frames[F.__name__] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -591,10 +601,10 @@ class LessonListScreen(tk.Frame):
                                      bg=BG_COLOR, fg=ACCENT_COLOR)
         self.title_label.pack(side="left", padx=20)
 
-        self.quiz_btn = tk.Button(top, bg="#8e44ad", fg="white",
+        self.quiz_btn = tk.Button(top, bg="#ecdff5", fg="#7d3c9e",
                                    font=("Helvetica", 11, "bold"), command=self.start_quiz)
         self.quiz_btn.pack(side="right")
-        self.contests_btn = tk.Button(top, bg="#e67e22", fg="white",
+        self.contests_btn = tk.Button(top, bg="#fde3c7", fg="#c76b12",
                                        font=("Helvetica", 11, "bold"), command=self.open_contests)
         self.contests_btn.pack(side="right", padx=8)
         LanguageToggle(top, app, on_change=self.on_show).pack(side="right", padx=10)
@@ -1191,6 +1201,9 @@ class ContestScreen(tk.Frame):
         self.title_label = tk.Label(top, font=("Helvetica", 20, "bold"), bg=BG_COLOR, fg=ACCENT_COLOR)
         self.title_label.pack(side="left", padx=20)
         LanguageToggle(top, app, on_change=self.on_show).pack(side="right")
+        self.leaderboard_btn = tk.Button(top, bg="#fdf3c7", fg="#a67c00",
+                                          font=("Helvetica", 10, "bold"), command=self.open_leaderboard)
+        self.leaderboard_btn.pack(side="right", padx=10)
 
         self.time_status_label = tk.Label(self, font=("Helvetica", 11, "bold"), bg=BG_COLOR)
         self.time_status_label.pack(padx=20, anchor="w")
@@ -1202,8 +1215,18 @@ class ContestScreen(tk.Frame):
 
     def apply_language(self):
         self.back_btn.config(text=tr(self.app, "back_btn"))
+        self.leaderboard_btn.config(text=tr(self.app, "leaderboard_btn"))
 
-    DIFFICULTY_COLORS = {"easy": "#27ae60", "medium": "#e67e22", "hard": "#c0392b"}
+    def open_leaderboard(self):
+        contest = self.app.current_contest
+        if not contest:
+            return
+        leaderboard_frame = self.app.frames["LeaderboardScreen"]
+        leaderboard_frame.on_show()
+        self.app.show_frame("LeaderboardScreen")
+
+    DIFFICULTY_COLORS = {"easy": "#d4f4dd", "medium": "#fde3c7", "hard": "#fadbd8"}
+    DIFFICULTY_TEXT_COLORS = {"easy": "#1e7a3d", "medium": "#b3620a", "hard": "#a3281f"}
 
     def on_show(self):
         app = self.app
@@ -1239,7 +1262,8 @@ class ContestScreen(tk.Frame):
             p_title = problem["title_bn"] if app.language == "bn" else problem["title_en"]
             diff_key = f"difficulty_{problem['difficulty']}"
             diff_text = tr(app, diff_key)
-            diff_color = self.DIFFICULTY_COLORS.get(problem["difficulty"], "#555")
+            diff_bg = self.DIFFICULTY_COLORS.get(problem["difficulty"], "#eeeeee")
+            diff_fg = self.DIFFICULTY_TEXT_COLORS.get(problem["difficulty"], "#555")
 
             solved = dm.is_problem_solved(app.data, app.current_user, problem["id"])
             solved_text = tr(app, "solved_mark") if solved else tr(app, "not_solved_mark")
@@ -1249,7 +1273,7 @@ class ContestScreen(tk.Frame):
             tk.Label(left, text=p_title, font=("Helvetica", 13, "bold"), bg="white", fg=ACCENT_COLOR).pack(anchor="w")
             tag_frame = tk.Frame(left, bg="white")
             tag_frame.pack(anchor="w", pady=(3, 0))
-            tk.Label(tag_frame, text=diff_text, font=("Helvetica", 9, "bold"), bg=diff_color, fg="white",
+            tk.Label(tag_frame, text=diff_text, font=("Helvetica", 9, "bold"), bg=diff_bg, fg=diff_fg,
                      padx=8, pady=2).pack(side="left")
             tk.Label(tag_frame, text="   " + solved_text, font=("Helvetica", 9),
                      bg="white", fg="#27ae60" if solved else "#999").pack(side="left")
@@ -1333,7 +1357,8 @@ class ProblemScreen(tk.Frame):
             self._render_problem_text()
             self._render_time_status()
 
-    DIFFICULTY_COLORS = {"easy": "#27ae60", "medium": "#e67e22", "hard": "#c0392b"}
+    DIFFICULTY_COLORS = {"easy": "#d4f4dd", "medium": "#fde3c7", "hard": "#fadbd8"}
+    DIFFICULTY_TEXT_COLORS = {"easy": "#1e7a3d", "medium": "#b3620a", "hard": "#a3281f"}
 
     def _render_problem_text(self):
         app = self.app
@@ -1342,7 +1367,8 @@ class ProblemScreen(tk.Frame):
         desc = problem["description_bn"] if app.language == "bn" else problem["description_en"]
         self.title_label.config(text=title)
         self.diff_label.config(text=tr(app, f"difficulty_{problem['difficulty']}"),
-                                bg=self.DIFFICULTY_COLORS.get(problem["difficulty"], "#555"))
+                                bg=self.DIFFICULTY_COLORS.get(problem["difficulty"], "#eeeeee"),
+                                fg=self.DIFFICULTY_TEXT_COLORS.get(problem["difficulty"], "#555"))
         self.description_label.config(text=desc)
 
     def _render_time_status(self):
@@ -1397,8 +1423,15 @@ class ProblemScreen(tk.Frame):
 
     def _show_submit_results(self, results):
         app = self.app
+        contest = app.current_contest
         lines = []
         all_passed = all(r["passed"] for r in results)
+
+        # Log this attempt (pass or fail) for the leaderboard's penalty/attempt tracking.
+        dm.record_submission(app.data, app.current_user, contest["id"],
+                              self.current_problem["id"], all_passed)
+        app.refresh_data()
+
         for i, r in enumerate(results, start=1):
             status = tr(app, "passed_label") if r["passed"] else tr(app, "failed_label")
             lines.append(f"{tr(app, 'test_case_label', n=i)}: {status}")
@@ -1434,6 +1467,127 @@ class ProblemScreen(tk.Frame):
         self.results_box.delete("1.0", tk.END)
         self.results_box.insert(tk.END, text)
         self.results_box.config(state="disabled")
+
+
+class LeaderboardScreen(tk.Frame):
+    """ICPC-style ranking table for one contest: Rank, Username, Score,
+    Penalty, then one color-coded column per problem showing solve time
+    (green) or wrong-attempt count (red) — like a Codeforces/vjudge standings
+    page. Scrollable vertically since the student list can grow."""
+
+    DIFFICULTY_COLORS = {"easy": "#d4f4dd", "medium": "#fde3c7", "hard": "#fadbd8"}
+    DIFFICULTY_TEXT_COLORS = {"easy": "#1e7a3d", "medium": "#b3620a", "hard": "#a3281f"}
+    SOLVED_BG = "#e5f8ec"
+    SOLVED_FG = "#1e7a3d"
+    ATTEMPTED_BG = "#fdecea"
+    ATTEMPTED_FG = "#c0392b"
+    UNTOUCHED_BG = "#f0f1f4"
+    UNTOUCHED_FG = "#aaaaaa"
+    ROW_BG = "white"
+    ME_ROW_BG = "#eaf3fb"
+
+    def __init__(self, parent, app):
+        super().__init__(parent, bg=BG_COLOR)
+        self.app = app
+
+        top = tk.Frame(self, bg=BG_COLOR)
+        top.pack(fill="x", pady=15, padx=20)
+        self.back_btn = tk.Button(top, command=lambda: app.show_frame("ContestScreen"))
+        self.back_btn.pack(side="left")
+        self.title_label = tk.Label(top, font=("Helvetica", 18, "bold"), bg=BG_COLOR, fg=ACCENT_COLOR)
+        self.title_label.pack(side="left", padx=20)
+        LanguageToggle(top, app, on_change=self.on_show).pack(side="right")
+
+        # Scrollable table area
+        table_outer = tk.Frame(self, bg=BG_COLOR)
+        table_outer.pack(fill="both", expand=True, padx=20, pady=(0, 15))
+
+        self.canvas = tk.Canvas(table_outer, bg=BG_COLOR, highlightthickness=0)
+        scrollbar = tk.Scrollbar(table_outer, orient="vertical", command=self.canvas.yview)
+        self.table_frame = tk.Frame(self.canvas, bg=BG_COLOR)
+        self.table_frame.bind("<Configure>",
+                               lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
+        self.canvas.create_window((0, 0), window=self.table_frame, anchor="nw")
+        self.canvas.configure(yscrollcommand=scrollbar.set)
+        self.canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        self.empty_label = tk.Label(self, font=("Helvetica", 12), bg=BG_COLOR, fg="#999")
+
+        self.apply_language()
+
+    def apply_language(self):
+        self.back_btn.config(text=tr(self.app, "back_btn"))
+
+    def _fmt_time(self, minutes):
+        h, m = divmod(minutes, 60)
+        return f"{h}:{m:02d}"
+
+    def on_show(self):
+        app = self.app
+        app.refresh_data()
+        self.apply_language()
+        contest = app.current_contest
+        if not contest:
+            return
+
+        title = contest["title_bn"] if app.language == "bn" else contest["title_en"]
+        self.title_label.config(text=f"{tr(app, 'leaderboard_title')}: {title}")
+
+        for widget in self.table_frame.winfo_children():
+            widget.destroy()
+        self.empty_label.pack_forget()
+
+        rows = dm.get_contest_leaderboard(app.data, contest)
+        if not rows:
+            self.empty_label.config(text=tr(app, "no_submissions_msg"))
+            self.empty_label.pack(pady=30)
+            return
+
+        problems = contest["problems"]
+
+        # --- Header row ---
+        header_style = {"font": ("Helvetica", 10, "bold"), "bg": BTN_COLOR, "fg": "white",
+                         "padx": 8, "pady": 8}
+        tk.Label(self.table_frame, text=tr(app, "rank_col"), width=5, **header_style).grid(row=0, column=0, sticky="nsew", padx=1, pady=1)
+        tk.Label(self.table_frame, text=tr(app, "team_col"), width=16, **header_style).grid(row=0, column=1, sticky="nsew", padx=1, pady=1)
+        tk.Label(self.table_frame, text=tr(app, "score_col"), width=6, **header_style).grid(row=0, column=2, sticky="nsew", padx=1, pady=1)
+        tk.Label(self.table_frame, text=tr(app, "penalty_col"), width=8, **header_style).grid(row=0, column=3, sticky="nsew", padx=1, pady=1)
+        for j, problem in enumerate(problems):
+            label_letter = chr(ord('A') + j)
+            diff_bg = self.DIFFICULTY_COLORS.get(problem["difficulty"], "#eeeeee")
+            diff_fg = self.DIFFICULTY_TEXT_COLORS.get(problem["difficulty"], "#555")
+            tk.Label(self.table_frame, text=label_letter, width=10, font=("Helvetica", 10, "bold"),
+                     bg=diff_bg, fg=diff_fg, padx=8, pady=8).grid(row=0, column=4 + j, sticky="nsew", padx=1, pady=1)
+
+        # --- Data rows ---
+        for i, row in enumerate(rows, start=1):
+            is_me = row["username"] == app.current_user
+            name_bg = self.ME_ROW_BG if is_me else self.ROW_BG
+            base_style = {"font": ("Helvetica", 10, "bold" if is_me else "normal"), "fg": ACCENT_COLOR, "padx": 8, "pady": 6}
+
+            tk.Label(self.table_frame, text=str(i), bg=name_bg, **base_style).grid(row=i, column=0, sticky="nsew", padx=1, pady=1)
+            tk.Label(self.table_frame, text=row["username"], bg=name_bg, anchor="w", **base_style).grid(row=i, column=1, sticky="nsew", padx=1, pady=1)
+            tk.Label(self.table_frame, text=str(row["score"]), bg=name_bg, **base_style).grid(row=i, column=2, sticky="nsew", padx=1, pady=1)
+            tk.Label(self.table_frame, text=str(row["penalty"]), bg=name_bg, **base_style).grid(row=i, column=3, sticky="nsew", padx=1, pady=1)
+
+            for j, problem in enumerate(problems):
+                stats = row["problems"][problem["id"]]
+                if stats["solved"]:
+                    text = self._fmt_time(stats["solve_time_minutes"] or 0)
+                    if stats["wrong_attempts"] > 0:
+                        text += f"\n(-{stats['wrong_attempts']})"
+                    cell_bg, cell_fg = self.SOLVED_BG, self.SOLVED_FG
+                elif stats["attempted"]:
+                    text = f"(-{stats['total_attempts']})"
+                    cell_bg, cell_fg = self.ATTEMPTED_BG, self.ATTEMPTED_FG
+                else:
+                    text = ""
+                    cell_bg, cell_fg = self.UNTOUCHED_BG, self.UNTOUCHED_FG
+
+                tk.Label(self.table_frame, text=text, bg=cell_bg, fg=cell_fg,
+                         font=("Helvetica", 9, "bold"), padx=8, pady=6,
+                         justify="center").grid(row=i, column=4 + j, sticky="nsew", padx=1, pady=1)
 
 
 if __name__ == "__main__":

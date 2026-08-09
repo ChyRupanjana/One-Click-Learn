@@ -217,3 +217,99 @@ def get_contest_time_status(data, username, contest_id):
 
     whole_days = remaining.days + (1 if remaining.seconds > 0 else 0)
     return {"started": True, "days_remaining": max(whole_days, 1), "expired": False}
+
+
+# ---------------------------------------------------------------------------
+# Contest leaderboard (ICPC-style: rank by problems solved, tie-break by
+# lowest penalty). This requires tracking EVERY submission attempt (not just
+# the final solved state) so we know, per problem, how many wrong attempts
+# happened before an accepted one, and how long it took from contest start.
+# ---------------------------------------------------------------------------
+
+PENALTY_MINUTES_PER_WRONG_ATTEMPT = 20
+
+
+def record_submission(data, username, contest_id, problem_id, passed):
+    """Logs one submission attempt (pass or fail) with a timestamp. Called on
+    every Submit click, regardless of outcome — this is what powers the
+    leaderboard's per-problem attempt count and solve time."""
+    user = data["users"][username]
+    if "contest_submissions" not in user:
+        user["contest_submissions"] = {}
+    if contest_id not in user["contest_submissions"]:
+        user["contest_submissions"][contest_id] = {}
+    if problem_id not in user["contest_submissions"][contest_id]:
+        user["contest_submissions"][contest_id][problem_id] = []
+    user["contest_submissions"][contest_id][problem_id].append({
+        "timestamp": datetime.now().isoformat(),
+        "passed": bool(passed),
+    })
+    save_data(data)
+
+
+def get_problem_stats(data, username, contest_id, problem_id):
+    """
+    Per-problem submission stats for one user in one contest:
+        {"attempted": bool, "solved": bool, "wrong_attempts": int,
+         "solve_time_minutes": int or None, "total_attempts": int}
+    wrong_attempts = attempts before the accepted one (if solved), or the
+    total failed attempts so far (if never solved).
+    """
+    user = data["users"][username]
+    attempts = user.get("contest_submissions", {}).get(contest_id, {}).get(problem_id, [])
+    if not attempts:
+        return {"attempted": False, "solved": False, "wrong_attempts": 0,
+                "solve_time_minutes": None, "total_attempts": 0}
+
+    start_str = user.get("contest_start_dates", {}).get(contest_id)
+    start_dt = datetime.fromisoformat(start_str) if start_str else None
+
+    wrong_before_solve = 0
+    solve_time_minutes = None
+    solved = False
+    for a in attempts:
+        if a["passed"]:
+            solved = True
+            if start_dt:
+                t = datetime.fromisoformat(a["timestamp"])
+                solve_time_minutes = max(0, int((t - start_dt).total_seconds() // 60))
+            break
+        wrong_before_solve += 1
+
+    return {
+        "attempted": True,
+        "solved": solved,
+        "wrong_attempts": wrong_before_solve if solved else len(attempts),
+        "solve_time_minutes": solve_time_minutes,
+        "total_attempts": len(attempts),
+    }
+
+
+def get_contest_leaderboard(data, contest):
+    """
+    Returns leaderboard rows for everyone who has started this contest,
+    sorted ICPC-style: highest score (problems solved) first, then lowest
+    penalty. Each row:
+        {"username": str, "score": int, "penalty": int,
+         "problems": {problem_id: <get_problem_stats() dict>}}
+    """
+    rows = []
+    for username, user in data["users"].items():
+        if contest["id"] not in user.get("contest_start_dates", {}):
+            continue
+
+        problems_stats = {}
+        score = 0
+        penalty = 0
+        for problem in contest["problems"]:
+            stats = get_problem_stats(data, username, contest["id"], problem["id"])
+            problems_stats[problem["id"]] = stats
+            if stats["solved"]:
+                score += 1
+                penalty += (stats["solve_time_minutes"] or 0) + \
+                    PENALTY_MINUTES_PER_WRONG_ATTEMPT * stats["wrong_attempts"]
+
+        rows.append({"username": username, "score": score, "penalty": penalty, "problems": problems_stats})
+
+    rows.sort(key=lambda r: (-r["score"], r["penalty"]))
+    return rows
