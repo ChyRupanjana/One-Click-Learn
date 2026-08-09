@@ -1,6 +1,7 @@
 """
 main.py
-Entry point for the Coding Learning App (Bilingual Bangla/English).
+Entry point for One Click Learn — a bilingual (Bangla/English) coding
+learning app.
 
 Tech stack: Python + Tkinter (GUI) + JSON (storage, multi-user) + local
             subprocess execution for Python/C/C++/Java + matplotlib (progress
@@ -45,7 +46,7 @@ DEFAULT_SNIPPETS = {
 # ---------------------------------------------------------------------------
 TEXTS = {
     # LoginScreen
-    "app_name":            {"en": "CodeLearn", "bn": "CodeLearn"},
+    "app_name":            {"en": "One Click Learn", "bn": "One Click Learn"},
     "signin_tab":            {"en": "Sign In", "bn": "সাইন ইন"},
     "signup_tab":            {"en": "Sign Up", "bn": "সাইন আপ"},
     "signin_username_label": {"en": "Username or Email:", "bn": "ইউজারনেম বা ইমেইল:"},
@@ -274,7 +275,7 @@ class LanguageToggle(tk.Frame):
 class CodeLearnApp(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("CodeLearn — Bilingual Coding Learning App")
+        self.title("One Click Learn — Bilingual Coding Learning App")
         self.geometry("1000x680")
         self.configure(bg=BG_COLOR)
 
@@ -1054,7 +1055,7 @@ class CertificateScreen(tk.Frame):
     def generate(self):
         app = self.app
         username = app.current_user
-        path = generate_certificate(username, course_title="CodeLearn Fundamentals")
+        path = generate_certificate(username, course_title="One Click Learn Fundamentals")
         self.path_label.config(text=tr(app, "saved_to_label", path=path))
         messagebox.showinfo(tr(app, "cert_generated_title"), tr(app, "cert_generated_msg", path=path))
 
