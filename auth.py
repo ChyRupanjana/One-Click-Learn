@@ -7,13 +7,6 @@ Passwords are hashed (never stored as plain text) using Python's built-in
 hashlib with a per-user salt. This is fine for a student project, but note
 it is not a full production-grade auth system (no rate limiting, no
 password reset flow, etc.).
-
-Note on Google / Apple Sign-In: genuine OAuth login requires registering
-the app with Google Cloud Console / Apple Developer, real client
-credentials, and a browser-based redirect flow. That can't be faked inside
-a local Tkinter app without those real credentials — see main.py's
-PlaygroundScreen... actually LoginScreen for how this is surfaced honestly
-to the user instead of being silently faked.
 """
 
 import hashlib
@@ -70,7 +63,7 @@ def create_user(data, username, password, email=""):
         "email": email,
         "completed_lessons": [],
         "quiz_scores": {},
-        "solved_problems": {},
+        "completed_contest_problems": [],
         "contest_start_dates": {},
         "xp": 0,
         "streak": 0,
@@ -140,3 +133,39 @@ def clear_session():
     """Forgets the remembered user (called on logout)."""
     if os.path.exists(SESSION_FILE):
         os.remove(SESSION_FILE)
+
+
+# ---------------------------------------------------------------------------
+# Admin authentication — a SEPARATE password (not tied to any student
+# account) that unlocks the Student Management panel. The password hash is
+# stored in admin_config.json (created automatically on first run with the
+# default password "admin123"). Change it ASAP via set_admin_password().
+# ---------------------------------------------------------------------------
+
+ADMIN_CONFIG_FILE = os.path.join(os.path.dirname(__file__), "admin_config.json")
+DEFAULT_ADMIN_PASSWORD = "admin123"
+
+
+def _ensure_admin_config():
+    """Creates admin_config.json with the default admin password the first
+    time the app runs, if it doesn't already exist."""
+    if not os.path.exists(ADMIN_CONFIG_FILE):
+        salt_hex, hash_hex = _hash_password(DEFAULT_ADMIN_PASSWORD)
+        with open(ADMIN_CONFIG_FILE, "w", encoding="utf-8") as f:
+            json.dump({"salt": salt_hex, "password_hash": hash_hex}, f)
+
+
+def verify_admin_password(password):
+    """Returns True if the given password matches the stored admin password."""
+    _ensure_admin_config()
+    with open(ADMIN_CONFIG_FILE, "r", encoding="utf-8") as f:
+        config = json.load(f)
+    _, hash_hex = _hash_password(password, salt=config["salt"])
+    return hash_hex == config["password_hash"]
+
+
+def set_admin_password(new_password):
+    """Changes the admin password."""
+    salt_hex, hash_hex = _hash_password(new_password)
+    with open(ADMIN_CONFIG_FILE, "w", encoding="utf-8") as f:
+        json.dump({"salt": salt_hex, "password_hash": hash_hex}, f)

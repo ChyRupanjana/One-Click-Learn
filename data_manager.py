@@ -1,7 +1,8 @@
 """
 data_manager.py
-Handles all reading/writing to data.json (lessons, quizzes, multi-user progress).
-No database used — everything is stored in a single JSON file.
+Handles all reading/writing to data.json (lessons, quizzes, multi-user progress)
+and contests.json (coding contest problems, unlocked every 4 lessons per module).
+No database used — everything is stored in plain JSON files.
 """
 
 import json
@@ -9,6 +10,7 @@ import os
 from datetime import date, datetime, timedelta
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), "data.json")
+CONTESTS_FILE = os.path.join(os.path.dirname(__file__), "contests.json")
 
 
 def load_data():
@@ -107,103 +109,111 @@ def get_progress_percent(data, username):
 
 
 # ---------------------------------------------------------------------------
-# Contests — unlocked every 2 completed lessons within a module.
+# Contest support. Contest CONTENT (problems, test cases) lives in its own
+# file (contests.json) — completely separate from data.json — so adding or
+# editing contests never risks corrupting lesson/quiz/user data. Which
+# problems a user has SOLVED is still tracked per-user inside data.json.
 # ---------------------------------------------------------------------------
 
-def count_completed_in_module(data, user, module):
-    """How many lessons the user has completed within a specific module."""
-    module_lesson_ids = {l["id"] for l in data["lessons"] if l["module"] == module}
-    return len([lid for lid in user["completed_lessons"] if lid in module_lesson_ids])
+def load_contests():
+    """Load contests.json and return the list of contest dicts."""
+    with open(CONTESTS_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)["contests"]
 
 
-def get_contests_by_module(data, module):
-    return [c for c in data.get("contests", []) if c["module"] == module]
+def get_contests_by_module(contests, module):
+    return [c for c in contests if c["module"] == module]
 
 
-def is_contest_unlocked(contest, completed_count):
-    return completed_count >= contest["unlock_after_lessons"]
+def get_contest_by_id(contests, contest_id):
+    for c in contests:
+        if c["id"] == contest_id:
+            return c
+    return None
 
 
-def get_problem(data, contest_id, problem_id):
-    for contest in data.get("contests", []):
-        if contest["id"] == contest_id:
-            for problem in contest["problems"]:
-                if problem["id"] == problem_id:
-                    return contest, problem
-    return None, None
+def get_problem_by_id(contest, problem_id):
+    for p in contest["problems"]:
+        if p["id"] == problem_id:
+            return p
+    return None
 
 
-def mark_problem_solved(data, username, problem_key, xp_reward=15):
-    """
-    problem_key should be unique across the whole app, e.g. 'contest3_problem2'.
-    Returns True if this was the FIRST time solving it (i.e. XP was awarded).
-    """
+def get_completed_lesson_count_in_module(data, username, module):
+    """How many lessons THIS user has completed within a single module —
+    this count (not specific lesson IDs) is what unlocks contests."""
+    completed = set(data["users"][username]["completed_lessons"])
+    module_lesson_ids = {l["id"] for l in get_lessons_by_module(data, module)}
+    return len(completed & module_lesson_ids)
+
+
+def is_contest_unlocked(data, username, contest):
+    done = get_completed_lesson_count_in_module(data, username, contest["module"])
+    return done >= contest["unlock_after_lessons"]
+
+
+def is_problem_solved(data, username, problem_id):
     user = data["users"][username]
-    solved = user.setdefault("solved_problems", {})
+    return problem_id in user.get("completed_contest_problems", [])
 
-    if problem_key in solved:
-        return False
+def get_solved_count_in_contest(data, username, contest):
+    return sum(1 for p in contest["problems"] if is_problem_solved(data, username, p["id"]))
 
-    solved[problem_key] = True
-    user["xp"] += xp_reward
-    _update_streak(user)
-    save_data(data)
-    return True
+
+def mark_problem_solved(data, username, problem_id, xp_reward):
+    """Marks a contest problem solved (only once — resubmitting an already
+    solved problem awards no extra XP) and saves data.json."""
+    user = data["users"][username]
+    if "completed_contest_problems" not in user:
+        user["completed_contest_problems"] = []
+    if problem_id not in user["completed_contest_problems"]:
+        user["completed_contest_problems"].append(problem_id)
+        user["xp"] += xp_reward
+        _update_streak(user)
+        save_data(data)
+    return user
 
 
 # ---------------------------------------------------------------------------
-# Contest submission window — a user gets 7 days from the moment they FIRST
-# open a given contest to submit solutions for it. After that, submissions
-# for that contest are locked (though the problems remain viewable).
+# Contest submission deadline — each user gets 7 days to submit solutions
+# for a contest, counted from the moment THEY first open it (not from when
+# it unlocked). Problems remain readable after the deadline; only new
+# submissions are blocked.
 # ---------------------------------------------------------------------------
 
-CONTEST_WINDOW_DAYS = 7
+CONTEST_DEADLINE_DAYS = 7
 
 
 def start_contest_if_needed(data, username, contest_id):
-    """
-    Records the moment this user first opens a contest, starting their
-    7-day submission window. Calling this again for an already-started
-    contest does nothing (the original start time is kept).
-    Returns the (possibly newly-set) start timestamp as an ISO string.
-    """
+    """Records the first time this user opens this contest. Calling it again
+    for the same contest does nothing (the start time never resets)."""
     user = data["users"][username]
-    starts = user.setdefault("contest_start_dates", {})
-
-    key = str(contest_id)
-    if key not in starts:
-        starts[key] = datetime.now().isoformat()
+    if "contest_start_dates" not in user:
+        user["contest_start_dates"] = {}
+    if contest_id not in user["contest_start_dates"]:
+        user["contest_start_dates"][contest_id] = datetime.now().isoformat()
         save_data(data)
-
-    return starts[key]
+    return user["contest_start_dates"][contest_id]
 
 
 def get_contest_time_status(data, username, contest_id):
     """
     Returns a dict describing this user's submission window for a contest:
-        {
-            "started": bool,          # has the user opened this contest yet?
-            "expired": bool,          # is the 7-day window over?
-            "days_left": int or None, # whole days remaining (0 on the last day)
-            "deadline": str or None,  # ISO date the window closes
-        }
+        {"started": bool, "days_remaining": int or None, "expired": bool}
+    - started=False means the user hasn't opened this contest yet (no timer running).
+    - days_remaining is a rounded-up whole-day count (e.g. 6.2 days left -> 7).
+    - expired=True once the 7-day window from first open has passed.
     """
     user = data["users"][username]
-    starts = user.get("contest_start_dates", {})
-    key = str(contest_id)
+    start_str = user.get("contest_start_dates", {}).get(contest_id)
+    if not start_str:
+        return {"started": False, "days_remaining": None, "expired": False}
 
-    if key not in starts:
-        return {"started": False, "expired": False, "days_left": None, "deadline": None}
+    start_dt = datetime.fromisoformat(start_str)
+    remaining = timedelta(days=CONTEST_DEADLINE_DAYS) - (datetime.now() - start_dt)
 
-    start_time = datetime.fromisoformat(starts[key])
-    deadline = start_time + timedelta(days=CONTEST_WINDOW_DAYS)
-    now = datetime.now()
-    expired = now > deadline
-    days_left = max(0, (deadline - now).days) if not expired else 0
+    if remaining.total_seconds() <= 0:
+        return {"started": True, "days_remaining": 0, "expired": True}
 
-    return {
-        "started": True,
-        "expired": expired,
-        "days_left": days_left,
-        "deadline": deadline.strftime("%d %b %Y"),
-    }
+    whole_days = remaining.days + (1 if remaining.seconds > 0 else 0)
+    return {"started": True, "days_remaining": max(whole_days, 1), "expired": False}
