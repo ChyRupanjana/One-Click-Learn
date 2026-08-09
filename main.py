@@ -422,10 +422,10 @@ class LoginScreen(tk.Frame):
                                        wraplength=320, justify="left")
         self.message_label.pack(pady=(10, 0))
 
-        self.admin_link = tk.Label(self, font=("Helvetica", 9, "underline"),
-                                    bg=BG_COLOR, fg="#999", cursor="hand2")
+        self.admin_link = tk.Button(self, font=("Helvetica", 9, "bold"), bg="#e8e8ec", fg="#666",
+                                     bd=0, padx=14, pady=6, cursor="hand2",
+                                     command=lambda: app.show_frame("AdminLoginScreen"))
         self.admin_link.place(relx=0.5, rely=1.0, anchor="s", y=-15)
-        self.admin_link.bind("<Button-1>", lambda e: app.show_frame("AdminLoginScreen"))
 
         self.switch_mode("signin")
         self.apply_language()
