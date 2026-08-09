@@ -3,7 +3,7 @@
     {
       "id": "python_contest_1",
       "module": "python",
-      "unlock_after_lessons": 4,
+      "unlock_after_lessons": 2,
       "title_en": "Python Contest 1",
       "title_bn": "পাইথন কনটেস্ট ১",
       "problems": [
@@ -69,7 +69,7 @@
     {
       "id": "python_contest_2",
       "module": "python",
-      "unlock_after_lessons": 8,
+      "unlock_after_lessons": 4,
       "title_en": "Python Contest 2",
       "title_bn": "পাইথন কনটেস্ট ২",
       "problems": [
@@ -135,7 +135,7 @@
     {
       "id": "python_contest_3",
       "module": "python",
-      "unlock_after_lessons": 12,
+      "unlock_after_lessons": 6,
       "title_en": "Python Contest 3",
       "title_bn": "পাইথন কনটেস্ট ৩",
       "problems": [
@@ -201,7 +201,7 @@
     {
       "id": "python_contest_4",
       "module": "python",
-      "unlock_after_lessons": 16,
+      "unlock_after_lessons": 8,
       "title_en": "Python Contest 4",
       "title_bn": "পাইথন কনটেস্ট ৪",
       "problems": [
@@ -267,7 +267,7 @@
     {
       "id": "c_contest_1",
       "module": "c",
-      "unlock_after_lessons": 4,
+      "unlock_after_lessons": 2,
       "title_en": "C Contest 1",
       "title_bn": "সি কনটেস্ট ১",
       "problems": [
@@ -333,7 +333,7 @@
     {
       "id": "c_contest_2",
       "module": "c",
-      "unlock_after_lessons": 8,
+      "unlock_after_lessons": 4,
       "title_en": "C Contest 2",
       "title_bn": "সি কনটেস্ট ২",
       "problems": [
@@ -399,7 +399,7 @@
     {
       "id": "c_contest_3",
       "module": "c",
-      "unlock_after_lessons": 12,
+      "unlock_after_lessons": 6,
       "title_en": "C Contest 3",
       "title_bn": "সি কনটেস্ট ৩",
       "problems": [
@@ -465,7 +465,7 @@
     {
       "id": "cpp_contest_1",
       "module": "cpp",
-      "unlock_after_lessons": 4,
+      "unlock_after_lessons": 2,
       "title_en": "C++ Contest 1",
       "title_bn": "সি++ কনটেস্ট ১",
       "problems": [
@@ -531,7 +531,7 @@
     {
       "id": "cpp_contest_2",
       "module": "cpp",
-      "unlock_after_lessons": 8,
+      "unlock_after_lessons": 4,
       "title_en": "C++ Contest 2",
       "title_bn": "সি++ কনটেস্ট ২",
       "problems": [
@@ -597,7 +597,7 @@
     {
       "id": "cpp_contest_3",
       "module": "cpp",
-      "unlock_after_lessons": 12,
+      "unlock_after_lessons": 6,
       "title_en": "C++ Contest 3",
       "title_bn": "সি++ কনটেস্ট ৩",
       "problems": [
@@ -655,6 +655,732 @@
             {
               "input": "2 4\n5 10\n1 2 3 20",
               "expected_output": "1 2 3 5 10 20"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "python_contest_5",
+      "module": "python",
+      "unlock_after_lessons": 10,
+      "title_en": "Python Contest 5",
+      "title_bn": "পাইথন কনটেস্ট ৫",
+      "problems": [
+        {
+          "id": "py_c5_easy",
+          "difficulty": "easy",
+          "title_en": "Even or Odd",
+          "title_bn": "জোড় নাকি বিজোড়",
+          "description_en": "Read an integer and print 'EVEN' if it's even, 'ODD' if it's odd.",
+          "description_bn": "একটা পূর্ণসংখ্যা ইনপুট নাও। জোড় হলে 'EVEN' প্রিন্ট করো, বিজোড় হলে 'ODD' প্রিন্ট করো।",
+          "xp_reward": 30,
+          "test_cases": [
+            {
+              "input": "4",
+              "expected_output": "EVEN"
+            },
+            {
+              "input": "7",
+              "expected_output": "ODD"
+            }
+          ]
+        },
+        {
+          "id": "py_c5_medium",
+          "difficulty": "medium",
+          "title_en": "Factorial of a Number",
+          "title_bn": "সংখ্যার ফ্যাক্টোরিয়াল",
+          "description_en": "Read a non-negative integer n and print n! (n factorial).",
+          "description_bn": "একটা অ-ঋণাত্মক পূর্ণসংখ্যা n ইনপুট নাও এবং n! (ফ্যাক্টোরিয়াল) প্রিন্ট করো।",
+          "xp_reward": 50,
+          "test_cases": [
+            {
+              "input": "5",
+              "expected_output": "120"
+            },
+            {
+              "input": "6",
+              "expected_output": "720"
+            }
+          ]
+        },
+        {
+          "id": "py_c5_hard",
+          "difficulty": "hard",
+          "title_en": "Digital Root",
+          "title_bn": "ডিজিটাল রুট",
+          "description_en": "Read a non-negative integer and repeatedly sum its digits until a single digit remains. Print that digit.",
+          "description_bn": "একটা অ-ঋণাত্মক পূর্ণসংখ্যা ইনপুট নাও। এর অঙ্কগুলোর যোগফল বারবার বের করো যতক্ষণ না একটা অঙ্ক বাকি থাকে। সেই অঙ্কটা প্রিন্ট করো।",
+          "xp_reward": 80,
+          "test_cases": [
+            {
+              "input": "9875",
+              "expected_output": "2"
+            },
+            {
+              "input": "12345",
+              "expected_output": "6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "python_contest_6",
+      "module": "python",
+      "unlock_after_lessons": 12,
+      "title_en": "Python Contest 6",
+      "title_bn": "পাইথন কনটেস্ট ৬",
+      "problems": [
+        {
+          "id": "py_c6_easy",
+          "difficulty": "easy",
+          "title_en": "Sum of Digits",
+          "title_bn": "অঙ্কের যোগফল",
+          "description_en": "Read a non-negative integer and print the sum of its digits.",
+          "description_bn": "একটা অ-ঋণাত্মক পূর্ণসংখ্যা ইনপুট নাও এবং এর অঙ্কগুলোর যোগফল প্রিন্ট করো।",
+          "xp_reward": 30,
+          "test_cases": [
+            {
+              "input": "12345",
+              "expected_output": "15"
+            },
+            {
+              "input": "9999",
+              "expected_output": "36"
+            }
+          ]
+        },
+        {
+          "id": "py_c6_medium",
+          "difficulty": "medium",
+          "title_en": "Second Largest Element",
+          "title_bn": "দ্বিতীয় সর্ববৃহৎ এলিমেন্ট",
+          "description_en": "Read n, then n space-separated integers on the next line. Print the second largest distinct value.",
+          "description_bn": "n ইনপুট নাও, তারপর পরের লাইনে n টা স্পেস দিয়ে আলাদা করা পূর্ণসংখ্যা ইনপুট নাও। দ্বিতীয় সর্ববৃহৎ ভিন্ন মানটা প্রিন্ট করো।",
+          "xp_reward": 50,
+          "test_cases": [
+            {
+              "input": "5\n10 20 4 45 99",
+              "expected_output": "45"
+            },
+            {
+              "input": "4\n1 2 3 4",
+              "expected_output": "3"
+            }
+          ]
+        },
+        {
+          "id": "py_c6_hard",
+          "difficulty": "hard",
+          "title_en": "Power of Two Check",
+          "title_bn": "টু-এর পাওয়ার চেক",
+          "description_en": "Read a positive integer and print 'YES' if it is a power of two, otherwise print 'NO'.",
+          "description_bn": "একটা ধনাত্মক পূর্ণসংখ্যা ইনপুট নাও। এটা ২-এর পাওয়ার হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 80,
+          "test_cases": [
+            {
+              "input": "16",
+              "expected_output": "YES"
+            },
+            {
+              "input": "18",
+              "expected_output": "NO"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "python_contest_7",
+      "module": "python",
+      "unlock_after_lessons": 14,
+      "title_en": "Python Contest 7",
+      "title_bn": "পাইথন কনটেস্ট ৭",
+      "problems": [
+        {
+          "id": "py_c7_easy",
+          "difficulty": "easy",
+          "title_en": "Palindrome Number Check",
+          "title_bn": "প্যালিনড্রোম সংখ্যা চেক",
+          "description_en": "Read an integer and print 'YES' if it reads the same forwards and backwards, otherwise print 'NO'.",
+          "description_bn": "একটা পূর্ণসংখ্যা ইনপুট নাও। এটা সামনে-পেছনে একই হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 30,
+          "test_cases": [
+            {
+              "input": "121",
+              "expected_output": "YES"
+            },
+            {
+              "input": "123",
+              "expected_output": "NO"
+            }
+          ]
+        },
+        {
+          "id": "py_c7_medium",
+          "difficulty": "medium",
+          "title_en": "Count Set Bits",
+          "title_bn": "সেট বিট গণনা",
+          "description_en": "Read a non-negative integer and print the number of 1s in its binary representation.",
+          "description_bn": "একটা অ-ঋণাত্মক পূর্ণসংখ্যা ইনপুট নাও এবং এর বাইনারি রূপে কয়টা 1 আছে তা প্রিন্ট করো।",
+          "xp_reward": 50,
+          "test_cases": [
+            {
+              "input": "7",
+              "expected_output": "3"
+            },
+            {
+              "input": "12",
+              "expected_output": "2"
+            }
+          ]
+        },
+        {
+          "id": "py_c7_hard",
+          "difficulty": "hard",
+          "title_en": "Anagram Check",
+          "title_bn": "অ্যানাগ্রাম চেক",
+          "description_en": "Read two words separated by a space on one line. Print 'YES' if they are anagrams of each other, otherwise print 'NO'.",
+          "description_bn": "একই লাইনে স্পেস দিয়ে আলাদা করা দুইটা শব্দ ইনপুট নাও। তারা একে অপরের অ্যানাগ্রাম হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 80,
+          "test_cases": [
+            {
+              "input": "listen silent",
+              "expected_output": "YES"
+            },
+            {
+              "input": "hello world",
+              "expected_output": "NO"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "python_contest_8",
+      "module": "python",
+      "unlock_after_lessons": 16,
+      "title_en": "Python Contest 8",
+      "title_bn": "পাইথন কনটেস্ট ৮",
+      "problems": [
+        {
+          "id": "py_c8_easy",
+          "difficulty": "easy",
+          "title_en": "Leap Year Check",
+          "title_bn": "অধিবর্ষ চেক",
+          "description_en": "Read a year and print 'YES' if it's a leap year, otherwise print 'NO'.",
+          "description_bn": "একটা বছর ইনপুট নাও। এটা অধিবর্ষ হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 30,
+          "test_cases": [
+            {
+              "input": "2024",
+              "expected_output": "YES"
+            },
+            {
+              "input": "2023",
+              "expected_output": "NO"
+            }
+          ]
+        },
+        {
+          "id": "py_c8_medium",
+          "difficulty": "medium",
+          "title_en": "Perfect Square Check",
+          "title_bn": "পারফেক্ট স্কয়ার চেক",
+          "description_en": "Read an integer and print 'YES' if it is a perfect square, otherwise print 'NO'.",
+          "description_bn": "একটা পূর্ণসংখ্যা ইনপুট নাও। এটা পারফেক্ট স্কয়ার হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 50,
+          "test_cases": [
+            {
+              "input": "16",
+              "expected_output": "YES"
+            },
+            {
+              "input": "20",
+              "expected_output": "NO"
+            }
+          ]
+        },
+        {
+          "id": "py_c8_hard",
+          "difficulty": "hard",
+          "title_en": "Longest Word in a Sentence",
+          "title_bn": "বাক্যের দীর্ঘতম শব্দ",
+          "description_en": "Read a line of space-separated words. Print the longest word (if there's a tie, print the first one).",
+          "description_bn": "স্পেস দিয়ে আলাদা করা শব্দের একটা লাইন ইনপুট নাও। দীর্ঘতম শব্দটা প্রিন্ট করো (টাই হলে প্রথমটা প্রিন্ট করো)।",
+          "xp_reward": 80,
+          "test_cases": [
+            {
+              "input": "the quick brown fox",
+              "expected_output": "quick"
+            },
+            {
+              "input": "I love programming very much",
+              "expected_output": "programming"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c_contest_4",
+      "module": "c",
+      "unlock_after_lessons": 8,
+      "title_en": "C Contest 4",
+      "title_bn": "সি কনটেস্ট ৪",
+      "problems": [
+        {
+          "id": "c_c4_easy",
+          "difficulty": "easy",
+          "title_en": "Sum of Digits",
+          "title_bn": "অঙ্কের যোগফল",
+          "description_en": "Read a non-negative integer and print the sum of its digits.",
+          "description_bn": "একটা অ-ঋণাত্মক পূর্ণসংখ্যা ইনপুট নাও এবং এর অঙ্কগুলোর যোগফল প্রিন্ট করো।",
+          "xp_reward": 30,
+          "test_cases": [
+            {
+              "input": "12345",
+              "expected_output": "15"
+            },
+            {
+              "input": "9999",
+              "expected_output": "36"
+            }
+          ]
+        },
+        {
+          "id": "c_c4_medium",
+          "difficulty": "medium",
+          "title_en": "Maximum of Three Numbers",
+          "title_bn": "তিনটির মধ্যে সর্বোচ্চ",
+          "description_en": "Read three integers (space-separated) and print the largest one.",
+          "description_bn": "তিনটা পূর্ণসংখ্যা (স্পেস দিয়ে আলাদা) ইনপুট নাও এবং সবচেয়ে বড়টা প্রিন্ট করো।",
+          "xp_reward": 50,
+          "test_cases": [
+            {
+              "input": "3 9 5",
+              "expected_output": "9"
+            },
+            {
+              "input": "-1 -5 -3",
+              "expected_output": "-1"
+            }
+          ]
+        },
+        {
+          "id": "c_c4_hard",
+          "difficulty": "hard",
+          "title_en": "Maximum Subarray Sum",
+          "title_bn": "সর্বোচ্চ সাবঅ্যারে যোগফল",
+          "description_en": "Read n, then n space-separated integers. Print the maximum possible sum of a contiguous subarray (Kadane's Algorithm).",
+          "description_bn": "n ইনপুট নাও, তারপর n টা স্পেস দিয়ে আলাদা পূর্ণসংখ্যা ইনপুট নাও। একটা কন্টিগুয়াস সাবঅ্যারের সর্বোচ্চ সম্ভাব্য যোগফল প্রিন্ট করো।",
+          "xp_reward": 80,
+          "test_cases": [
+            {
+              "input": "9\n-2 1 -3 4 -1 2 1 -5 4",
+              "expected_output": "6"
+            },
+            {
+              "input": "4\n-1 -2 -3 -4",
+              "expected_output": "-1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c_contest_5",
+      "module": "c",
+      "unlock_after_lessons": 10,
+      "title_en": "C Contest 5",
+      "title_bn": "সি কনটেস্ট ৫",
+      "problems": [
+        {
+          "id": "c_c5_easy",
+          "difficulty": "easy",
+          "title_en": "Palindrome Number Check",
+          "title_bn": "প্যালিনড্রোম সংখ্যা চেক",
+          "description_en": "Read an integer and print 'YES' if it reads the same forwards and backwards, otherwise print 'NO'.",
+          "description_bn": "একটা পূর্ণসংখ্যা ইনপুট নাও। এটা সামনে-পেছনে একই হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 30,
+          "test_cases": [
+            {
+              "input": "121",
+              "expected_output": "YES"
+            },
+            {
+              "input": "123",
+              "expected_output": "NO"
+            }
+          ]
+        },
+        {
+          "id": "c_c5_medium",
+          "difficulty": "medium",
+          "title_en": "Fibonacci Nth Term",
+          "title_bn": "ফিবোনাচ্চির N-তম পদ",
+          "description_en": "Read an integer n (0-indexed, F(0)=0, F(1)=1) and print the nth Fibonacci number.",
+          "description_bn": "একটা পূর্ণসংখ্যা n ইনপুট নাও (0 থেকে শুরু, F(0)=0, F(1)=1) এবং n-তম ফিবোনাচ্চি সংখ্যাটা প্রিন্ট করো।",
+          "xp_reward": 50,
+          "test_cases": [
+            {
+              "input": "6",
+              "expected_output": "8"
+            },
+            {
+              "input": "10",
+              "expected_output": "55"
+            }
+          ]
+        },
+        {
+          "id": "c_c5_hard",
+          "difficulty": "hard",
+          "title_en": "Merge Two Sorted Arrays",
+          "title_bn": "দুইটা সাজানো অ্যারে মার্জ",
+          "description_en": "Read n and m, then n sorted integers, then m sorted integers (each list space-separated on its own line). Print the merged sorted array (space-separated).",
+          "description_bn": "n এবং m ইনপুট নাও, তারপর n টা সাজানো সংখ্যা, তারপর m টা সাজানো সংখ্যা (প্রতিটা লাইনে স্পেস দিয়ে আলাদা) ইনপুট নাও। মার্জ করা সাজানো অ্যারেটা প্রিন্ট করো।",
+          "xp_reward": 80,
+          "test_cases": [
+            {
+              "input": "3 3\n1 3 5\n2 4 6",
+              "expected_output": "1 2 3 4 5 6"
+            },
+            {
+              "input": "2 4\n5 10\n1 2 3 20",
+              "expected_output": "1 2 3 5 10 20"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c_contest_6",
+      "module": "c",
+      "unlock_after_lessons": 12,
+      "title_en": "C Contest 6",
+      "title_bn": "সি কনটেস্ট ৬",
+      "problems": [
+        {
+          "id": "c_c6_easy",
+          "difficulty": "easy",
+          "title_en": "Leap Year Check",
+          "title_bn": "অধিবর্ষ চেক",
+          "description_en": "Read a year and print 'YES' if it's a leap year, otherwise print 'NO'.",
+          "description_bn": "একটা বছর ইনপুট নাও। এটা অধিবর্ষ হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 30,
+          "test_cases": [
+            {
+              "input": "2024",
+              "expected_output": "YES"
+            },
+            {
+              "input": "2023",
+              "expected_output": "NO"
+            }
+          ]
+        },
+        {
+          "id": "c_c6_medium",
+          "difficulty": "medium",
+          "title_en": "Armstrong Number Check",
+          "title_bn": "আর্মস্ট্রং সংখ্যা চেক",
+          "description_en": "Read a 3-digit integer and print 'YES' if it's an Armstrong number (sum of cubes of its digits equals the number itself), otherwise print 'NO'.",
+          "description_bn": "একটা ৩-অঙ্কের পূর্ণসংখ্যা ইনপুট নাও। এটা আর্মস্ট্রং সংখ্যা হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 50,
+          "test_cases": [
+            {
+              "input": "153",
+              "expected_output": "YES"
+            },
+            {
+              "input": "123",
+              "expected_output": "NO"
+            }
+          ]
+        },
+        {
+          "id": "c_c6_hard",
+          "difficulty": "hard",
+          "title_en": "Anagram Check",
+          "title_bn": "অ্যানাগ্রাম চেক",
+          "description_en": "Read two words separated by a space on one line. Print 'YES' if they are anagrams of each other, otherwise print 'NO'.",
+          "description_bn": "একই লাইনে স্পেস দিয়ে আলাদা করা দুইটা শব্দ ইনপুট নাও। তারা একে অপরের অ্যানাগ্রাম হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 80,
+          "test_cases": [
+            {
+              "input": "listen silent",
+              "expected_output": "YES"
+            },
+            {
+              "input": "hello world",
+              "expected_output": "NO"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cpp_contest_4",
+      "module": "cpp",
+      "unlock_after_lessons": 8,
+      "title_en": "C++ Contest 4",
+      "title_bn": "সি++ কনটেস্ট ৪",
+      "problems": [
+        {
+          "id": "cpp_c4_easy",
+          "difficulty": "easy",
+          "title_en": "Even or Odd",
+          "title_bn": "জোড় নাকি বিজোড়",
+          "description_en": "Read an integer and print 'EVEN' if it's even, 'ODD' if it's odd.",
+          "description_bn": "একটা পূর্ণসংখ্যা ইনপুট নাও। জোড় হলে 'EVEN' প্রিন্ট করো, বিজোড় হলে 'ODD' প্রিন্ট করো।",
+          "xp_reward": 30,
+          "test_cases": [
+            {
+              "input": "4",
+              "expected_output": "EVEN"
+            },
+            {
+              "input": "7",
+              "expected_output": "ODD"
+            }
+          ]
+        },
+        {
+          "id": "cpp_c4_medium",
+          "difficulty": "medium",
+          "title_en": "Prime Check",
+          "title_bn": "মৌলিক সংখ্যা চেক",
+          "description_en": "Read an integer and print 'YES' if it is prime, otherwise print 'NO'.",
+          "description_bn": "একটা পূর্ণসংখ্যা ইনপুট নাও। এটা মৌলিক হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 50,
+          "test_cases": [
+            {
+              "input": "7",
+              "expected_output": "YES"
+            },
+            {
+              "input": "15",
+              "expected_output": "NO"
+            }
+          ]
+        },
+        {
+          "id": "cpp_c4_hard",
+          "difficulty": "hard",
+          "title_en": "Digital Root",
+          "title_bn": "ডিজিটাল রুট",
+          "description_en": "Read a non-negative integer and repeatedly sum its digits until a single digit remains. Print that digit.",
+          "description_bn": "একটা অ-ঋণাত্মক পূর্ণসংখ্যা ইনপুট নাও। এর অঙ্কগুলোর যোগফল বারবার বের করো যতক্ষণ না একটা অঙ্ক বাকি থাকে। সেই অঙ্কটা প্রিন্ট করো।",
+          "xp_reward": 80,
+          "test_cases": [
+            {
+              "input": "9875",
+              "expected_output": "2"
+            },
+            {
+              "input": "12345",
+              "expected_output": "6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cpp_contest_5",
+      "module": "cpp",
+      "unlock_after_lessons": 10,
+      "title_en": "C++ Contest 5",
+      "title_bn": "সি++ কনটেস্ট ৫",
+      "problems": [
+        {
+          "id": "cpp_c5_easy",
+          "difficulty": "easy",
+          "title_en": "Count Vowels",
+          "title_bn": "স্বরবর্ণ গণনা",
+          "description_en": "Read a line of text and print how many vowels (a, e, i, o, u — case-insensitive) it contains.",
+          "description_bn": "একটা লাইন টেক্সট ইনপুট নাও এবং এতে কয়টা স্বরবর্ণ (a, e, i, o, u) আছে তা প্রিন্ট করো।",
+          "xp_reward": 30,
+          "test_cases": [
+            {
+              "input": "Programming",
+              "expected_output": "3"
+            },
+            {
+              "input": "AEIOUaeiou",
+              "expected_output": "10"
+            }
+          ]
+        },
+        {
+          "id": "cpp_c5_medium",
+          "difficulty": "medium",
+          "title_en": "Second Largest Element",
+          "title_bn": "দ্বিতীয় সর্ববৃহৎ এলিমেন্ট",
+          "description_en": "Read n, then n space-separated integers on the next line. Print the second largest distinct value.",
+          "description_bn": "n ইনপুট নাও, তারপর পরের লাইনে n টা স্পেস দিয়ে আলাদা করা পূর্ণসংখ্যা ইনপুট নাও। দ্বিতীয় সর্ববৃহৎ ভিন্ন মানটা প্রিন্ট করো।",
+          "xp_reward": 50,
+          "test_cases": [
+            {
+              "input": "5\n10 20 4 45 99",
+              "expected_output": "45"
+            },
+            {
+              "input": "4\n1 2 3 4",
+              "expected_output": "3"
+            }
+          ]
+        },
+        {
+          "id": "cpp_c5_hard",
+          "difficulty": "hard",
+          "title_en": "Count Set Bits",
+          "title_bn": "সেট বিট গণনা",
+          "description_en": "Read a non-negative integer and print the number of 1s in its binary representation.",
+          "description_bn": "একটা অ-ঋণাত্মক পূর্ণসংখ্যা ইনপুট নাও এবং এর বাইনারি রূপে কয়টা 1 আছে তা প্রিন্ট করো।",
+          "xp_reward": 80,
+          "test_cases": [
+            {
+              "input": "7",
+              "expected_output": "3"
+            },
+            {
+              "input": "12",
+              "expected_output": "2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cpp_contest_6",
+      "module": "cpp",
+      "unlock_after_lessons": 12,
+      "title_en": "C++ Contest 6",
+      "title_bn": "সি++ কনটেস্ট ৬",
+      "problems": [
+        {
+          "id": "cpp_c6_easy",
+          "difficulty": "easy",
+          "title_en": "Reverse a String",
+          "title_bn": "স্ট্রিং উল্টানো",
+          "description_en": "Read a single line of text and print it reversed.",
+          "description_bn": "একটা লাইন টেক্সট ইনপুট নাও এবং এটা উল্টে প্রিন্ট করো।",
+          "xp_reward": 30,
+          "test_cases": [
+            {
+              "input": "hello",
+              "expected_output": "olleh"
+            },
+            {
+              "input": "CodeLearn",
+              "expected_output": "nraeLedoC"
+            }
+          ]
+        },
+        {
+          "id": "cpp_c6_medium",
+          "difficulty": "medium",
+          "title_en": "GCD of Two Numbers",
+          "title_bn": "দুই সংখ্যার গসাগু",
+          "description_en": "Read two integers (space-separated) and print their greatest common divisor.",
+          "description_bn": "দুইটা পূর্ণসংখ্যা (স্পেস দিয়ে আলাদা) ইনপুট নাও এবং তাদের গসাগু প্রিন্ট করো।",
+          "xp_reward": 50,
+          "test_cases": [
+            {
+              "input": "12 18",
+              "expected_output": "6"
+            },
+            {
+              "input": "17 5",
+              "expected_output": "1"
+            }
+          ]
+        },
+        {
+          "id": "cpp_c6_hard",
+          "difficulty": "hard",
+          "title_en": "Power of Two Check",
+          "title_bn": "টু-এর পাওয়ার চেক",
+          "description_en": "Read a positive integer and print 'YES' if it is a power of two, otherwise print 'NO'.",
+          "description_bn": "একটা ধনাত্মক পূর্ণসংখ্যা ইনপুট নাও। এটা ২-এর পাওয়ার হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 80,
+          "test_cases": [
+            {
+              "input": "16",
+              "expected_output": "YES"
+            },
+            {
+              "input": "18",
+              "expected_output": "NO"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cpp_contest_7",
+      "module": "cpp",
+      "unlock_after_lessons": 14,
+      "title_en": "C++ Contest 7",
+      "title_bn": "সি++ কনটেস্ট ৭",
+      "problems": [
+        {
+          "id": "cpp_c7_easy",
+          "difficulty": "easy",
+          "title_en": "Leap Year Check",
+          "title_bn": "অধিবর্ষ চেক",
+          "description_en": "Read a year and print 'YES' if it's a leap year, otherwise print 'NO'.",
+          "description_bn": "একটা বছর ইনপুট নাও। এটা অধিবর্ষ হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 30,
+          "test_cases": [
+            {
+              "input": "2024",
+              "expected_output": "YES"
+            },
+            {
+              "input": "2023",
+              "expected_output": "NO"
+            }
+          ]
+        },
+        {
+          "id": "cpp_c7_medium",
+          "difficulty": "medium",
+          "title_en": "Find the Missing Number",
+          "title_bn": "অনুপস্থিত সংখ্যা খুঁজে বের করো",
+          "description_en": "Read n, then n-1 space-separated integers which are a permutation of 1..n with exactly one number missing. Print the missing number.",
+          "description_bn": "n ইনপুট নাও, তারপর n-1 টা স্পেস দিয়ে আলাদা পূর্ণসংখ্যা ইনপুট নাও যা 1..n এর একটা পারমুটেশন যেখানে একটা সংখ্যা বাদ পড়েছে। অনুপস্থিত সংখ্যাটা প্রিন্ট করো।",
+          "xp_reward": 50,
+          "test_cases": [
+            {
+              "input": "5\n1 2 4 5",
+              "expected_output": "3"
+            },
+            {
+              "input": "6\n1 2 3 5 6",
+              "expected_output": "4"
+            }
+          ]
+        },
+        {
+          "id": "cpp_c7_hard",
+          "difficulty": "hard",
+          "title_en": "Perfect Square Check",
+          "title_bn": "পারফেক্ট স্কয়ার চেক",
+          "description_en": "Read an integer and print 'YES' if it is a perfect square, otherwise print 'NO'.",
+          "description_bn": "একটা পূর্ণসংখ্যা ইনপুট নাও। এটা পারফেক্ট স্কয়ার হলে 'YES' প্রিন্ট করো, না হলে 'NO' প্রিন্ট করো।",
+          "xp_reward": 80,
+          "test_cases": [
+            {
+              "input": "16",
+              "expected_output": "YES"
+            },
+            {
+              "input": "20",
+              "expected_output": "NO"
             }
           ]
         }
