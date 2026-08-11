@@ -92,9 +92,12 @@ TEXTS = {
     # LessonDetailScreen
     "code_editor_label": {"en": "Code Editor (type or edit code below):",
                            "bn": "কোড এডিটর (নিচে কোড লেখো বা এডিট করো):"},
-    "complete_lesson_btn": {"en": "✔ Mark Lesson Complete", "bn": "✔ পাঠ সম্পন্ন করো"},
+    "complete_lesson_btn": {"en": "✔ Completed", "bn": "✔ পাঠ সম্পন্ন করো"},
     "great_job_title": {"en": "Great job!", "bn": "চমৎকার!"},
-    "lesson_complete_msg": {"en": "Lesson marked complete. +20 XP", "bn": "পাঠ সম্পন্ন হয়েছে। +২০ এক্সপি"},
+    "lesson_complete_msg": {"en": "You've successfully completed this lesson.",
+                             "bn": "তুমি এই পাঠটি সফলভাবে সম্পন্ন করেছো।"},
+    "xp_earned_badge": {"en": "+20 XP Earned", "bn": "+২০ এক্সপি অর্জিত"},
+    "awesome_btn": {"en": "Awesome!", "bn": "চমৎকার!"},
 
     # QuizScreen
     "quiz_title": {"en": "Quiz", "bn": "কুইজ"},
@@ -229,6 +232,77 @@ def tr(app, key, **kwargs):
     format it with any given keyword arguments."""
     text = TEXTS[key][app.language]
     return text.format(**kwargs) if kwargs else text
+
+
+def _round_rect(canvas, x1, y1, x2, y2, radius=18, **kwargs):
+    """Draws a rounded rectangle on a Canvas (Tkinter has no native
+    rounded-rect shape) using a smoothed polygon, and returns its item id."""
+    points = [
+        x1 + radius, y1, x2 - radius, y1, x2, y1, x2, y1 + radius,
+        x2, y2 - radius, x2, y2, x2 - radius, y2, x1 + radius, y2,
+        x1, y2, x1, y2 - radius, x1, y1 + radius, x1, y1,
+    ]
+    return canvas.create_polygon(points, smooth=True, **kwargs)
+
+
+def show_celebration_popup(parent_window, title_text, subtitle_text,
+                            badge_text=None, button_text="OK",
+                            accent_color=BTN_COLOR):
+    """A polished, modal 'success' popup used in place of a plain
+    messagebox.showinfo — a colored banner with a circular checkmark icon,
+    a title/subtitle, an optional pill-shaped XP badge, and a rounded
+    action button. Blocks (like showinfo) until the user closes it."""
+    dialog = tk.Toplevel(parent_window)
+    dialog.title("")
+    dialog.configure(bg="white")
+    dialog.resizable(False, False)
+    dialog.transient(parent_window)
+    dialog.grab_set()
+
+    width, height = 380, 380
+    parent_window.update_idletasks()
+    x = parent_window.winfo_rootx() + (parent_window.winfo_width() - width) // 2
+    y = parent_window.winfo_rooty() + (parent_window.winfo_height() - height) // 2
+    dialog.geometry(f"{width}x{height}+{max(x, 0)}+{max(y, 0)}")
+
+    # --- Colored top banner with a circular checkmark icon ---
+    banner = tk.Frame(dialog, bg=accent_color, height=125)
+    banner.pack(fill="x")
+    banner.pack_propagate(False)
+
+    icon_canvas = tk.Canvas(banner, width=76, height=76, bg=accent_color, highlightthickness=0)
+    icon_canvas.pack(pady=(24, 0))
+    icon_canvas.create_oval(4, 4, 72, 72, fill="white", outline="")
+    icon_canvas.create_text(38, 38, text="✓", font=("Helvetica", 32, "bold"), fill=accent_color)
+
+    # --- Body: title + subtitle + optional badge ---
+    body = tk.Frame(dialog, bg="white")
+    body.pack(fill="x", padx=30, pady=(20, 0))
+
+    tk.Label(body, text=title_text, font=("Helvetica", 19, "bold"),
+             bg="white", fg=ACCENT_COLOR).pack()
+    tk.Label(body, text=subtitle_text, font=("Helvetica", 11), bg="white", fg="#777",
+             wraplength=300, justify="center").pack(pady=(6, 0))
+
+    if badge_text:
+        badge = tk.Canvas(body, width=150, height=36, bg="white", highlightthickness=0)
+        badge.pack(pady=(16, 0))
+        _round_rect(badge, 2, 2, 148, 34, radius=17, fill="#eaf3fb", outline="")
+        badge.create_text(75, 18, text=f"⭐ {badge_text}", font=("Helvetica", 11, "bold"), fill=accent_color)
+
+    # --- Rounded action button ---
+    btn_canvas = tk.Canvas(dialog, width=320, height=46, bg="white", highlightthickness=0)
+    btn_canvas.pack(side="bottom", pady=(0, 24))
+    rect = _round_rect(btn_canvas, 2, 2, 318, 44, radius=12, fill=accent_color, outline="")
+    label = btn_canvas.create_text(160, 23, text=button_text, font=("Helvetica", 12, "bold"), fill="white")
+    btn_canvas.config(cursor="hand2")
+    btn_canvas.tag_bind(rect, "<Button-1>", lambda e: dialog.destroy())
+    btn_canvas.tag_bind(label, "<Button-1>", lambda e: dialog.destroy())
+
+    dialog.bind("<Return>", lambda e: dialog.destroy())
+    dialog.protocol("WM_DELETE_WINDOW", dialog.destroy)
+    dialog.focus_set()
+    dialog.wait_window()
 
 
 class LanguageToggle(tk.Frame):
@@ -804,7 +878,13 @@ class LessonDetailScreen(tk.Frame):
     def complete_lesson(self):
         dm.mark_lesson_complete(self.app.data, self.app.current_user, self.current_lesson["id"])
         self.app.refresh_data()
-        messagebox.showinfo(tr(self.app, "great_job_title"), tr(self.app, "lesson_complete_msg"))
+        show_celebration_popup(
+            self.app,
+            title_text=tr(self.app, "great_job_title"),
+            subtitle_text=tr(self.app, "lesson_complete_msg"),
+            badge_text=tr(self.app, "xp_earned_badge"),
+            button_text=tr(self.app, "awesome_btn"),
+        )
 
 
 class QuizScreen(tk.Frame):
@@ -891,6 +971,10 @@ class QuizScreen(tk.Frame):
             self.next_btn.config(state="disabled", text=tr(app, "next_btn"))
             return
 
+        # Re-enable the submit button in case a previous module had no quiz
+        # and left it disabled (bug fix: it was never turned back on).
+        self.submit_btn.config(state="normal")
+
         quiz = self.quiz_list[self.current_index]
         total = len(self.quiz_list)
         self.progress_label.config(text=tr(app, "question_progress", i=self.current_index + 1, total=total))
@@ -926,8 +1010,16 @@ class QuizScreen(tk.Frame):
 
         # Only record XP the first time this question is submitted
         if not already_submitted:
-            dm.record_quiz_score(self.app.data, self.app.current_user, quiz["id"], correct)
-            self.app.refresh_data()
+            try:
+                dm.record_quiz_score(self.app.data, self.app.current_user, quiz["id"], correct)
+                self.app.refresh_data()
+            except Exception as e:
+                # Surface any backend error instead of failing silently,
+                # so a broken save never looks like "nothing happened".
+                import traceback
+                traceback.print_exc()
+                messagebox.showerror("Error", f"Could not save your answer:\n{e}")
+                return
 
         self.session_answers[quiz["id"]] = {"selected": chosen, "submitted": True, "correct": correct}
         self._show_feedback(quiz, correct)
