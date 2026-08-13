@@ -24,6 +24,9 @@ offline, with code executed **locally** (no external API needed).
   instead of a generic number, based on what their problems actually cover
 - **Admin panel**:
   - Student management — view/edit XP, reset progress, delete accounts
+  - **Content upload** — add brand-new **lessons** and brand-new **contests**
+    (with one or more problems and test cases each) directly from the app,
+    no manual JSON editing needed
   - **Plagiarism / code-similarity checker** — compares every pair of
     students' accepted solutions per contest problem and flags high-similarity
     pairs for manual review, with a side-by-side code viewer
@@ -35,11 +38,12 @@ offline, with code executed **locally** (no external API needed).
 CodeLearnApp/
 ├── main.py                  # Tkinter GUI app (entry point) — login, home,
 │                             #   lessons, quizzes, contests, leaderboard,
-│                             #   admin panel + plagiarism checker,
-│                             #   progress, certificates
+│                             #   admin panel + content upload + plagiarism
+│                             #   checker, progress, certificates
 ├── auth.py                  # Login/signup, password hashing, sessions
 ├── data_manager.py          # JSON load/save, lessons/users/progress logic,
-│                             #   contest leaderboard, plagiarism detection
+│                             #   contest leaderboard, plagiarism detection,
+│                             #   admin content upload (add lesson/contest)
 ├── code_runner.py           # Local code execution via subprocess
 │                             #   (Python, C, C++, Java)
 ├── progress_chart.py        # matplotlib chart embedded in Tkinter
@@ -101,18 +105,50 @@ CodeLearnApp/
   copying.
 - **Admin panel**: a separate admin login (`AdminLoginScreen`) leads to
   `StudentManagementScreen` for viewing/managing student accounts and
-  progress, with a button into the Plagiarism Checker.
+  progress, with buttons into **Content Upload** and the **Plagiarism
+  Checker**.
+- **Content upload (admin)**: `ContentManagementScreen` (opened via the
+  "📤 Upload Content" button on the Student Management screen) offers two
+  forms:
+  - **Add New Lesson** — pick a module (Python/C/C++), fill in the title
+    and content in both English and Bangla, and an optional code example.
+    Saving calls `data_manager.add_lesson()`, which auto-assigns the next
+    lesson `id` and writes straight to `data.json`.
+  - **Add New Contest** — set a contest ID (auto-suggested per module,
+    e.g. `python_contest_9`), how many lessons must be completed to unlock
+    it, and a bilingual title. Problems are added one at a time through a
+    nested "+ Add Problem" dialog (difficulty, bilingual title/description,
+    XP reward, and any number of input/expected-output test cases). A
+    contest needs at least one problem before it can be saved; saving calls
+    `data_manager.add_contest()`, which writes the whole contest straight to
+    `contests.json`.
+  - Both forms validate required fields and duplicate IDs before saving, so
+    lessons/contests can now be added without ever touching the JSON files
+    by hand.
 - **Progress tracking**: XP, streaks, and completed lessons are saved back
   to `data.json` after every action, so progress persists between sessions.
 - **Certificates**: once all lessons are marked complete, a PDF certificate
   is generated via reportlab and saved to the `certificates/` folder.
 
-## Adding More Lessons
-Open `data.json` and add a new object to the `"lessons"` list (and, if you
-want a quiz for it, a matching object in `"quizzes"` with the same
-`lesson_id`). No code changes needed — the app reads lessons dynamically.
+## Adding More Lessons & Contests
+The easiest way is **in-app**: log in as admin → Student Management →
+"📤 Upload Content" → **Add New Lesson** or **Add New Contest**. No code or
+JSON editing required.
+
+You can still edit the JSON files by hand if you prefer:
+- **Lessons**: open `data.json` and add a new object to the `"lessons"`
+  list (and, if you want a quiz for it, a matching object in `"quizzes"`
+  with the same `module`).
+- **Contests**: open `contests.json` and add a new object to the
+  `"contests"` list, with a `"problems"` array of problem objects
+  (each needs `id`, `difficulty`, bilingual title/description, `xp_reward`,
+  and `test_cases`).
+
+No code changes needed either way — the app reads both files dynamically.
 
 ## Extending Later
+- Editing/deleting existing lessons and contests from the admin panel
+  (currently only adding new ones is supported)
 - Timed/ranked contest rounds with live standings
 - Richer admin analytics (per-module completion rates, activity logs)
 - Password reset flow / rate limiting for auth

@@ -123,8 +123,60 @@ def load_contests():
         return json.load(f)["contests"]
 
 
+def save_contests(contests):
+    """Write the given list of contests back to contests.json."""
+    with open(CONTESTS_FILE, "w", encoding="utf-8") as f:
+        json.dump({"contests": contests}, f, ensure_ascii=False, indent=2)
+
+
 def get_contests_by_module(contests, module):
     return [c for c in contests if c["module"] == module]
+
+
+# ---------------------------------------------------------------------------
+# Admin content upload — lets an admin add a brand-new lesson or a brand-new
+# contest (with its problems/test cases) straight from the app, instead of
+# hand-editing data.json / contests.json.
+# ---------------------------------------------------------------------------
+
+def add_lesson(data, module, title_en, title_bn, content_en, content_bn, code_example):
+    """Create a new lesson (id auto-assigned), append it to data.json, and save.
+    `language` is always set equal to `module` (python/c/cpp), matching every
+    existing lesson in the app. Returns the new lesson dict."""
+    new_id = max((l["id"] for l in data["lessons"]), default=0) + 1
+    lesson = {
+        "id": new_id,
+        "module": module,
+        "title_en": title_en,
+        "title_bn": title_bn,
+        "content_en": content_en,
+        "content_bn": content_bn,
+        "code_example": code_example,
+        "language": module,
+    }
+    data["lessons"].append(lesson)
+    save_data(data)
+    return lesson
+
+
+def next_contest_id(contests, module):
+    """Suggest the next free contest id for a module, e.g. 'python_contest_3'."""
+    n = len(get_contests_by_module(contests, module)) + 1
+    while any(c["id"] == f"{module}_contest_{n}" for c in contests):
+        n += 1
+    return f"{module}_contest_{n}"
+
+
+def contest_id_exists(contests, contest_id):
+    return any(c["id"] == contest_id for c in contests)
+
+
+def add_contest(contests, contest):
+    """Append a fully-built contest dict (with its problems already inside)
+    to the in-memory contests list and persist it to contests.json."""
+    contests.append(contest)
+    save_contests(contests)
+    return contest
 
 
 def get_contest_by_id(contests, contest_id):

@@ -225,6 +225,78 @@ TEXTS = {
     "invalid_xp_msg": {"en": "Please enter a valid non-negative number for XP.",
                         "bn": "এক্সপির জন্য একটা সঠিক অ-ঋণাত্মক সংখ্যা দাও।"},
 
+    # Content Management (Admin: Add Lesson / Add Contest)
+    "content_mgmt_btn": {"en": "📤 Upload Content", "bn": "📤 কনটেন্ট আপলোড"},
+    "content_mgmt_title": {"en": "Upload Content", "bn": "কনটেন্ট আপলোড"},
+    "content_mgmt_subtitle": {"en": "Add a brand-new lesson or a brand-new contest to the app.",
+                               "bn": "অ্যাপে একদম নতুন একটা লেসন বা নতুন একটা কনটেস্ট যোগ করো।"},
+    "add_lesson_card_title": {"en": "📘 Add New Lesson", "bn": "📘 নতুন লেসন যোগ করো"},
+    "add_lesson_card_desc": {"en": "Create a lesson with a title, content, and a code example.",
+                              "bn": "টাইটেল, কনটেন্ট আর একটা কোড উদাহরণ দিয়ে নতুন লেসন তৈরি করো।"},
+    "add_contest_card_title": {"en": "🏆 Add New Contest", "bn": "🏆 নতুন কনটেস্ট যোগ করো"},
+    "add_contest_card_desc": {"en": "Create a contest with one or more problems and test cases.",
+                               "bn": "এক বা একাধিক প্রবলেম আর টেস্ট কেস দিয়ে নতুন কনটেস্ট তৈরি করো।"},
+    "open_btn": {"en": "Open →", "bn": "ওপেন করো →"},
+
+    # Add Lesson dialog
+    "add_lesson_title": {"en": "Add New Lesson", "bn": "নতুন লেসন যোগ করো"},
+    "module_field_label": {"en": "Module:", "bn": "মডিউল:"},
+    "lesson_title_en_label": {"en": "Title (English):", "bn": "টাইটেল (ইংরেজি):"},
+    "lesson_title_bn_label": {"en": "Title (Bangla):", "bn": "টাইটেল (বাংলা):"},
+    "lesson_content_en_label": {"en": "Content (English):", "bn": "কনটেন্ট (ইংরেজি):"},
+    "lesson_content_bn_label": {"en": "Content (Bangla):", "bn": "কনটেন্ট (বাংলা):"},
+    "code_example_label": {"en": "Code Example:", "bn": "কোড উদাহরণ:"},
+    "save_lesson_btn": {"en": "Save Lesson", "bn": "লেসন সেভ করো"},
+    "lesson_saved_title": {"en": "Lesson Added", "bn": "লেসন যোগ হয়েছে"},
+    "lesson_saved_msg": {"en": "'{title}' has been added to the {module} module.",
+                          "bn": "'{title}' {module} মডিউলে যোগ হয়ে গেছে।"},
+    "lesson_missing_fields_msg": {"en": "Please fill in the module, both titles, and both content fields.",
+                                   "bn": "মডিউল, দুইটা টাইটেল, আর দুইটা কনটেন্ট ফিল্ড পূরণ করো।"},
+
+    # Add Contest dialog
+    "add_contest_title": {"en": "Add New Contest", "bn": "নতুন কনটেস্ট যোগ করো"},
+    "contest_id_label": {"en": "Contest ID:", "bn": "কনটেস্ট আইডি:"},
+    "unlock_after_label": {"en": "Unlock after N lessons:", "bn": "কয়টা লেসনের পর আনলক হবে:"},
+    "contest_title_en_label": {"en": "Contest Title (English):", "bn": "কনটেস্ট টাইটেল (ইংরেজি):"},
+    "contest_title_bn_label": {"en": "Contest Title (Bangla):", "bn": "কনটেস্ট টাইটেল (বাংলা):"},
+    "problems_label": {"en": "Problems", "bn": "প্রবলেম সমূহ"},
+    "add_problem_btn": {"en": "+ Add Problem", "bn": "+ প্রবলেম যোগ করো"},
+    "remove_btn": {"en": "Remove", "bn": "সরাও"},
+    "save_contest_btn": {"en": "Save Contest", "bn": "কনটেস্ট সেভ করো"},
+    "no_problems_msg": {"en": "No problems added yet. Add at least one problem below.",
+                         "bn": "এখনো কোনো প্রবলেম যোগ হয়নি। নিচ থেকে অন্তত একটা প্রবলেম যোগ করো।"},
+    "contest_missing_fields_msg": {"en": "Please fill in the contest ID and both titles.",
+                                    "bn": "কনটেস্ট আইডি আর দুইটা টাইটেল পূরণ করো।"},
+    "contest_duplicate_id_msg": {"en": "A contest with this ID already exists. Choose a different ID.",
+                                  "bn": "এই আইডি দিয়ে আগে থেকেই একটা কনটেস্ট আছে। অন্য আইডি দাও।"},
+    "contest_no_problems_msg": {"en": "Add at least one problem before saving the contest.",
+                                 "bn": "কনটেস্ট সেভ করার আগে অন্তত একটা প্রবলেম যোগ করো।"},
+    "contest_saved_title": {"en": "Contest Added", "bn": "কনটেস্ট যোগ হয়েছে"},
+    "contest_saved_msg": {"en": "'{title}' has been added with {n} problem(s).",
+                           "bn": "'{title}' {n}টা প্রবলেম সহ যোগ হয়ে গেছে।"},
+
+    # Add Problem dialog (nested inside Add Contest)
+    "add_problem_title": {"en": "Add Problem", "bn": "প্রবলেম যোগ করো"},
+    "problem_id_label": {"en": "Problem ID:", "bn": "প্রবলেম আইডি:"},
+    "difficulty_label": {"en": "Difficulty:", "bn": "কঠিনতা:"},
+    "problem_title_en_label": {"en": "Problem Title (English):", "bn": "প্রবলেম টাইটেল (ইংরেজি):"},
+    "problem_title_bn_label": {"en": "Problem Title (Bangla):", "bn": "প্রবলেম টাইটেল (বাংলা):"},
+    "problem_desc_en_label": {"en": "Description (English):", "bn": "বর্ণনা (ইংরেজি):"},
+    "problem_desc_bn_label": {"en": "Description (Bangla):", "bn": "বর্ণনা (বাংলা):"},
+    "xp_reward_label": {"en": "XP Reward:", "bn": "এক্সপি পুরস্কার:"},
+    "test_cases_label": {"en": "Test Cases", "bn": "টেস্ট কেস"},
+    "add_test_case_btn": {"en": "+ Add Test Case", "bn": "+ টেস্ট কেস যোগ করো"},
+    "test_input_label": {"en": "Input:", "bn": "ইনপুট:"},
+    "test_expected_label": {"en": "Expected Output:", "bn": "প্রত্যাশিত আউটপুট:"},
+    "save_problem_btn": {"en": "Save Problem", "bn": "প্রবলেম সেভ করো"},
+    "problem_missing_fields_msg": {"en": "Please fill in the problem ID, both titles, both descriptions, and XP reward.",
+                                    "bn": "প্রবলেম আইডি, দুইটা টাইটেল, দুইটা বর্ণনা, আর এক্সপি রিওয়ার্ড পূরণ করো।"},
+    "problem_no_testcases_msg": {"en": "Add at least one test case.", "bn": "অন্তত একটা টেস্ট কেস যোগ করো।"},
+    "problem_duplicate_id_msg": {"en": "A problem with this ID already exists in this contest.",
+                                  "bn": "এই আইডি দিয়ে এই কনটেস্টে আগে থেকেই একটা প্রবলেম আছে।"},
+    "invalid_xp_reward_msg": {"en": "Please enter a valid positive number for XP reward.",
+                               "bn": "এক্সপি রিওয়ার্ডের জন্য একটা সঠিক পজিটিভ সংখ্যা দাও।"},
+
     # PlagiarismCheckScreen
     "plagiarism_check_btn": {"en": "🕵 Plagiarism Checker", "bn": "🕵 প্লেজিয়ারিজম চেকার"},
     "plagiarism_title": {"en": "Code Similarity Checker", "bn": "কোড সিমিলারিটি চেকার"},
@@ -318,7 +390,7 @@ class CodeLearnApp(tk.Tk):
         for F in (LoginScreen, HomeScreen, ModuleSelectScreen, LessonListScreen, LessonDetailScreen,
                   QuizScreen, ProgressScreen, CertificateScreen, PlaygroundScreen,
                   ContestListScreen, ContestScreen, ProblemScreen, LeaderboardScreen,
-                  AdminLoginScreen, StudentManagementScreen, PlagiarismCheckScreen):
+                  AdminLoginScreen, StudentManagementScreen, ContentManagementScreen, PlagiarismCheckScreen):
             frame = F(container, self)
             self.frames[F.__name__] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -1866,6 +1938,10 @@ class StudentManagementScreen(tk.Frame):
                                          font=("Helvetica", 11, "bold"),
                                          command=lambda: app.show_frame("PlagiarismCheckScreen"))
         self.plagiarism_btn.pack(side="right", padx=8)
+        self.content_mgmt_btn = tk.Button(top, bg="#e6f7ec", fg="#1e7a3d",
+                                           font=("Helvetica", 11, "bold"),
+                                           command=lambda: app.show_frame("ContentManagementScreen"))
+        self.content_mgmt_btn.pack(side="right", padx=8)
 
         table_outer = tk.Frame(self, bg=BG_COLOR)
         table_outer.pack(fill="both", expand=True, padx=20, pady=(0, 15))
@@ -1888,6 +1964,7 @@ class StudentManagementScreen(tk.Frame):
         self.back_btn.config(text=tr(self.app, "admin_logout_btn"))
         self.title_label.config(text=tr(self.app, "student_mgmt_title"))
         self.plagiarism_btn.config(text=tr(self.app, "plagiarism_check_btn"))
+        self.content_mgmt_btn.config(text=tr(self.app, "content_mgmt_btn"))
 
     def on_show(self):
         app = self.app
@@ -1990,6 +2067,423 @@ class StudentManagementScreen(tk.Frame):
 
         tk.Button(dialog, text=tr(app, "reset_progress_btn"), bg="#fdecea", fg="#c0392b",
                   font=("Helvetica", 10, "bold"), command=reset_progress).pack(pady=(15, 10), padx=15, anchor="w")
+
+
+class ContentManagementScreen(tk.Frame):
+    """Admin-only panel: two big cards that let the admin add a brand-new
+    lesson or a brand-new contest (with problems + test cases) directly
+    from the app, without hand-editing data.json / contests.json."""
+
+    def __init__(self, parent, app):
+        super().__init__(parent, bg=BG_COLOR)
+        self.app = app
+
+        top = tk.Frame(self, bg=BG_COLOR)
+        top.pack(fill="x", pady=15, padx=20)
+        self.back_btn = tk.Button(top, command=lambda: app.show_frame("StudentManagementScreen"))
+        self.back_btn.pack(side="left")
+        self.title_label = tk.Label(top, font=("Helvetica", 20, "bold"), bg=BG_COLOR, fg=ACCENT_COLOR)
+        self.title_label.pack(side="left", padx=20)
+        LanguageToggle(top, app, on_change=self.apply_language).pack(side="right")
+
+        self.subtitle_label = tk.Label(self, font=("Helvetica", 11), bg=BG_COLOR, fg="#666")
+        self.subtitle_label.pack(padx=25, anchor="w")
+
+        body = tk.Frame(self, bg=BG_COLOR)
+        body.pack(expand=True, pady=30)
+
+        # -- Add Lesson card --
+        lesson_card = tk.Frame(body, bg="white", padx=30, pady=25, highlightbackground="#ddd", highlightthickness=1)
+        lesson_card.grid(row=0, column=0, padx=15, pady=10)
+        self.lesson_card_title = tk.Label(lesson_card, font=("Helvetica", 15, "bold"), bg="white", fg=ACCENT_COLOR)
+        self.lesson_card_title.pack(anchor="w")
+        self.lesson_card_desc = tk.Label(lesson_card, font=("Helvetica", 10), bg="white", fg="#666",
+                                          wraplength=260, justify="left")
+        self.lesson_card_desc.pack(anchor="w", pady=(6, 16))
+        self.add_lesson_btn = tk.Button(lesson_card, bg=BTN_COLOR, fg="white", font=("Helvetica", 11, "bold"),
+                                         width=20, pady=6, command=self.open_add_lesson_dialog)
+        self.add_lesson_btn.pack(anchor="w")
+
+        # -- Add Contest card --
+        contest_card = tk.Frame(body, bg="white", padx=30, pady=25, highlightbackground="#ddd", highlightthickness=1)
+        contest_card.grid(row=0, column=1, padx=15, pady=10)
+        self.contest_card_title = tk.Label(contest_card, font=("Helvetica", 15, "bold"), bg="white", fg=ACCENT_COLOR)
+        self.contest_card_title.pack(anchor="w")
+        self.contest_card_desc = tk.Label(contest_card, font=("Helvetica", 10), bg="white", fg="#666",
+                                           wraplength=260, justify="left")
+        self.contest_card_desc.pack(anchor="w", pady=(6, 16))
+        self.add_contest_btn = tk.Button(contest_card, bg=BTN_COLOR, fg="white", font=("Helvetica", 11, "bold"),
+                                          width=20, pady=6, command=self.open_add_contest_dialog)
+        self.add_contest_btn.pack(anchor="w")
+
+        self.apply_language()
+
+    def apply_language(self):
+        app = self.app
+        self.back_btn.config(text=tr(app, "admin_logout_btn"))
+        self.title_label.config(text=tr(app, "content_mgmt_title"))
+        self.subtitle_label.config(text=tr(app, "content_mgmt_subtitle"))
+        self.lesson_card_title.config(text=tr(app, "add_lesson_card_title"))
+        self.lesson_card_desc.config(text=tr(app, "add_lesson_card_desc"))
+        self.add_lesson_btn.config(text=tr(app, "open_btn"))
+        self.contest_card_title.config(text=tr(app, "add_contest_card_title"))
+        self.contest_card_desc.config(text=tr(app, "add_contest_card_desc"))
+        self.add_contest_btn.config(text=tr(app, "open_btn"))
+
+    def on_show(self):
+        self.app.refresh_data()
+        self.app.contests = dm.load_contests()
+        self.apply_language()
+
+    # ------------------------------------------------------------------
+    # Add Lesson dialog
+    # ------------------------------------------------------------------
+    def open_add_lesson_dialog(self):
+        app = self.app
+
+        dialog = tk.Toplevel(self)
+        dialog.title(tr(app, "add_lesson_title"))
+        dialog.configure(bg="white")
+        dialog.geometry("560x640")
+        dialog.transient(self.winfo_toplevel())
+        dialog.grab_set()
+
+        outer = tk.Frame(dialog, bg="white", padx=20, pady=15)
+        outer.pack(fill="both", expand=True)
+
+        tk.Label(outer, text=tr(app, "add_lesson_title"), font=("Helvetica", 14, "bold"),
+                 bg="white", fg=ACCENT_COLOR).pack(anchor="w", pady=(0, 12))
+
+        tk.Label(outer, text=tr(app, "module_field_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        module_var = tk.StringVar(value="python")
+        tk.OptionMenu(outer, module_var, "python", "c", "cpp").pack(anchor="w", pady=(0, 10))
+
+        tk.Label(outer, text=tr(app, "lesson_title_en_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        title_en_entry = tk.Entry(outer, font=("Helvetica", 10), width=60)
+        title_en_entry.pack(anchor="w", pady=(0, 10))
+
+        tk.Label(outer, text=tr(app, "lesson_title_bn_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        title_bn_entry = tk.Entry(outer, font=("Helvetica", 10), width=60)
+        title_bn_entry.pack(anchor="w", pady=(0, 10))
+
+        tk.Label(outer, text=tr(app, "lesson_content_en_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        content_en_text = tk.Text(outer, font=("Helvetica", 10), width=60, height=4, wrap="word")
+        content_en_text.pack(anchor="w", pady=(0, 10))
+
+        tk.Label(outer, text=tr(app, "lesson_content_bn_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        content_bn_text = tk.Text(outer, font=("Helvetica", 10), width=60, height=4, wrap="word")
+        content_bn_text.pack(anchor="w", pady=(0, 10))
+
+        tk.Label(outer, text=tr(app, "code_example_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        code_text = tk.Text(outer, font=("Courier New", 10), width=60, height=6, wrap="none")
+        code_text.pack(anchor="w", pady=(0, 12))
+
+        message_label = tk.Label(outer, text="", bg="white", font=("Helvetica", 10), fg="#e74c3c")
+        message_label.pack(anchor="w")
+
+        def save_lesson():
+            module = module_var.get()
+            title_en = title_en_entry.get().strip()
+            title_bn = title_bn_entry.get().strip()
+            content_en = content_en_text.get("1.0", "end").strip()
+            content_bn = content_bn_text.get("1.0", "end").strip()
+            code_example = code_text.get("1.0", "end").strip()
+
+            if not (module and title_en and title_bn and content_en and content_bn):
+                message_label.config(text=tr(app, "lesson_missing_fields_msg"))
+                return
+
+            dm.add_lesson(app.data, module, title_en, title_bn, content_en, content_bn, code_example)
+            app.refresh_data()
+            dialog.destroy()
+            messagebox.showinfo(tr(app, "lesson_saved_title"),
+                                 tr(app, "lesson_saved_msg", title=title_en, module=module))
+
+        btn_row = tk.Frame(outer, bg="white")
+        btn_row.pack(anchor="w", pady=(4, 0))
+        tk.Button(btn_row, text=tr(app, "save_lesson_btn"), bg=BTN_COLOR, fg="white",
+                  font=("Helvetica", 10, "bold"), command=save_lesson).pack(side="left", padx=(0, 8))
+        tk.Button(btn_row, text=tr(app, "cancel_btn"), font=("Helvetica", 10),
+                  command=dialog.destroy).pack(side="left")
+
+    # ------------------------------------------------------------------
+    # Add Contest dialog (contest info + a running list of problems)
+    # ------------------------------------------------------------------
+    def open_add_contest_dialog(self):
+        app = self.app
+
+        dialog = tk.Toplevel(self)
+        dialog.title(tr(app, "add_contest_title"))
+        dialog.configure(bg="white")
+        dialog.geometry("620x680")
+        dialog.transient(self.winfo_toplevel())
+        dialog.grab_set()
+
+        problems = []  # accumulates fully-built problem dicts before final save
+
+        outer = tk.Frame(dialog, bg="white", padx=20, pady=15)
+        outer.pack(fill="both", expand=True)
+
+        tk.Label(outer, text=tr(app, "add_contest_title"), font=("Helvetica", 14, "bold"),
+                 bg="white", fg=ACCENT_COLOR).pack(anchor="w", pady=(0, 12))
+
+        module_row = tk.Frame(outer, bg="white")
+        module_row.pack(anchor="w", fill="x", pady=(0, 10))
+        tk.Label(module_row, text=tr(app, "module_field_label"), bg="white", font=("Helvetica", 10, "bold")).grid(row=0, column=0, sticky="w")
+        module_var = tk.StringVar(value="python")
+        contest_id_entry_ref = {}
+
+        def suggest_id(*_):
+            if "entry" in contest_id_entry_ref:
+                entry = contest_id_entry_ref["entry"]
+                entry.delete(0, tk.END)
+                entry.insert(0, dm.next_contest_id(app.contests, module_var.get()))
+
+        tk.OptionMenu(module_row, module_var, "python", "c", "cpp", command=suggest_id).grid(row=0, column=1, sticky="w", padx=10)
+
+        tk.Label(module_row, text=tr(app, "unlock_after_label"), bg="white", font=("Helvetica", 10, "bold")).grid(row=0, column=2, sticky="w", padx=(20, 0))
+        unlock_entry = tk.Entry(module_row, font=("Helvetica", 10), width=6)
+        unlock_entry.insert(0, "2")
+        unlock_entry.grid(row=0, column=3, sticky="w", padx=8)
+
+        tk.Label(outer, text=tr(app, "contest_id_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        contest_id_entry = tk.Entry(outer, font=("Helvetica", 10), width=40)
+        contest_id_entry.insert(0, dm.next_contest_id(app.contests, module_var.get()))
+        contest_id_entry.pack(anchor="w", pady=(0, 10))
+        contest_id_entry_ref["entry"] = contest_id_entry
+
+        tk.Label(outer, text=tr(app, "contest_title_en_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        contest_title_en_entry = tk.Entry(outer, font=("Helvetica", 10), width=60)
+        contest_title_en_entry.pack(anchor="w", pady=(0, 10))
+
+        tk.Label(outer, text=tr(app, "contest_title_bn_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        contest_title_bn_entry = tk.Entry(outer, font=("Helvetica", 10), width=60)
+        contest_title_bn_entry.pack(anchor="w", pady=(0, 10))
+
+        tk.Label(outer, text=tr(app, "problems_label"), font=("Helvetica", 11, "bold"),
+                 bg="white", fg=ACCENT_COLOR).pack(anchor="w", pady=(10, 4))
+
+        problems_list_frame = tk.Frame(outer, bg="white")
+        problems_list_frame.pack(anchor="w", fill="x")
+
+        def refresh_problems_list():
+            for w in problems_list_frame.winfo_children():
+                w.destroy()
+            if not problems:
+                tk.Label(problems_list_frame, text=tr(app, "no_problems_msg"), bg="white",
+                         fg="#999", font=("Helvetica", 9)).pack(anchor="w")
+                return
+            for idx, p in enumerate(problems):
+                row = tk.Frame(problems_list_frame, bg="#f7f8fa")
+                row.pack(fill="x", pady=2)
+                tk.Label(row, text=f"[{p['difficulty']}] {p['title_en']}  ({p['id']})",
+                         bg="#f7f8fa", font=("Helvetica", 9), anchor="w").pack(side="left", padx=6, pady=4)
+                tk.Button(row, text=tr(app, "remove_btn"), font=("Helvetica", 8), bg="#fdecea",
+                          fg="#c0392b", command=lambda i=idx: remove_problem(i)).pack(side="right", padx=6)
+
+        def remove_problem(idx):
+            problems.pop(idx)
+            refresh_problems_list()
+
+        def on_problem_added(problem):
+            problems.append(problem)
+            refresh_problems_list()
+
+        add_problem_btn = tk.Button(outer, text=tr(app, "add_problem_btn"), bg="#eaf3fb", fg=BTN_COLOR,
+                                     font=("Helvetica", 10, "bold"),
+                                     command=lambda: self.open_add_problem_dialog(dialog, on_problem_added, problems))
+        add_problem_btn.pack(anchor="w", pady=(8, 12))
+
+        message_label = tk.Label(outer, text="", bg="white", font=("Helvetica", 10), fg="#e74c3c")
+        message_label.pack(anchor="w")
+
+        def save_contest():
+            module = module_var.get()
+            contest_id = contest_id_entry.get().strip()
+            title_en = contest_title_en_entry.get().strip()
+            title_bn = contest_title_bn_entry.get().strip()
+
+            try:
+                unlock_after = int(unlock_entry.get())
+                if unlock_after < 0:
+                    raise ValueError
+            except ValueError:
+                message_label.config(text=tr(app, "invalid_xp_reward_msg"))
+                return
+
+            if not (contest_id and title_en and title_bn):
+                message_label.config(text=tr(app, "contest_missing_fields_msg"))
+                return
+            if dm.contest_id_exists(app.contests, contest_id):
+                message_label.config(text=tr(app, "contest_duplicate_id_msg"))
+                return
+            if not problems:
+                message_label.config(text=tr(app, "contest_no_problems_msg"))
+                return
+
+            contest = {
+                "id": contest_id,
+                "module": module,
+                "unlock_after_lessons": unlock_after,
+                "title_en": title_en,
+                "title_bn": title_bn,
+                "problems": problems,
+            }
+            dm.add_contest(app.contests, contest)
+            dialog.destroy()
+            messagebox.showinfo(tr(app, "contest_saved_title"),
+                                 tr(app, "contest_saved_msg", title=title_en, n=len(problems)))
+
+        btn_row = tk.Frame(outer, bg="white")
+        btn_row.pack(anchor="w", pady=(4, 0))
+        tk.Button(btn_row, text=tr(app, "save_contest_btn"), bg=BTN_COLOR, fg="white",
+                  font=("Helvetica", 10, "bold"), command=save_contest).pack(side="left", padx=(0, 8))
+        tk.Button(btn_row, text=tr(app, "cancel_btn"), font=("Helvetica", 10),
+                  command=dialog.destroy).pack(side="left")
+
+        refresh_problems_list()
+
+    # ------------------------------------------------------------------
+    # Add Problem dialog (nested — invoked from the Add Contest dialog)
+    # ------------------------------------------------------------------
+    def open_add_problem_dialog(self, parent_dialog, on_saved, existing_problems):
+        app = self.app
+
+        dialog = tk.Toplevel(parent_dialog)
+        dialog.title(tr(app, "add_problem_title"))
+        dialog.configure(bg="white")
+        dialog.geometry("560x680")
+        dialog.transient(parent_dialog)
+        dialog.grab_set()
+
+        test_cases = []  # list of (input_entry_value, expected_entry_value) captured at save time
+
+        outer = tk.Frame(dialog, bg="white", padx=20, pady=15)
+        outer.pack(fill="both", expand=True)
+
+        tk.Label(outer, text=tr(app, "add_problem_title"), font=("Helvetica", 13, "bold"),
+                 bg="white", fg=ACCENT_COLOR).pack(anchor="w", pady=(0, 10))
+
+        row1 = tk.Frame(outer, bg="white")
+        row1.pack(anchor="w", fill="x", pady=(0, 10))
+        tk.Label(row1, text=tr(app, "problem_id_label"), bg="white", font=("Helvetica", 10, "bold")).grid(row=0, column=0, sticky="w")
+        problem_id_entry = tk.Entry(row1, font=("Helvetica", 10), width=20)
+        problem_id_entry.grid(row=0, column=1, sticky="w", padx=8)
+        tk.Label(row1, text=tr(app, "difficulty_label"), bg="white", font=("Helvetica", 10, "bold")).grid(row=0, column=2, sticky="w", padx=(20, 0))
+        difficulty_var = tk.StringVar(value="easy")
+        tk.OptionMenu(row1, difficulty_var, "easy", "medium", "hard").grid(row=0, column=3, sticky="w", padx=8)
+
+        tk.Label(outer, text=tr(app, "problem_title_en_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        p_title_en_entry = tk.Entry(outer, font=("Helvetica", 10), width=55)
+        p_title_en_entry.pack(anchor="w", pady=(0, 8))
+
+        tk.Label(outer, text=tr(app, "problem_title_bn_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        p_title_bn_entry = tk.Entry(outer, font=("Helvetica", 10), width=55)
+        p_title_bn_entry.pack(anchor="w", pady=(0, 8))
+
+        tk.Label(outer, text=tr(app, "problem_desc_en_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        p_desc_en_text = tk.Text(outer, font=("Helvetica", 10), width=55, height=3, wrap="word")
+        p_desc_en_text.pack(anchor="w", pady=(0, 8))
+
+        tk.Label(outer, text=tr(app, "problem_desc_bn_label"), bg="white", font=("Helvetica", 10, "bold")).pack(anchor="w")
+        p_desc_bn_text = tk.Text(outer, font=("Helvetica", 10), width=55, height=3, wrap="word")
+        p_desc_bn_text.pack(anchor="w", pady=(0, 8))
+
+        xp_row = tk.Frame(outer, bg="white")
+        xp_row.pack(anchor="w", pady=(0, 10))
+        tk.Label(xp_row, text=tr(app, "xp_reward_label"), bg="white", font=("Helvetica", 10, "bold")).pack(side="left")
+        xp_entry = tk.Entry(xp_row, font=("Helvetica", 10), width=8)
+        xp_entry.insert(0, "30")
+        xp_entry.pack(side="left", padx=8)
+
+        tk.Label(outer, text=tr(app, "test_cases_label"), font=("Helvetica", 11, "bold"),
+                 bg="white", fg=ACCENT_COLOR).pack(anchor="w", pady=(6, 4))
+
+        tc_container = tk.Frame(outer, bg="white")
+        tc_container.pack(anchor="w", fill="x")
+        tc_rows = []  # list of (row_frame, input_entry, expected_entry)
+
+        def add_test_case_row():
+            row = tk.Frame(tc_container, bg="#f7f8fa")
+            row.pack(fill="x", pady=3)
+            tk.Label(row, text=tr(app, "test_input_label"), bg="#f7f8fa", font=("Helvetica", 9)).grid(row=0, column=0, padx=(4, 2), pady=4)
+            in_entry = tk.Entry(row, font=("Helvetica", 9), width=20)
+            in_entry.grid(row=0, column=1, padx=2)
+            tk.Label(row, text=tr(app, "test_expected_label"), bg="#f7f8fa", font=("Helvetica", 9)).grid(row=0, column=2, padx=(10, 2))
+            exp_entry = tk.Entry(row, font=("Helvetica", 9), width=20)
+            exp_entry.grid(row=0, column=3, padx=2)
+
+            def remove_row():
+                tc_container_row = (row, in_entry, exp_entry)
+                if tc_container_row in tc_rows:
+                    tc_rows.remove(tc_container_row)
+                row.destroy()
+
+            tk.Button(row, text="✕", font=("Helvetica", 8), bg="#fdecea", fg="#c0392b",
+                      command=remove_row).grid(row=0, column=4, padx=6)
+            tc_rows.append((row, in_entry, exp_entry))
+
+        tk.Button(outer, text=tr(app, "add_test_case_btn"), bg="#eaf3fb", fg=BTN_COLOR,
+                  font=("Helvetica", 9, "bold"), command=add_test_case_row).pack(anchor="w", pady=(4, 10))
+
+        message_label = tk.Label(outer, text="", bg="white", font=("Helvetica", 10), fg="#e74c3c")
+        message_label.pack(anchor="w")
+
+        def save_problem():
+            problem_id = problem_id_entry.get().strip()
+            title_en = p_title_en_entry.get().strip()
+            title_bn = p_title_bn_entry.get().strip()
+            desc_en = p_desc_en_text.get("1.0", "end").strip()
+            desc_bn = p_desc_bn_text.get("1.0", "end").strip()
+            xp_text = xp_entry.get().strip()
+
+            if not (problem_id and title_en and title_bn and desc_en and desc_bn and xp_text):
+                message_label.config(text=tr(app, "problem_missing_fields_msg"))
+                return
+            try:
+                xp_reward = int(xp_text)
+                if xp_reward <= 0:
+                    raise ValueError
+            except ValueError:
+                message_label.config(text=tr(app, "invalid_xp_reward_msg"))
+                return
+            if any(p["id"] == problem_id for p in existing_problems):
+                message_label.config(text=tr(app, "problem_duplicate_id_msg"))
+                return
+
+            collected_cases = []
+            for _, in_entry, exp_entry in tc_rows:
+                in_val = in_entry.get()
+                exp_val = exp_entry.get().strip()
+                if exp_val == "":
+                    continue
+                collected_cases.append({"input": in_val, "expected_output": exp_val})
+
+            if not collected_cases:
+                message_label.config(text=tr(app, "problem_no_testcases_msg"))
+                return
+
+            problem = {
+                "id": problem_id,
+                "difficulty": difficulty_var.get(),
+                "title_en": title_en,
+                "title_bn": title_bn,
+                "description_en": desc_en,
+                "description_bn": desc_bn,
+                "xp_reward": xp_reward,
+                "test_cases": collected_cases,
+            }
+            on_saved(problem)
+            dialog.destroy()
+
+        btn_row = tk.Frame(outer, bg="white")
+        btn_row.pack(anchor="w", pady=(8, 0))
+        tk.Button(btn_row, text=tr(app, "save_problem_btn"), bg=BTN_COLOR, fg="white",
+                  font=("Helvetica", 10, "bold"), command=save_problem).pack(side="left", padx=(0, 8))
+        tk.Button(btn_row, text=tr(app, "cancel_btn"), font=("Helvetica", 10),
+                  command=dialog.destroy).pack(side="left")
+
+        add_test_case_row()  # start with one empty row for convenience
 
 
 class PlagiarismCheckScreen(tk.Frame):
