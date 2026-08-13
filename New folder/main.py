@@ -88,9 +88,6 @@ TEXTS = {
     # LessonListScreen
     "lessons_title_suffix": {"en": "Lessons", "bn": "পাঠসমূহ"},
     "take_quiz_btn": {"en": "📝 Take Module Quiz", "bn": "📝 কুইজ দাও"},
-    "search_placeholder": {"en": "🔍 Search lessons...", "bn": "🔍 পাঠ খুঁজুন..."},
-    "no_results_msg": {"en": "No lessons match your search.", "bn": "কোনো পাঠ পাওয়া যায়নি।"},
-    "search_contests_placeholder": {"en": "🔍 Search contests by name or topic...", "bn": "🔍 নাম বা টপিক দিয়ে কনটেস্ট খুঁজুন..."},
 
     # LessonDetailScreen
     "code_editor_label": {"en": "Code Editor (type or edit code below):",
@@ -224,27 +221,6 @@ TEXTS = {
     "no_students_msg": {"en": "No students have registered yet.", "bn": "এখনো কোনো স্টুডেন্ট রেজিস্টার করেনি।"},
     "invalid_xp_msg": {"en": "Please enter a valid non-negative number for XP.",
                         "bn": "এক্সপির জন্য একটা সঠিক অ-ঋণাত্মক সংখ্যা দাও।"},
-
-    # PlagiarismCheckScreen
-    "plagiarism_check_btn": {"en": "🕵 Plagiarism Checker", "bn": "🕵 প্লেজিয়ারিজম চেকার"},
-    "plagiarism_title": {"en": "Code Similarity Checker", "bn": "কোড সিমিলারিটি চেকার"},
-    "plagiarism_disclaimer": {
-        "en": "These are short beginner problems, so similar code can happen by "
-              "chance. Treat matches below as a signal to review manually — "
-              "not proof of copying.",
-        "bn": "এগুলো ছোট বিগিনার প্রবলেম, তাই কাকতালীয়ভাবেও কোড মিলে যেতে পারে। "
-              "নিচের মিলগুলোকে নিজে চেক করার ইঙ্গিত হিসেবে নাও — কপি করার প্রমাণ হিসেবে না।"},
-    "threshold_label": {"en": "Minimum similarity:", "bn": "সর্বনিম্ন সিমিলারিটি:"},
-    "scan_btn": {"en": "🔍 Scan All Contests", "bn": "🔍 সব কনটেস্ট স্ক্যান করো"},
-    "scanning_msg": {"en": "Scanning submissions...", "bn": "সাবমিশন স্ক্যান করা হচ্ছে..."},
-    "no_matches_msg": {"en": "No matches found at or above this threshold.",
-                        "bn": "এই থ্রেশহোল্ডে বা তার উপরে কোনো মিল পাওয়া যায়নি।"},
-    "col_problem": {"en": "Problem", "bn": "প্রবলেম"},
-    "col_student_a": {"en": "Student A", "bn": "স্টুডেন্ট A"},
-    "col_student_b": {"en": "Student B", "bn": "স্টুডেন্ট B"},
-    "col_similarity": {"en": "Similarity", "bn": "সিমিলারিটি"},
-    "view_code_btn": {"en": "View Code", "bn": "কোড দেখো"},
-    "code_compare_title": {"en": "Compare: {a} vs {b}", "bn": "তুলনা: {a} বনাম {b}"},
 }
 
 
@@ -318,7 +294,7 @@ class CodeLearnApp(tk.Tk):
         for F in (LoginScreen, HomeScreen, ModuleSelectScreen, LessonListScreen, LessonDetailScreen,
                   QuizScreen, ProgressScreen, CertificateScreen, PlaygroundScreen,
                   ContestListScreen, ContestScreen, ProblemScreen, LeaderboardScreen,
-                  AdminLoginScreen, StudentManagementScreen, PlagiarismCheckScreen):
+                  AdminLoginScreen, StudentManagementScreen):
             frame = F(container, self)
             self.frames[F.__name__] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -678,19 +654,6 @@ class LessonListScreen(tk.Frame):
         self.contests_btn.pack(side="right", padx=8)
         LanguageToggle(top, app, on_change=self.on_show).pack(side="right", padx=10)
 
-        search_frame = tk.Frame(self, bg=BG_COLOR)
-        search_frame.pack(fill="x", padx=20, pady=(0, 5))
-        self.search_var = tk.StringVar()
-        self.search_var.trace_add("write", lambda *args: self.filter_lessons())
-        self.search_entry = tk.Entry(search_frame, textvariable=self.search_var,
-                                      font=("Helvetica", 12), relief="solid", bd=1)
-        self.search_entry.pack(fill="x", ipady=6)
-        self.clear_search_btn = tk.Button(search_frame, text="✕", font=("Helvetica", 10),
-                                           bg=BG_COLOR, bd=0, cursor="hand2",
-                                           command=lambda: self.search_var.set(""))
-        self.clear_search_btn.place(in_=self.search_entry, relx=1.0, rely=0.5,
-                                     anchor="e", x=-6)
-
         self.listbox = tk.Listbox(self, font=("Helvetica", 13), height=15)
         self.listbox.pack(fill="both", expand=True, padx=20, pady=10)
         self.listbox.bind("<<ListboxSelect>>", self.select_lesson)
@@ -702,29 +665,6 @@ class LessonListScreen(tk.Frame):
         self.back_btn.config(text=tr(app, "back_btn"))
         self.quiz_btn.config(text=tr(app, "take_quiz_btn"))
         self.contests_btn.config(text=tr(app, "contests_btn"))
-        self._set_placeholder()
-
-    def _set_placeholder(self):
-        placeholder = tr(self.app, "search_placeholder")
-        current = self.search_var.get()
-        # Only overwrite if the box is empty or still showing the old placeholder
-        if not current or current == getattr(self, "_placeholder_text", None):
-            self._suppress_filter = True
-            self.search_var.set(placeholder)
-            self._suppress_filter = False
-        self._placeholder_text = placeholder
-        self.search_entry.config(fg="#999999")
-        self.search_entry.bind("<FocusIn>", self._clear_placeholder)
-        self.search_entry.bind("<FocusOut>", self._restore_placeholder)
-
-    def _clear_placeholder(self, event=None):
-        if self.search_var.get() == self._placeholder_text:
-            self.search_var.set("")
-            self.search_entry.config(fg="black")
-
-    def _restore_placeholder(self, event=None):
-        if not self.search_var.get():
-            self._set_placeholder()
 
     def on_show(self):
         self.app.refresh_data()
@@ -733,42 +673,18 @@ class LessonListScreen(tk.Frame):
         module_name = self.MODULE_DISPLAY_NAMES.get(module, "")
         self.title_label.config(text=f"{module_name} {tr(self.app, 'lessons_title_suffix')}")
 
-        completed = self.app.get_current_user_data()["completed_lessons"]
-        self.all_lessons = []
-        for lesson in dm.get_lessons_by_module(self.app.data, module):
-            self.all_lessons.append({
-                "id": lesson["id"],
-                "title_en": lesson["title_en"],
-                "title_bn": lesson["title_bn"],
-                "completed": lesson["id"] in completed,
-            })
-        self.filter_lessons()
-
-    def filter_lessons(self):
-        if getattr(self, "_suppress_filter", False):
-            return
-        query = self.search_var.get().strip().lower()
-        if query == getattr(self, "_placeholder_text", None):
-            query = ""
-
         self.listbox.delete(0, tk.END)
         self.lesson_ids = []
-        for lesson in getattr(self, "all_lessons", []):
+        completed = self.app.get_current_user_data()["completed_lessons"]
+        for lesson in dm.get_lessons_by_module(self.app.data, module):
+            mark = "✅ " if lesson["id"] in completed else "⬜ "
             title = lesson["title_bn"] if self.app.language == "bn" else lesson["title_en"]
-            if query and query not in title.lower() \
-                    and query not in lesson["title_en"].lower() \
-                    and query not in lesson["title_bn"].lower():
-                continue
-            mark = "✅ " if lesson["completed"] else "⬜ "
             self.listbox.insert(tk.END, f"{mark}{title}")
             self.lesson_ids.append(lesson["id"])
 
-        if query and not self.lesson_ids:
-            self.listbox.insert(tk.END, tr(self.app, "no_results_msg"))
-
     def select_lesson(self, event):
         selection = self.listbox.curselection()
-        if not selection or selection[0] >= len(self.lesson_ids):
+        if not selection:
             return
         lesson_id = self.lesson_ids[selection[0]]
         detail_frame = self.app.frames["LessonDetailScreen"]
@@ -975,10 +891,6 @@ class QuizScreen(tk.Frame):
             self.next_btn.config(state="disabled", text=tr(app, "next_btn"))
             return
 
-        # Re-enable the submit button in case a previous module had no quiz
-        # and left it disabled (bug fix: it was never turned back on).
-        self.submit_btn.config(state="normal")
-
         quiz = self.quiz_list[self.current_index]
         total = len(self.quiz_list)
         self.progress_label.config(text=tr(app, "question_progress", i=self.current_index + 1, total=total))
@@ -1014,16 +926,8 @@ class QuizScreen(tk.Frame):
 
         # Only record XP the first time this question is submitted
         if not already_submitted:
-            try:
-                dm.record_quiz_score(self.app.data, self.app.current_user, quiz["id"], correct)
-                self.app.refresh_data()
-            except Exception as e:
-                # Surface any backend error instead of failing silently,
-                # so a broken save never looks like "nothing happened".
-                import traceback
-                traceback.print_exc()
-                messagebox.showerror("Error", f"Could not save your answer:\n{e}")
-                return
+            dm.record_quiz_score(self.app.data, self.app.current_user, quiz["id"], correct)
+            self.app.refresh_data()
 
         self.session_answers[quiz["id"]] = {"selected": chosen, "submitted": True, "correct": correct}
         self._show_feedback(quiz, correct)
@@ -1270,19 +1174,6 @@ class ContestListScreen(tk.Frame):
         self.title_label.pack(side="left", padx=20)
         LanguageToggle(top, app, on_change=self.on_show).pack(side="right")
 
-        search_frame = tk.Frame(self, bg=BG_COLOR)
-        search_frame.pack(fill="x", padx=20, pady=(0, 5))
-        self.search_var = tk.StringVar()
-        self.search_var.trace_add("write", lambda *args: self.render_contests())
-        self.search_entry = tk.Entry(search_frame, textvariable=self.search_var,
-                                      font=("Helvetica", 12), relief="solid", bd=1)
-        self.search_entry.pack(fill="x", ipady=6)
-        self.clear_search_btn = tk.Button(search_frame, text="✕", font=("Helvetica", 10),
-                                           bg=BG_COLOR, bd=0, cursor="hand2",
-                                           command=lambda: self.search_var.set(""))
-        self.clear_search_btn.place(in_=self.search_entry, relx=1.0, rely=0.5,
-                                     anchor="e", x=-6)
-
         self.list_container = tk.Frame(self, bg=BG_COLOR)
         self.list_container.pack(fill="both", expand=True, padx=20, pady=10)
 
@@ -1292,61 +1183,23 @@ class ContestListScreen(tk.Frame):
         app = self.app
         self.back_btn.config(text=tr(app, "back_btn"))
         self.title_label.config(text=tr(app, "contest_list_title"))
-        self._set_placeholder()
-
-    def _set_placeholder(self):
-        placeholder = tr(self.app, "search_contests_placeholder")
-        current = self.search_var.get()
-        if not current or current == getattr(self, "_placeholder_text", None):
-            self._suppress_filter = True
-            self.search_var.set(placeholder)
-            self._suppress_filter = False
-        self._placeholder_text = placeholder
-        self.search_entry.config(fg="#999999")
-        self.search_entry.bind("<FocusIn>", self._clear_placeholder)
-        self.search_entry.bind("<FocusOut>", self._restore_placeholder)
-
-    def _clear_placeholder(self, event=None):
-        if self.search_var.get() == self._placeholder_text:
-            self.search_var.set("")
-            self.search_entry.config(fg="black")
-
-    def _restore_placeholder(self, event=None):
-        if not self.search_var.get():
-            self._set_placeholder()
 
     def on_show(self):
         app = self.app
         app.refresh_data()
         self.apply_language()
-        self.all_contests = dm.get_contests_by_module(app.contests, app.current_module)
-        self.render_contests()
-
-    def render_contests(self):
-        if getattr(self, "_suppress_filter", False):
-            return
-        app = self.app
-        query = self.search_var.get().strip().lower()
-        if query == getattr(self, "_placeholder_text", None):
-            query = ""
 
         for widget in self.list_container.winfo_children():
             widget.destroy()
 
-        contests = getattr(self, "all_contests", [])
-        shown = 0
+        contests = dm.get_contests_by_module(app.contests, app.current_module)
         for contest in contests:
-            title = contest["title_bn"] if app.language == "bn" else contest["title_en"]
-            if query and query not in title.lower() \
-                    and query not in contest["title_en"].lower() \
-                    and query not in contest["title_bn"].lower():
-                continue
-            shown += 1
             row = tk.Frame(self.list_container, bg="white", padx=15, pady=12,
                             highlightbackground="#ddd", highlightthickness=1)
             row.pack(fill="x", pady=6)
 
             unlocked = dm.is_contest_unlocked(app.data, app.current_user, contest)
+            title = contest["title_bn"] if app.language == "bn" else contest["title_en"]
 
             tk.Label(row, text=title, font=("Helvetica", 14, "bold"),
                      bg="white", fg=ACCENT_COLOR).pack(side="left")
@@ -1371,10 +1224,6 @@ class ContestListScreen(tk.Frame):
                              width=4, state="normal" if unlocked else "disabled",
                              command=cmd if cmd else (lambda: None))
             btn.pack(side="right")
-
-        if query and shown == 0:
-            tk.Label(self.list_container, text=tr(app, "no_results_msg"),
-                     font=("Helvetica", 12), bg=BG_COLOR, fg="#999").pack(pady=20)
 
     def open_contest(self, contest):
         self.app.current_contest = contest
@@ -1623,13 +1472,9 @@ class ProblemScreen(tk.Frame):
         lines = []
         all_passed = all(r["passed"] for r in results)
 
-        # Log this attempt (pass or fail) for the leaderboard's penalty/attempt
-        # tracking, and store the code itself so the admin's plagiarism
-        # checker can compare solutions across students.
+        # Log this attempt (pass or fail) for the leaderboard's penalty/attempt tracking.
         dm.record_submission(app.data, app.current_user, contest["id"],
-                              self.current_problem["id"], all_passed,
-                              code=self.code_box.get("1.0", tk.END),
-                              language=self.language_var.get())
+                              self.current_problem["id"], all_passed)
         app.refresh_data()
 
         for i, r in enumerate(results, start=1):
@@ -1862,10 +1707,6 @@ class StudentManagementScreen(tk.Frame):
         self.title_label = tk.Label(top, font=("Helvetica", 20, "bold"), bg=BG_COLOR, fg=ACCENT_COLOR)
         self.title_label.pack(side="left", padx=20)
         LanguageToggle(top, app, on_change=self.on_show).pack(side="right")
-        self.plagiarism_btn = tk.Button(top, bg="#f5e6f7", fg="#7d3c9e",
-                                         font=("Helvetica", 11, "bold"),
-                                         command=lambda: app.show_frame("PlagiarismCheckScreen"))
-        self.plagiarism_btn.pack(side="right", padx=8)
 
         table_outer = tk.Frame(self, bg=BG_COLOR)
         table_outer.pack(fill="both", expand=True, padx=20, pady=(0, 15))
@@ -1887,7 +1728,6 @@ class StudentManagementScreen(tk.Frame):
     def apply_language(self):
         self.back_btn.config(text=tr(self.app, "admin_logout_btn"))
         self.title_label.config(text=tr(self.app, "student_mgmt_title"))
-        self.plagiarism_btn.config(text=tr(self.app, "plagiarism_check_btn"))
 
     def on_show(self):
         app = self.app
@@ -1990,162 +1830,6 @@ class StudentManagementScreen(tk.Frame):
 
         tk.Button(dialog, text=tr(app, "reset_progress_btn"), bg="#fdecea", fg="#c0392b",
                   font=("Helvetica", 10, "bold"), command=reset_progress).pack(pady=(15, 10), padx=15, anchor="w")
-
-
-class PlagiarismCheckScreen(tk.Frame):
-    """Admin-only tool: scans every contest problem, compares each pair of
-    students' FIRST accepted solution using difflib text similarity, and
-    lists pairs at or above a chosen similarity threshold for manual review.
-    See the disclaimer shown on-screen — this flags candidates for a human
-    to look at, it does not prove copying on its own."""
-
-    THRESHOLD_OPTIONS = [90, 85, 80, 75, 70, 60]
-
-    def __init__(self, parent, app):
-        super().__init__(parent, bg=BG_COLOR)
-        self.app = app
-        self.last_report = []
-
-        top = tk.Frame(self, bg=BG_COLOR)
-        top.pack(fill="x", pady=15, padx=20)
-        self.back_btn = tk.Button(top, command=lambda: app.show_frame("StudentManagementScreen"))
-        self.back_btn.pack(side="left")
-        self.title_label = tk.Label(top, font=("Helvetica", 20, "bold"), bg=BG_COLOR, fg=ACCENT_COLOR)
-        self.title_label.pack(side="left", padx=20)
-        LanguageToggle(top, app, on_change=self.apply_language).pack(side="right")
-
-        self.disclaimer_label = tk.Label(self, font=("Helvetica", 10, "italic"), bg="#fff8e1",
-                                          fg="#8a6d3b", wraplength=940, justify="left",
-                                          padx=12, pady=8)
-        self.disclaimer_label.pack(fill="x", padx=20, pady=(0, 10))
-
-        controls = tk.Frame(self, bg=BG_COLOR)
-        controls.pack(fill="x", padx=20, pady=(0, 10))
-        self.threshold_field_label = tk.Label(controls, font=("Helvetica", 11, "bold"),
-                                               bg=BG_COLOR, fg=ACCENT_COLOR)
-        self.threshold_field_label.pack(side="left")
-        self.threshold_var = tk.IntVar(value=dm.DEFAULT_PLAGIARISM_THRESHOLD)
-        self.threshold_dropdown = ttk.Combobox(controls, textvariable=self.threshold_var,
-                                                values=self.THRESHOLD_OPTIONS, state="readonly",
-                                                width=6, font=("Helvetica", 11))
-        self.threshold_dropdown.pack(side="left", padx=10)
-        self.scan_btn = tk.Button(controls, bg=BTN_COLOR, fg="white",
-                                   font=("Helvetica", 11, "bold"), command=self.run_scan)
-        self.scan_btn.pack(side="left", padx=10)
-
-        table_outer = tk.Frame(self, bg=BG_COLOR)
-        table_outer.pack(fill="both", expand=True, padx=20, pady=(0, 15))
-        self.canvas = tk.Canvas(table_outer, bg=BG_COLOR, highlightthickness=0)
-        scrollbar = tk.Scrollbar(table_outer, orient="vertical", command=self.canvas.yview)
-        self.table_frame = tk.Frame(self.canvas, bg=BG_COLOR)
-        self.table_frame.bind("<Configure>",
-                               lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
-        self.canvas.create_window((0, 0), window=self.table_frame, anchor="nw")
-        self.canvas.configure(yscrollcommand=scrollbar.set)
-        self.canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
-
-        self.empty_label = tk.Label(self, font=("Helvetica", 12), bg=BG_COLOR, fg="#999")
-
-        self.apply_language()
-
-    def apply_language(self):
-        app = self.app
-        self.back_btn.config(text=tr(app, "back_btn"))
-        self.title_label.config(text=tr(app, "plagiarism_title"))
-        self.disclaimer_label.config(text=tr(app, "plagiarism_disclaimer"))
-        self.threshold_field_label.config(text=tr(app, "threshold_label"))
-        self.scan_btn.config(text=tr(app, "scan_btn"))
-        if self.last_report or hasattr(self, "_scanned_once"):
-            self._render_report()
-
-    def on_show(self):
-        self.app.refresh_data()
-        self.apply_language()
-
-    def run_scan(self):
-        app = self.app
-        self._scanned_once = True
-        self.scan_btn.config(state="disabled", text=tr(app, "scanning_msg"))
-        self.update_idletasks()
-        threshold = self.threshold_var.get()
-        self.last_report = dm.get_plagiarism_report(app.data, app.contests, threshold)
-        self.scan_btn.config(state="normal", text=tr(app, "scan_btn"))
-        self._render_report()
-
-    def _render_report(self):
-        app = self.app
-        for widget in self.table_frame.winfo_children():
-            widget.destroy()
-        self.empty_label.pack_forget()
-
-        if not self.last_report:
-            self.empty_label.config(text=tr(app, "no_matches_msg"))
-            self.empty_label.pack(pady=30)
-            return
-
-        headers = ["col_problem", "col_student_a", "col_student_b", "col_similarity", "col_actions"]
-        header_style = {"font": ("Helvetica", 10, "bold"), "bg": BTN_COLOR, "fg": "white", "padx": 8, "pady": 8}
-        for c, key in enumerate(headers):
-            tk.Label(self.table_frame, text=tr(app, key), **header_style).grid(
-                row=0, column=c, sticky="nsew", padx=1, pady=1)
-
-        row_i = 1
-        for group in self.last_report:
-            problem_title = group["problem_title_bn"] if app.language == "bn" else group["problem_title_en"]
-            contest_title = group["contest_title_bn"] if app.language == "bn" else group["contest_title_en"]
-            for pair in group["pairs"]:
-                row_bg = "white" if row_i % 2 else "#f7f8fa"
-                cell_style = {"font": ("Helvetica", 10), "bg": row_bg, "fg": ACCENT_COLOR, "padx": 8, "pady": 6}
-
-                tk.Label(self.table_frame, text=f"{contest_title} — {problem_title}", anchor="w",
-                         wraplength=260, justify="left", **cell_style).grid(row=row_i, column=0, sticky="nsew", padx=1, pady=1)
-                tk.Label(self.table_frame, text=pair["user_a"], anchor="w", **cell_style).grid(row=row_i, column=1, sticky="nsew", padx=1, pady=1)
-                tk.Label(self.table_frame, text=pair["user_b"], anchor="w", **cell_style).grid(row=row_i, column=2, sticky="nsew", padx=1, pady=1)
-
-                sim = pair["similarity"]
-                sim_color = "#c0392b" if sim >= 90 else ("#e67e22" if sim >= 80 else "#b3620a")
-                tk.Label(self.table_frame, text=f"{sim}%", font=("Helvetica", 10, "bold"),
-                         bg=row_bg, fg=sim_color, padx=8, pady=6).grid(row=row_i, column=3, sticky="nsew", padx=1, pady=1)
-
-                action_cell = tk.Frame(self.table_frame, bg=row_bg)
-                action_cell.grid(row=row_i, column=4, sticky="nsew", padx=1, pady=1)
-                tk.Button(action_cell, text=tr(app, "view_code_btn"), font=("Helvetica", 9), bg="#eaf3fb",
-                          fg=BTN_COLOR,
-                          command=lambda g=group, p=pair: self.open_code_compare(g, p)).pack(padx=2, pady=4)
-
-                row_i += 1
-
-    def open_code_compare(self, group, pair):
-        app = self.app
-        code_a, _ = dm.get_first_passing_code(app.data, pair["user_a"], group["contest_id"], group["problem_id"])
-        code_b, _ = dm.get_first_passing_code(app.data, pair["user_b"], group["contest_id"], group["problem_id"])
-
-        dialog = tk.Toplevel(self)
-        dialog.title(tr(app, "code_compare_title", a=pair["user_a"], b=pair["user_b"]))
-        dialog.configure(bg="white")
-        dialog.geometry("900x520")
-        dialog.transient(self.winfo_toplevel())
-        dialog.grab_set()
-
-        cols = tk.Frame(dialog, bg="white")
-        cols.pack(fill="both", expand=True, padx=10, pady=10)
-
-        left = tk.Frame(cols, bg="white")
-        left.pack(side="left", fill="both", expand=True, padx=(0, 5))
-        tk.Label(left, text=pair["user_a"], font=("Helvetica", 12, "bold"), bg="white", fg=ACCENT_COLOR).pack(anchor="w")
-        left_box = tk.Text(left, font=("Consolas", 10), bg="#2d2d2d", fg="#f8f8f2", wrap="none")
-        left_box.pack(fill="both", expand=True, pady=5)
-        left_box.insert("1.0", code_a or "")
-        left_box.config(state="disabled")
-
-        right = tk.Frame(cols, bg="white")
-        right.pack(side="left", fill="both", expand=True, padx=(5, 0))
-        tk.Label(right, text=pair["user_b"], font=("Helvetica", 12, "bold"), bg="white", fg=ACCENT_COLOR).pack(anchor="w")
-        right_box = tk.Text(right, font=("Consolas", 10), bg="#2d2d2d", fg="#f8f8f2", wrap="none")
-        right_box.pack(fill="both", expand=True, pady=5)
-        right_box.insert("1.0", code_b or "")
-        right_box.config(state="disabled")
 
 
 if __name__ == "__main__":

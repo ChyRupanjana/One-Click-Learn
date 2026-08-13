@@ -4,8 +4,8 @@
       "id": "python_contest_1",
       "module": "python",
       "unlock_after_lessons": 2,
-      "title_en": "Python: Basic Math & Recursion",
-      "title_bn": "পাইথন: সাধারণ অংক ও রিকার্শন",
+      "title_en": "Python Contest 1",
+      "title_bn": "পাইথন কনটেস্ট ১",
       "problems": [
         {
           "id": "py_c1_easy",
@@ -70,8 +70,8 @@
       "id": "python_contest_2",
       "module": "python",
       "unlock_after_lessons": 4,
-      "title_en": "Python: Strings & Number Theory (I)",
-      "title_bn": "পাইথন: স্ট্রিং ও সংখ্যাতত্ত্ব (১)",
+      "title_en": "Python Contest 2",
+      "title_bn": "পাইথন কনটেস্ট ২",
       "problems": [
         {
           "id": "py_c2_easy",
@@ -136,8 +136,8 @@
       "id": "python_contest_3",
       "module": "python",
       "unlock_after_lessons": 6,
-      "title_en": "Python: Basic Math & Number Theory (I)",
-      "title_bn": "পাইথন: সাধারণ অংক ও সংখ্যাতত্ত্ব (১)",
+      "title_en": "Python Contest 3",
+      "title_bn": "পাইথন কনটেস্ট ৩",
       "problems": [
         {
           "id": "py_c3_easy",
@@ -202,8 +202,8 @@
       "id": "python_contest_4",
       "module": "python",
       "unlock_after_lessons": 8,
-      "title_en": "Python: Strings & Number Theory (II)",
-      "title_bn": "পাইথন: স্ট্রিং ও সংখ্যাতত্ত্ব (২)",
+      "title_en": "Python Contest 4",
+      "title_bn": "পাইথন কনটেস্ট ৪",
       "problems": [
         {
           "id": "py_c4_easy",
@@ -268,8 +268,8 @@
       "id": "c_contest_1",
       "module": "c",
       "unlock_after_lessons": 2,
-      "title_en": "C: Basic Math & Number Theory (I)",
-      "title_bn": "সি: সাধারণ অংক ও সংখ্যাতত্ত্ব (১)",
+      "title_en": "C Contest 1",
+      "title_bn": "সি কনটেস্ট ১",
       "problems": [
         {
           "id": "c_c1_easy",
@@ -334,8 +334,8 @@
       "id": "c_contest_2",
       "module": "c",
       "unlock_after_lessons": 4,
-      "title_en": "C: Basic Math & Number Theory (II)",
-      "title_bn": "সি: সাধারণ অংক ও সংখ্যাতত্ত্ব (২)",
+      "title_en": "C Contest 2",
+      "title_bn": "সি কনটেস্ট ২",
       "problems": [
         {
           "id": "c_c2_easy",
@@ -400,8 +400,8 @@
       "id": "c_contest_3",
       "module": "c",
       "unlock_after_lessons": 6,
-      "title_en": "C: Strings & Number Theory",
-      "title_bn": "সি: স্ট্রিং ও সংখ্যাতত্ত্ব",
+      "title_en": "C Contest 3",
+      "title_bn": "সি কনটেস্ট ৩",
       "problems": [
         {
           "id": "c_c3_easy",
@@ -466,8 +466,8 @@
       "id": "cpp_contest_1",
       "module": "cpp",
       "unlock_after_lessons": 2,
-      "title_en": "C++: Number Theory & Recursion",
-      "title_bn": "সি++: সংখ্যাতত্ত্ব ও রিকার্শন",
+      "title_en": "C++ Contest 1",
+      "title_bn": "সি++ কনটেস্ট ১",
       "problems": [
         {
           "id": "cpp_c1_easy",
@@ -532,8 +532,8 @@
       "id": "cpp_contest_2",
       "module": "cpp",
       "unlock_after_lessons": 4,
-      "title_en": "C++: Basic Math & Number Theory",
-      "title_bn": "সি++: সাধারণ অংক ও সংখ্যাতত্ত্ব",
+      "title_en": "C++ Contest 2",
+      "title_bn": "সি++ কনটেস্ট ২",
       "problems": [
         {
           "id": "cpp_c2_easy",
@@ -598,8 +598,8 @@
       "id": "cpp_contest_3",
       "module": "cpp",
       "unlock_after_lessons": 6,
-      "title_en": "C++: Number Theory & Arrays",
-      "title_bn": "সি++: সংখ্যাতত্ত্ব ও অ্যারে",
+      "title_en": "C++ Contest 3",
+      "title_bn": "সি++ কনটেস্ট ৩",
       "problems": [
         {
           "id": "cpp_c3_easy",
@@ -664,8 +664,8 @@
       "id": "python_contest_5",
       "module": "python",
       "unlock_after_lessons": 10,
-      "title_en": "Python: Number Theory & Basic Math",
-      "title_bn": "পাইথন: সংখ্যাতত্ত্ব ও সাধারণ অংক",
+      "title_en": "Python Contest 5",
+      "title_bn": "পাইথন কনটেস্ট ৫",
       "problems": [
         {
           "id": "py_c5_easy",
@@ -730,8 +730,8 @@
       "id": "python_contest_6",
       "module": "python",
       "unlock_after_lessons": 12,
-      "title_en": "Python: Number Theory & Arrays",
-      "title_bn": "পাইথন: সংখ্যাতত্ত্ব ও অ্যারে",
+      "title_en": "Python Contest 6",
+      "title_bn": "পাইথন কনটেস্ট ৬",
       "problems": [
         {
           "id": "py_c6_easy",
@@ -796,8 +796,8 @@
       "id": "python_contest_7",
       "module": "python",
       "unlock_after_lessons": 14,
-      "title_en": "Python: Number Theory & Bit Manipulation",
-      "title_bn": "পাইথন: সংখ্যাতত্ত্ব ও বিট ম্যানিপুলেশন",
+      "title_en": "Python Contest 7",
+      "title_bn": "পাইথন কনটেস্ট ৭",
       "problems": [
         {
           "id": "py_c7_easy",
@@ -862,8 +862,8 @@
       "id": "python_contest_8",
       "module": "python",
       "unlock_after_lessons": 16,
-      "title_en": "Python: Basic Math & Number Theory (II)",
-      "title_bn": "পাইথন: সাধারণ অংক ও সংখ্যাতত্ত্ব (২)",
+      "title_en": "Python Contest 8",
+      "title_bn": "পাইথন কনটেস্ট ৮",
       "problems": [
         {
           "id": "py_c8_easy",
@@ -928,8 +928,8 @@
       "id": "c_contest_4",
       "module": "c",
       "unlock_after_lessons": 8,
-      "title_en": "C: Number Theory & Basic Math",
-      "title_bn": "সি: সংখ্যাতত্ত্ব ও সাধারণ অংক",
+      "title_en": "C Contest 4",
+      "title_bn": "সি কনটেস্ট ৪",
       "problems": [
         {
           "id": "c_c4_easy",
@@ -994,8 +994,8 @@
       "id": "c_contest_5",
       "module": "c",
       "unlock_after_lessons": 10,
-      "title_en": "C: Number Theory & Recursion",
-      "title_bn": "সি: সংখ্যাতত্ত্ব ও রিকার্শন",
+      "title_en": "C Contest 5",
+      "title_bn": "সি কনটেস্ট ৫",
       "problems": [
         {
           "id": "c_c5_easy",
@@ -1060,8 +1060,8 @@
       "id": "c_contest_6",
       "module": "c",
       "unlock_after_lessons": 12,
-      "title_en": "C: Basic Math & Number Theory (III)",
-      "title_bn": "সি: সাধারণ অংক ও সংখ্যাতত্ত্ব (৩)",
+      "title_en": "C Contest 6",
+      "title_bn": "সি কনটেস্ট ৬",
       "problems": [
         {
           "id": "c_c6_easy",
@@ -1126,8 +1126,8 @@
       "id": "cpp_contest_4",
       "module": "cpp",
       "unlock_after_lessons": 8,
-      "title_en": "C++: Number Theory & Basic Math",
-      "title_bn": "সি++: সংখ্যাতত্ত্ব ও সাধারণ অংক",
+      "title_en": "C++ Contest 4",
+      "title_bn": "সি++ কনটেস্ট ৪",
       "problems": [
         {
           "id": "cpp_c4_easy",
@@ -1192,8 +1192,8 @@
       "id": "cpp_contest_5",
       "module": "cpp",
       "unlock_after_lessons": 10,
-      "title_en": "C++: Strings & Arrays",
-      "title_bn": "সি++: স্ট্রিং ও অ্যারে",
+      "title_en": "C++ Contest 5",
+      "title_bn": "সি++ কনটেস্ট ৫",
       "problems": [
         {
           "id": "cpp_c5_easy",
@@ -1258,8 +1258,8 @@
       "id": "cpp_contest_6",
       "module": "cpp",
       "unlock_after_lessons": 12,
-      "title_en": "C++: Number Theory & Strings",
-      "title_bn": "সি++: সংখ্যাতত্ত্ব ও স্ট্রিং",
+      "title_en": "C++ Contest 6",
+      "title_bn": "সি++ কনটেস্ট ৬",
       "problems": [
         {
           "id": "cpp_c6_easy",
@@ -1324,8 +1324,8 @@
       "id": "cpp_contest_7",
       "module": "cpp",
       "unlock_after_lessons": 14,
-      "title_en": "C++: Basic Math & Arrays",
-      "title_bn": "সি++: সাধারণ অংক ও অ্যারে",
+      "title_en": "C++ Contest 7",
+      "title_bn": "সি++ কনটেস্ট ৭",
       "problems": [
         {
           "id": "cpp_c7_easy",

@@ -7,8 +7,6 @@ No database used — everything is stored in plain JSON files.
 
 import json
 import os
-import re
-import difflib
 from datetime import date, datetime, timedelta
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), "data.json")
@@ -231,12 +229,10 @@ def get_contest_time_status(data, username, contest_id):
 PENALTY_MINUTES_PER_WRONG_ATTEMPT = 20
 
 
-def record_submission(data, username, contest_id, problem_id, passed, code="", language=""):
+def record_submission(data, username, contest_id, problem_id, passed):
     """Logs one submission attempt (pass or fail) with a timestamp. Called on
     every Submit click, regardless of outcome — this is what powers the
-    leaderboard's per-problem attempt count and solve time. The submitted
-    code + language are also stored so the plagiarism checker can compare
-    solutions across students."""
+    leaderboard's per-problem attempt count and solve time."""
     user = data["users"][username]
     if "contest_submissions" not in user:
         user["contest_submissions"] = {}
@@ -247,8 +243,6 @@ def record_submission(data, username, contest_id, problem_id, passed, code="", l
     user["contest_submissions"][contest_id][problem_id].append({
         "timestamp": datetime.now().isoformat(),
         "passed": bool(passed),
-        "code": code,
-        "language": language,
     })
     save_data(data)
 
@@ -397,111 +391,3 @@ def reset_student_progress(data, username):
     user["last_activity_date"] = None
     save_data(data)
     return user
-
-
-# ---------------------------------------------------------------------------
-# Plagiarism / code similarity checker (admin tool).
-#
-# LIMITATION — please read before trusting the numbers: these are short,
-# simple contest problems (sum of two numbers, prime check, etc.), so
-# independent students often arrive at genuinely similar code by chance.
-# A high similarity score is a signal for a human (the admin) to review the
-# two submissions side by side — it is NOT proof of copying on its own.
-# ---------------------------------------------------------------------------
-
-# Only students who PASSED are compared — an unsolved/boilerplate attempt
-# being "similar" to another unsolved attempt is not meaningful.
-PLAGIARISM_MIN_CODE_LENGTH = 25   # skip trivially short/empty submissions
-DEFAULT_PLAGIARISM_THRESHOLD = 75  # similarity %, out of 100
-
-
-def _normalize_code_for_similarity(code, language):
-    """Strips comments, blank lines, and leading/trailing whitespace so that
-    similarity comparison isn't thrown off by cosmetic differences like extra
-    blank lines, indentation style, or comment wording."""
-    if not code:
-        return ""
-
-    if language == "python":
-        code = re.sub(r"#.*", "", code)
-    else:  # c, cpp, java — // and /* */ style comments
-        code = re.sub(r"//.*", "", code)
-        code = re.sub(r"/\*.*?\*/", "", code, flags=re.DOTALL)
-
-    lines = [line.strip() for line in code.splitlines()]
-    lines = [line for line in lines if line]
-    return "\n".join(lines)
-
-
-def get_first_passing_code(data, username, contest_id, problem_id):
-    """Returns (code, language) for the FIRST submission that passed all
-    test cases, or (None, None) if this user never solved this problem or
-    the submission predates code storage being added."""
-    user = data["users"].get(username, {})
-    attempts = user.get("contest_submissions", {}).get(contest_id, {}).get(problem_id, [])
-    for a in attempts:
-        if a.get("passed"):
-            return a.get("code"), a.get("language")
-    return None, None
-
-
-def compute_code_similarity(code_a, code_b, language="python"):
-    """Returns a similarity percentage (0-100) between two code snippets,
-    after normalizing away comments/blank lines/indentation."""
-    norm_a = _normalize_code_for_similarity(code_a, language)
-    norm_b = _normalize_code_for_similarity(code_b, language)
-    if not norm_a or not norm_b:
-        return 0.0
-    ratio = difflib.SequenceMatcher(None, norm_a, norm_b).ratio()
-    return round(ratio * 100, 1)
-
-
-def get_plagiarism_pairs_for_problem(data, contest_id, problem, threshold=DEFAULT_PLAGIARISM_THRESHOLD):
-    """Compares every pair of students who solved `problem` and returns pairs
-    whose (first accepted) solutions are at or above `threshold`% similar,
-    sorted highest-similarity-first.
-    Returns a list of dicts: {user_a, user_b, similarity, language}."""
-    problem_id = problem["id"]
-    submissions = {}  # username -> (code, language)
-    for username in data["users"]:
-        code, language = get_first_passing_code(data, username, contest_id, problem_id)
-        if code and len(code.strip()) >= PLAGIARISM_MIN_CODE_LENGTH:
-            submissions[username] = (code, language or "python")
-
-    users = list(submissions.keys())
-    pairs = []
-    for i in range(len(users)):
-        for j in range(i + 1, len(users)):
-            u1, u2 = users[i], users[j]
-            code1, lang1 = submissions[u1]
-            code2, _ = submissions[u2]
-            similarity = compute_code_similarity(code1, code2, lang1)
-            if similarity >= threshold:
-                pairs.append({
-                    "user_a": u1, "user_b": u2,
-                    "similarity": similarity, "language": lang1,
-                })
-    pairs.sort(key=lambda p: -p["similarity"])
-    return pairs
-
-
-def get_plagiarism_report(data, contests, threshold=DEFAULT_PLAGIARISM_THRESHOLD):
-    """Scans every problem in every contest and returns a list of groups:
-        [{"contest_id", "contest_title_en", "problem_id", "problem_title_en",
-          "pairs": [...]}, ...]
-    Only groups with at least one flagged pair are included."""
-    report = []
-    for contest in contests:
-        for problem in contest["problems"]:
-            pairs = get_plagiarism_pairs_for_problem(data, contest["id"], problem, threshold)
-            if pairs:
-                report.append({
-                    "contest_id": contest["id"],
-                    "contest_title_en": contest["title_en"],
-                    "contest_title_bn": contest["title_bn"],
-                    "problem_id": problem["id"],
-                    "problem_title_en": problem["title_en"],
-                    "problem_title_bn": problem["title_bn"],
-                    "pairs": pairs,
-                })
-    return report
